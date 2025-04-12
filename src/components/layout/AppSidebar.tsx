@@ -76,7 +76,7 @@ const AppSidebar = () => {
                     rel="noopener noreferrer"
                   >
                     <DollarSign className="mr-2 h-5 w-5" />
-                    <span>Commission Rates & SPIFFS</span>
+                    <span>Rates & SPIFFS</span>
                     <ExternalLink className="ml-1 h-3 w-3" />
                   </a>
                 </SidebarMenuButton>
