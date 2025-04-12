@@ -1,4 +1,6 @@
+
 import { Inquiry } from '@/components/dashboard/InquiryTable';
+import { mockCommissionsData } from './mockCommissionsData';
 
 // Mock commission data for charts
 export const commissionChartData = [
