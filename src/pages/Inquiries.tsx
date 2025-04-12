@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { mockInquiries, closedInquiries } from '@/data/mockData';
 import InquiriesTable from '@/components/inquiries/InquiriesTable';
+import StatCard from '@/components/dashboard/StatCard';
+import { FileQuestion, CheckCircle } from 'lucide-react';
 import { 
   Select,
   SelectContent,
@@ -22,12 +24,37 @@ const InquiriesPage = () => {
     ? allInquiries 
     : allInquiries.filter(inquiry => inquiry.status === statusFilter);
 
+  // Count of open and closed inquiries
+  const openInquiriesCount = allInquiries.filter(inquiry => inquiry.status === 'open').length;
+  const closedInquiriesCount = allInquiries.filter(inquiry => inquiry.status === 'closed').length;
+
   return (
     <DashboardLayout>
       <div className="p-6">
         <div className="mb-6">
           <h1 className="text-3xl font-bold">Inquiries</h1>
           <p className="text-muted-foreground">Manage and review commission inquiries</p>
+        </div>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+          <StatCard 
+            title="Open Inquiries" 
+            value={openInquiriesCount.toString()} 
+            description="Requiring action" 
+            icon={FileQuestion}
+            trend={-12.5}
+            colorClass="bg-orange-50 text-commission-orange"
+          />
+          
+          <StatCard 
+            title="Closed Inquiries" 
+            value={closedInquiriesCount.toString()} 
+            description="Last 30 days" 
+            icon={CheckCircle}
+            trend={3.8}
+            colorClass="bg-purple-50 text-purple-700"
+          />
         </div>
 
         <div className="mb-6 flex justify-between items-center">

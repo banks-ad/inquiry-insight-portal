@@ -6,9 +6,7 @@ import CommissionChart from '@/components/dashboard/CommissionChart';
 import TopProvidersChart from '@/components/dashboard/TopProvidersChart';
 import { 
   DollarSign, 
-  CreditCard, 
-  FileQuestion, 
-  CheckCircle 
+  CreditCard
 } from 'lucide-react';
 import { commissionChartData, topProvidersData } from '@/data/mockData';
 
@@ -22,16 +20,7 @@ const Dashboard = () => {
         </div>
         
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <StatCard 
-            title="Gross Commission" 
-            value="$285,000" 
-            description="Total commissions YTD" 
-            icon={DollarSign}
-            trend={8.2}
-            colorClass="bg-blue-50 text-commission-blue"
-          />
-          
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
           <StatCard 
             title="Net Billed" 
             value="$249,000" 
@@ -42,21 +31,12 @@ const Dashboard = () => {
           />
           
           <StatCard 
-            title="Open Inquiries" 
-            value="24" 
-            description="Requiring action" 
-            icon={FileQuestion}
-            trend={-12.5}
-            colorClass="bg-orange-50 text-commission-orange"
-          />
-          
-          <StatCard 
-            title="Closed Inquiries" 
-            value="132" 
-            description="Last 30 days" 
-            icon={CheckCircle}
-            trend={3.8}
-            colorClass="bg-purple-50 text-purple-700"
+            title="Gross Commission" 
+            value="$285,000" 
+            description="Total commissions YTD" 
+            icon={DollarSign}
+            trend={8.2}
+            colorClass="bg-blue-50 text-commission-blue"
           />
         </div>
         
