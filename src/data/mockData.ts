@@ -72,6 +72,16 @@ export const topProvidersData = [
   { provider: 'Other', grossCommission: 35000 },
 ];
 
+// Top Customers data
+export const topCustomersData = [
+  { customer: 'Enterprise Solutions Inc.', grossCommission: 112000 },
+  { customer: 'TechNova Systems', grossCommission: 85000 },
+  { customer: 'Global Communications Ltd.', grossCommission: 67500 },
+  { customer: 'Pinnacle Networks', grossCommission: 53000 },
+  { customer: 'Digital Horizon Corp.', grossCommission: 41500 },
+  { customer: 'Other', grossCommission: 32000 },
+];
+
 // Mock commission inquiries
 export const mockInquiries: Inquiry[] = [
   {

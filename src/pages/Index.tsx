@@ -4,11 +4,12 @@ import DashboardLayout from '@/components/layout/DashboardLayout';
 import StatCard from '@/components/dashboard/StatCard';
 import CommissionChart from '@/components/dashboard/CommissionChart';
 import TopProvidersChart from '@/components/dashboard/TopProvidersChart';
+import TopCustomersChart from '@/components/dashboard/TopCustomersChart';
 import { 
   DollarSign, 
   CreditCard
 } from 'lucide-react';
-import { commissionChartData, topProvidersData } from '@/data/mockData';
+import { commissionChartData, topProvidersData, topCustomersData } from '@/data/mockData';
 
 const Dashboard = () => {
   return (
@@ -40,13 +41,18 @@ const Dashboard = () => {
           />
         </div>
         
-        {/* Charts Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Commission Chart */}
+        {/* Commission Chart - Full Width */}
+        <div className="mb-8">
           <CommissionChart data={commissionChartData} />
-          
+        </div>
+        
+        {/* Top Providers and Top Customers Charts - Side by Side */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {/* Top Providers Chart */}
           <TopProvidersChart data={topProvidersData} />
+          
+          {/* Top Customers Chart */}
+          <TopCustomersChart data={topCustomersData} />
         </div>
       </div>
     </DashboardLayout>
