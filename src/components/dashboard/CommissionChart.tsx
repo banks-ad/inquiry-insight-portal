@@ -24,7 +24,6 @@ import { Button } from "@/components/ui/button";
 
 interface ChartData {
   name: string;
-  gross: number;
   spiff: number;
   nonRecurring: number;
 }
@@ -35,7 +34,6 @@ interface CommissionChartProps {
 
 const CommissionChart: React.FC<CommissionChartProps> = ({ data }) => {
   const [selectedTypes, setSelectedTypes] = useState({
-    gross: true,
     spiff: true,
     nonRecurring: true
   });
@@ -63,12 +61,6 @@ const CommissionChart: React.FC<CommissionChartProps> = ({ data }) => {
           <DropdownMenuContent align="end" className="w-[200px]">
             <DropdownMenuLabel>Commission Types</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuCheckboxItem
-              checked={selectedTypes.gross}
-              onCheckedChange={() => handleTypeToggle('gross')}
-            >
-              Gross Commission
-            </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem
               checked={selectedTypes.spiff}
               onCheckedChange={() => handleTypeToggle('spiff')}
@@ -105,15 +97,6 @@ const CommissionChart: React.FC<CommissionChartProps> = ({ data }) => {
                 formatter={(value: number) => [`$${value.toLocaleString()}`, undefined]}
               />
               <Legend />
-              {selectedTypes.gross && (
-                <Bar 
-                  dataKey="gross" 
-                  name="Gross Commission" 
-                  stackId="a" 
-                  fill="#1E40AF" 
-                  radius={[4, 4, 0, 0]} 
-                />
-              )}
               {selectedTypes.spiff && (
                 <Bar 
                   dataKey="spiff" 
