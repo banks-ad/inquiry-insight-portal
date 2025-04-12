@@ -2,7 +2,6 @@
 import React from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import StatCard from '@/components/dashboard/StatCard';
-import InquiryTable from '@/components/dashboard/InquiryTable';
 import CommissionChart from '@/components/dashboard/CommissionChart';
 import TopProvidersChart from '@/components/dashboard/TopProvidersChart';
 import { 
@@ -11,7 +10,7 @@ import {
   FileQuestion, 
   CheckCircle 
 } from 'lucide-react';
-import { commissionChartData, mockInquiries, closedInquiries, topProvidersData } from '@/data/mockData';
+import { commissionChartData, topProvidersData } from '@/data/mockData';
 
 const Dashboard = () => {
   return (
@@ -68,19 +67,6 @@ const Dashboard = () => {
           
           {/* Top Providers Chart */}
           <TopProvidersChart data={topProvidersData} />
-        </div>
-        
-        {/* Inquiries Tables */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <InquiryTable 
-            inquiries={mockInquiries} 
-            title="Open Commission Inquiries" 
-          />
-          
-          <InquiryTable 
-            inquiries={closedInquiries} 
-            title="Recently Closed Inquiries" 
-          />
         </div>
       </div>
     </DashboardLayout>

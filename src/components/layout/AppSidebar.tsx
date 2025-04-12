@@ -23,6 +23,7 @@ import {
   PieChart,
   FileBarChart
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const AppSidebar = () => {
   return (
@@ -40,34 +41,34 @@ const AppSidebar = () => {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/" className="flex items-center">
+                  <Link to="/" className="flex items-center">
                     <Home className="mr-2 h-5 w-5" />
                     <span>Dashboard</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/inquiries" className="flex items-center">
+                  <Link to="/inquiries" className="flex items-center">
                     <FileText className="mr-2 h-5 w-5" />
                     <span>Inquiries</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/commissions" className="flex items-center">
+                  <Link to="/commissions" className="flex items-center">
                     <DollarSign className="mr-2 h-5 w-5" />
                     <span>Commissions</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/agents" className="flex items-center">
+                  <Link to="/agents" className="flex items-center">
                     <Users className="mr-2 h-5 w-5" />
                     <span>Agents</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -80,34 +81,34 @@ const AppSidebar = () => {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/reports/commission-trends" className="flex items-center">
+                  <Link to="/reports/commission-trends" className="flex items-center">
                     <LineChart className="mr-2 h-5 w-5" />
                     <span>Commission Trends</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/reports/performance" className="flex items-center">
+                  <Link to="/reports/performance" className="flex items-center">
                     <BarChart className="mr-2 h-5 w-5" />
                     <span>Performance</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/reports/distribution" className="flex items-center">
+                  <Link to="/reports/distribution" className="flex items-center">
                     <PieChart className="mr-2 h-5 w-5" />
                     <span>Distribution</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/reports/quarterly" className="flex items-center">
+                  <Link to="/reports/quarterly" className="flex items-center">
                     <FileBarChart className="mr-2 h-5 w-5" />
                     <span>Quarterly Report</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -119,10 +120,10 @@ const AppSidebar = () => {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/settings" className="flex items-center">
+                  <Link to="/settings" className="flex items-center">
                     <Settings className="mr-2 h-5 w-5" />
                     <span>Settings</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
