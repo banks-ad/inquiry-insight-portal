@@ -25,7 +25,6 @@ import { Button } from "@/components/ui/button";
 interface ChartData {
   name: string;
   gross: number;
-  paid: number;
   spiff: number;
   nonRecurring: number;
 }
@@ -37,7 +36,6 @@ interface CommissionChartProps {
 const CommissionChart: React.FC<CommissionChartProps> = ({ data }) => {
   const [selectedTypes, setSelectedTypes] = useState({
     gross: true,
-    paid: true,
     spiff: true,
     nonRecurring: true
   });
@@ -70,12 +68,6 @@ const CommissionChart: React.FC<CommissionChartProps> = ({ data }) => {
               onCheckedChange={() => handleTypeToggle('gross')}
             >
               Gross Commission
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={selectedTypes.paid}
-              onCheckedChange={() => handleTypeToggle('paid')}
-            >
-              Net Billed
             </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem
               checked={selectedTypes.spiff}
@@ -119,15 +111,6 @@ const CommissionChart: React.FC<CommissionChartProps> = ({ data }) => {
                   name="Gross Commission" 
                   stackId="a" 
                   fill="#1E40AF" 
-                  radius={[4, 4, 0, 0]} 
-                />
-              )}
-              {selectedTypes.paid && (
-                <Bar 
-                  dataKey="paid" 
-                  name="Net Billed" 
-                  stackId="a" 
-                  fill="#047857" 
                   radius={[4, 4, 0, 0]} 
                 />
               )}
