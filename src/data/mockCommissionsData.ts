@@ -24,8 +24,189 @@ export interface CommissionEntry {
   adjustmentType?: string;
 }
 
+// Companies for generating sample data
+const companies = [
+  'Acme Corp', 'Global Industries', 'Tech Solutions', 'InnoSys LLC', 'DataStream Inc', 
+  'Enterprise Solutions', 'Digital Networks', 'Pinnacle Systems', 'Quantum Communications',
+  'Alpha Technologies', 'Beta Innovations', 'Gamma Services', 'Delta Solutions', 'Epsilon Corp',
+  'Omega Group', 'Zeta Communications', 'Theta Networks', 'Sigma Tech', 'Lambda Systems',
+  'Omicron Data', 'Pi Analytics', 'Rho Enterprises', 'Tau Industries', 'Upsilon Technologies',
+  'Phi Consulting', 'Chi Telecommunications', 'Psi Dynamics', 'Kappa Solutions', 'Iota Systems',
+  'NuWave Communications', 'ByteStream Solutions', 'CloudSphere Technologies', 'DataForge Inc',
+  'EdgePoint Networks', 'FutureScale Systems', 'GlobalSync Telecom', 'HyperLogic Corp',
+  'InfinityByte Technologies', 'JetStream Communications', 'KineticData Systems',
+  'LuminaNet Solutions', 'MetaLogic Technologies', 'NetSphere Innovations', 'OrbitalLink Corp',
+  'PrimeWave Communications', 'QuantumEdge Networks', 'RapidCore Technologies', 'SkyBridge Systems',
+  'TeraByte Solutions', 'UniCore Networks', 'VelocityNet Corp', 'WaveForm Technologies',
+  'XenonSys Solutions'
+];
+
+// Providers for generating sample data
+const providers = [
+  'Lumen', 'Comcast', 'Spectrum', 'Microsoft', 'Adobe', 'AWS', 'Google Cloud', 'IBM Cloud',
+  'Verizon', 'AT&T', 'CenturyLink', 'Oracle', 'Salesforce', 'Zoom', 'RingCentral', 'Vonage'
+];
+
+// Products for generating sample data
+const products = [
+  'Dedicated Internet', 'Business Internet', 'Voice Services', 'Microsoft 365', 'Creative Suite',
+  'SD-WAN', 'Cloud Hosting', 'VoIP Solutions', 'Unified Communications', 'Security Services',
+  'Data Backup', 'Disaster Recovery', 'Email Services', 'Video Conferencing', 'Team Collaboration',
+  'DaaS', 'IaaS', 'PaaS', 'SaaS', 'UCaaS', 'CCaaS', 'Security as a Service', 'Network as a Service',
+  'Managed Services', 'Professional Services', 'Consulting Services', 'Support Services'
+];
+
+// Statuses for generating sample data
+const statuses = ['Paid', 'Pending', 'Disputed', 'Approved', 'Adjusted', 'Active', 'Provisioning', 'Submitted'];
+
+// Adjustment types for generating sample data
+const adjustmentTypes = [
+  'Rate Correction', 'Billing Error', 'Contract Renewal Bonus', 'Service Credit', 'Promo Adjustment',
+  'Tier Change', 'Commission Reclaim', 'Manual Adjustment', 'Credit', 'Bonus', 'Penalty', 'Fee'
+];
+
+// Spiff types for generating sample data
+const spiffTypes = [
+  'New Customer Bonus', 'Q1 Sales Bonus', 'Service Upgrade Bonus', 'Contract Extension',
+  'Cross-Sell Bonus', 'Upsell Incentive', 'Annual Promo', 'Quarterly SPIFF', 'Monthly Challenge',
+  'Product Launch Bonus', 'Customer Loyalty Bonus', 'Renewal Bonus'
+];
+
+// Cycles for generating sample data
+const cycles = ['2025-04', '2025-03', '2025-02', '2025-01', '2024-12', '2024-11'];
+
+// Helper function to generate random unique ID
+const generateId = (prefix: string, index: number) => `${prefix}-${index.toString().padStart(3, '0')}`;
+
+// Helper function to get random item from array
+const getRandomItem = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
+
+// Helper function to generate random number within range
+const getRandomNumber = (min: number, max: number): number => 
+  min + Math.random() * (max - min);
+
+// Helper function to format date
+const formatDate = (date: Date): string => {
+  return date.toISOString().split('T')[0];
+};
+
+// Generate random dates within a range
+const getRandomDate = (start: Date, end: Date): string => {
+  const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+  return formatDate(randomDate);
+};
+
+// Generate commission entries
+const generateCommissionEntries = (count: number, type: 'commissions' | 'spiffs' | 'adjustments' | 'disputes' | 'pending'): CommissionEntry[] => {
+  const entries: CommissionEntry[] = [];
+  
+  for (let i = 0; i < count; i++) {
+    const cycle = getRandomItem(cycles);
+    const provider = getRandomItem(providers);
+    const product = type === 'spiffs' ? getRandomItem(spiffTypes) : getRandomItem(products);
+    const customer = getRandomItem(companies);
+    
+    // Base entry with common fields
+    const baseEntry: Partial<CommissionEntry> = {
+      id: generateId(type.substring(0, 3), i + 1),
+      cycle,
+      customer,
+      provider,
+      product,
+      type
+    };
+    
+    // Add type-specific fields
+    if (type === 'commissions') {
+      const netBilled = getRandomNumber(3000, 15000);
+      const ratePercentage = getRandomNumber(12, 18);
+      const amount = netBilled * (ratePercentage / 100);
+      
+      entries.push({
+        ...baseEntry,
+        amount: parseFloat(amount.toFixed(2)),
+        status: 'Paid',
+        accountNumber: `${customer.substring(0, 3).toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`,
+        netBilled: parseFloat(netBilled.toFixed(2)),
+        rate: `${ratePercentage.toFixed(1)}%`,
+        commissionType: 'Recurring'
+      } as CommissionEntry);
+    } 
+    else if (type === 'spiffs') {
+      entries.push({
+        ...baseEntry,
+        amount: parseFloat(getRandomNumber(100, 1000).toFixed(2)),
+        status: 'Paid',
+        accountNumber: `${customer.substring(0, 3).toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`,
+        netBilled: 0,
+        rate: 'Flat',
+        commissionType: 'One-time'
+      } as CommissionEntry);
+    }
+    else if (type === 'adjustments') {
+      const isPositive = Math.random() > 0.5;
+      const amount = isPositive 
+        ? parseFloat(getRandomNumber(100, 800).toFixed(2))
+        : parseFloat((-1 * getRandomNumber(100, 600)).toFixed(2));
+      
+      entries.push({
+        ...baseEntry,
+        amount,
+        status: 'Adjusted',
+        accountNumber: `${customer.substring(0, 3).toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`,
+        adjustmentType: getRandomItem(adjustmentTypes)
+      } as CommissionEntry);
+    }
+    else if (type === 'disputes') {
+      const netBilled = getRandomNumber(5000, 20000);
+      const expectedCommission = parseFloat((netBilled * getRandomNumber(0.15, 0.18)).toFixed(2));
+      const paidCommission = parseFloat((expectedCommission * getRandomNumber(0.5, 0.9)).toFixed(2));
+      
+      entries.push({
+        ...baseEntry,
+        amount: paidCommission,
+        status: 'Disputed',
+        accountNumber: `${customer.substring(0, 3).toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`,
+        netBilled: parseFloat(netBilled.toFixed(2)),
+        expectedCommission,
+        paidCommission,
+        ticketNumber: `TK-${Math.floor(10000 + Math.random() * 90000)}`,
+        inquiryDate: getRandomDate(new Date(2025, 0, 1), new Date(2025, 3, 30)),
+        closedDate: Math.random() > 0.7 ? getRandomDate(new Date(2025, 3, 1), new Date(2025, 3, 30)) : ''
+      } as CommissionEntry);
+    }
+    else if (type === 'pending') {
+      const randomStatus = getRandomItem(['Provisioning', 'Submitted', 'Active']);
+      const activatedDate = randomStatus === 'Active' 
+        ? getRandomDate(new Date(2025, 2, 1), new Date(2025, 3, 30)) 
+        : '';
+        
+      entries.push({
+        ...baseEntry,
+        amount: parseFloat(getRandomNumber(500, 2000).toFixed(2)),
+        status: randomStatus,
+        orderNumber: `ORD-${Math.floor(10000 + Math.random() * 90000)}`,
+        activatedDate,
+        expectedCommissionDate: getRandomDate(new Date(2025, 3, 15), new Date(2025, 6, 30))
+      } as CommissionEntry);
+    }
+  }
+  
+  return entries;
+};
+
+// Generate full dataset with 500 entries total
 export const mockCommissionsData: CommissionEntry[] = [
-  // Commissions - April 2025
+  ...generateCommissionEntries(350 - 50, 'commissions'), // 300 commission entries
+  ...generateCommissionEntries(50, 'spiffs'),           // 50 spiff entries
+  ...generateCommissionEntries(100, 'adjustments'),     // 100 adjustment entries
+  ...generateCommissionEntries(30, 'disputes'),         // 30 dispute entries
+  ...generateCommissionEntries(20, 'pending')           // 20 pending entries
+];
+
+// Add some specific entries to ensure we have data for recent months
+export const specificEntries: CommissionEntry[] = [
+  // April 2025 Entries - will be used on first load
   {
     id: 'com-001',
     cycle: '2025-04',
@@ -41,64 +222,6 @@ export const mockCommissionsData: CommissionEntry[] = [
     commissionType: 'Recurring'
   },
   {
-    id: 'com-002',
-    cycle: '2025-04',
-    customer: 'Global Industries',
-    provider: 'Comcast',
-    product: 'Business Internet',
-    amount: 875.50,
-    status: 'Paid',
-    type: 'commissions',
-    accountNumber: 'GLB-5678',
-    netBilled: 5500.00,
-    rate: '15.9%',
-    commissionType: 'Recurring'
-  },
-  {
-    id: 'com-003',
-    cycle: '2025-04',
-    customer: 'Tech Solutions',
-    provider: 'Spectrum',
-    product: 'Voice Services',
-    amount: 1430.25,
-    status: 'Pending',
-    type: 'commissions',
-    accountNumber: 'TEC-9012',
-    netBilled: 8700.00,
-    rate: '16.4%',
-    commissionType: 'Recurring'
-  },
-  {
-    id: 'com-004',
-    cycle: '2025-04',
-    customer: 'InnoSys LLC',
-    provider: 'Microsoft',
-    product: 'Microsoft 365',
-    amount: 945.00,
-    status: 'Paid',
-    type: 'commissions',
-    accountNumber: 'INN-3456',
-    netBilled: 6300.00,
-    rate: '15%',
-    commissionType: 'Recurring'
-  },
-  {
-    id: 'com-005',
-    cycle: '2025-04',
-    customer: 'DataStream Inc',
-    provider: 'Adobe',
-    product: 'Creative Suite',
-    amount: 1120.75,
-    status: 'Paid',
-    type: 'commissions',
-    accountNumber: 'DAT-7890',
-    netBilled: 7450.00,
-    rate: '15.04%',
-    commissionType: 'Recurring'
-  },
-
-  // Spiffs - April 2025
-  {
     id: 'spi-001',
     cycle: '2025-04',
     customer: 'Acme Corp',
@@ -113,36 +236,6 @@ export const mockCommissionsData: CommissionEntry[] = [
     commissionType: 'One-time'
   },
   {
-    id: 'spi-002',
-    cycle: '2025-04',
-    customer: 'MarketEdge',
-    provider: 'Comcast',
-    product: 'Q1 Sales Bonus',
-    amount: 750.00,
-    status: 'Pending',
-    type: 'spiffs',
-    accountNumber: 'MKT-4567',
-    netBilled: 0.00,
-    rate: 'Flat',
-    commissionType: 'One-time'
-  },
-  {
-    id: 'spi-003',
-    cycle: '2025-04',
-    customer: 'Bright Solutions',
-    provider: 'Spectrum',
-    product: 'Service Upgrade Bonus',
-    amount: 350.00,
-    status: 'Paid',
-    type: 'spiffs',
-    accountNumber: 'BRT-8901',
-    netBilled: 0.00,
-    rate: 'Flat',
-    commissionType: 'One-time'
-  },
-  
-  // Adjustments - April 2025
-  {
     id: 'adj-001',
     cycle: '2025-04',
     customer: 'Global Industries',
@@ -153,192 +246,8 @@ export const mockCommissionsData: CommissionEntry[] = [
     type: 'adjustments',
     accountNumber: 'GLB-5678',
     adjustmentType: 'Rate Correction'
-  },
-  {
-    id: 'adj-002',
-    cycle: '2025-04',
-    customer: 'Tech Solutions',
-    provider: 'Spectrum',
-    product: 'Contract Renewal Bonus',
-    amount: 200.00,
-    status: 'Adjusted',
-    type: 'adjustments',
-    accountNumber: 'TEC-9012',
-    adjustmentType: 'Bonus'
-  },
-  {
-    id: 'adj-003',
-    cycle: '2025-04',
-    customer: 'InnoSys LLC',
-    provider: 'Microsoft',
-    product: 'Billing Error Correction',
-    amount: -75.25,
-    status: 'Adjusted',
-    type: 'adjustments',
-    accountNumber: 'INN-3456',
-    adjustmentType: 'Billing Correction'
-  },
-
-  // Disputes - April 2025
-  {
-    id: 'dis-001',
-    cycle: '2025-04',
-    customer: 'Green Energy Co',
-    provider: 'Lumen',
-    product: 'SD-WAN Service',
-    amount: 0.00,  // Actual
-    expectedCommission: 1850.00,
-    paidCommission: 0.00,
-    status: 'Disputed',
-    type: 'disputes',
-    accountNumber: 'GRN-2345',
-    netBilled: 12000.00,
-    ticketNumber: 'TK-4567',
-    inquiryDate: '2025-04-03',
-    closedDate: ''
-  },
-  {
-    id: 'dis-002',
-    cycle: '2025-04',
-    customer: 'Omega Manufacturing',
-    provider: 'Comcast',
-    product: 'Business Voice',
-    amount: 450.30,  // Actual
-    expectedCommission: 675.50,
-    paidCommission: 450.30,
-    status: 'Disputed',
-    type: 'disputes',
-    accountNumber: 'OMG-6789',
-    netBilled: 4300.00,
-    ticketNumber: 'TK-5678',
-    inquiryDate: '2025-04-11',
-    closedDate: ''
-  },
-
-  // Pending - April 2025
-  {
-    id: 'pen-001',
-    cycle: '2025-04',
-    customer: 'Quick Logistics',
-    provider: 'Spectrum',
-    product: 'Business Internet',
-    amount: 925.00,  // Expected commission
-    status: 'Provisioning',
-    type: 'pending',
-    orderNumber: 'ORD-12345',
-    activatedDate: '2025-04-09',
-    expectedCommissionDate: '2025-05-15'
-  },
-  {
-    id: 'pen-002',
-    cycle: '2025-04',
-    customer: 'Pinnacle Design',
-    provider: 'Microsoft',
-    product: 'Azure Services',
-    amount: 1320.75,
-    status: 'Submitted',
-    type: 'pending',
-    orderNumber: 'ORD-23456',
-    activatedDate: '',
-    expectedCommissionDate: '2025-06-01'
-  },
-  {
-    id: 'pen-003',
-    cycle: '2025-04',
-    customer: 'Central Finance',
-    provider: 'Adobe',
-    product: 'Document Cloud',
-    amount: 785.25,
-    status: 'Active',
-    type: 'pending',
-    orderNumber: 'ORD-34567',
-    activatedDate: '2025-04-22',
-    expectedCommissionDate: '2025-05-30'
-  },
-
-  // March 2025 Data
-  {
-    id: 'com-101',
-    cycle: '2025-03',
-    customer: 'Premier Solutions',
-    provider: 'Lumen',
-    product: 'Fiber Internet',
-    amount: 1575.50,
-    status: 'Paid',
-    type: 'commissions',
-    accountNumber: 'PRM-1122',
-    netBilled: 9500.00,
-    rate: '16.5%',
-    commissionType: 'Recurring'
-  },
-  {
-    id: 'com-102',
-    cycle: '2025-03',
-    customer: 'Allied Systems',
-    provider: 'Comcast',
-    product: 'Business Security',
-    amount: 980.25,
-    status: 'Paid',
-    type: 'commissions',
-    accountNumber: 'ALL-3344',
-    netBilled: 6400.00,
-    rate: '15.3%',
-    commissionType: 'Recurring'
-  },
-  {
-    id: 'spi-101',
-    cycle: '2025-03',
-    customer: 'Velocity Inc',
-    provider: 'Spectrum',
-    product: 'Monthly Promo',
-    amount: 450.00,
-    status: 'Paid',
-    type: 'spiffs',
-    accountNumber: 'VEL-5566',
-    netBilled: 0.00,
-    rate: 'Flat',
-    commissionType: 'One-time'
-  },
-  {
-    id: 'adj-101',
-    cycle: '2025-03',
-    customer: 'Allied Systems',
-    provider: 'Comcast',
-    product: 'Service Credit',
-    amount: -150.00,
-    status: 'Adjusted',
-    type: 'adjustments',
-    accountNumber: 'ALL-3344',
-    adjustmentType: 'Service Credit'
-  },
-  {
-    id: 'dis-101',
-    cycle: '2025-03',
-    customer: 'Summit Group',
-    provider: 'Microsoft',
-    product: 'SharePoint Services',
-    amount: 800.50,  // Actual
-    expectedCommission: 1250.75,
-    paidCommission: 800.50,
-    status: 'Disputed',
-    type: 'disputes',
-    accountNumber: 'SMT-7788',
-    netBilled: 8200.00,
-    ticketNumber: 'TK-2233',
-    inquiryDate: '2025-03-05',
-    closedDate: ''
-  },
-  {
-    id: 'pen-101',
-    cycle: '2025-03',
-    customer: 'NexGen Technologies',
-    provider: 'Adobe',
-    product: 'Analytics Suite',
-    amount: 895.50,
-    status: 'Active',
-    type: 'pending',
-    orderNumber: 'ORD-45678',
-    activatedDate: '2025-03-22',
-    expectedCommissionDate: '2025-04-30'
   }
 ];
+
+// Combine generated data with specific entries
+export const mockCommissionsData = [...specificEntries, ...mockCommissionsData];

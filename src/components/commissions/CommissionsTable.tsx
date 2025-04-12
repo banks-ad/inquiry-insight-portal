@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Table,
   TableBody,
@@ -7,10 +7,27 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TableFooter,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
-import { mockCommissionsData } from '@/data/mockData';
+import { Input } from '@/components/ui/input';
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
+import { Download, Search, Filter } from 'lucide-react';
+import { mockCommissionsData, CommissionEntry } from '@/data/mockCommissionsData';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -19,13 +36,51 @@ interface CommissionsTableProps {
   cycle: string;
 }
 
+const ITEMS_PER_PAGE = 10;
+
 const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
   const isMobile = useIsMobile();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedProvider, setSelectedProvider] = useState<string>('all');
   
-  // Filter data based on type and cycle
+  // Get unique providers from the data for filtering
+  const uniqueProviders = Array.from(
+    new Set(mockCommissionsData.map(item => item.provider))
+  ).sort();
+  
+  // Filter data based on type, cycle, search term, and selected provider
   const filteredData = mockCommissionsData.filter(
-    (item) => item.type === type && item.cycle === cycle
+    (item) => {
+      const matchesType = item.type === type;
+      const matchesCycle = item.cycle === cycle;
+      const matchesSearch = searchTerm === '' || 
+        Object.values(item).some(
+          value => 
+            typeof value === 'string' && 
+            value.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      const matchesProvider = selectedProvider === 'all' || item.provider === selectedProvider;
+      
+      return matchesType && matchesCycle && matchesSearch && matchesProvider;
+    }
   );
+
+  // Calculate totals for the filtered data
+  const totalNetBilled = filteredData.reduce((sum, item) => sum + (item.netBilled || 0), 0);
+  const totalGrossCommission = filteredData.reduce((sum, item) => sum + item.amount, 0);
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+  const paginatedData = filteredData.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, selectedProvider, type, cycle]);
 
   const handleDownloadCSV = () => {
     if (filteredData.length === 0) {
@@ -261,25 +316,64 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-end">
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={handleDownloadCSV}
-          disabled={filteredData.length === 0}
-        >
-          <Download className="mr-2 h-4 w-4" />
-          Download CSV
-        </Button>
+      <div className="flex flex-col sm:flex-row justify-between gap-4">
+        <div className="flex flex-col sm:flex-row gap-2 sm:w-2/3">
+          {/* Search Input */}
+          <div className="relative w-full sm:w-64">
+            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-8"
+            />
+          </div>
+          
+          {/* Provider Filter */}
+          <div className="w-full sm:w-64">
+            <Select value={selectedProvider} onValueChange={setSelectedProvider}>
+              <SelectTrigger>
+                <Filter className="mr-2 h-4 w-4" />
+                <SelectValue placeholder="Filter by Provider" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Providers</SelectItem>
+                {uniqueProviders.map((provider) => (
+                  <SelectItem key={provider} value={provider}>
+                    {provider}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        
+        <div className="flex justify-end">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={handleDownloadCSV}
+            disabled={filteredData.length === 0}
+          >
+            <Download className="mr-2 h-4 w-4" />
+            Download CSV
+          </Button>
+        </div>
       </div>
+      
+      {/* Table Stats */}
+      <div className="text-sm text-muted-foreground">
+        Showing {paginatedData.length} of {filteredData.length} entries
+      </div>
+      
       <div className="rounded-md border">
         <Table>
           <TableHeader>
             {renderTableHeaders()}
           </TableHeader>
           <TableBody>
-            {filteredData.length > 0 ? (
-              filteredData.map((row) => renderTableRow(row))
+            {paginatedData.length > 0 ? (
+              paginatedData.map((row) => renderTableRow(row))
             ) : (
               <TableRow>
                 <TableCell colSpan={12} className="h-24 text-center">
@@ -288,8 +382,73 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
               </TableRow>
             )}
           </TableBody>
+          {(type === 'commissions' || type === 'spiffs') && filteredData.length > 0 && (
+            <TableFooter className="bg-muted/50">
+              <TableRow>
+                <TableCell colSpan={isMobile ? 3 : 5} className="font-medium">
+                  Totals
+                </TableCell>
+                {!isMobile && (
+                  <TableCell className="text-right font-medium">
+                    ${totalNetBilled.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </TableCell>
+                )}
+                <TableCell className="text-right font-medium">
+                  ${totalGrossCommission.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </TableCell>
+                {!isMobile && <TableCell colSpan={2}></TableCell>}
+              </TableRow>
+            </TableFooter>
+          )}
         </Table>
       </div>
+      
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious 
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+              />
+            </PaginationItem>
+            
+            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+              let pageNumber: number;
+              
+              // Logic to display correct page numbers based on current page
+              if (totalPages <= 5) {
+                pageNumber = i + 1;
+              } else if (currentPage <= 3) {
+                pageNumber = i + 1;
+              } else if (currentPage >= totalPages - 2) {
+                pageNumber = totalPages - 4 + i;
+              } else {
+                pageNumber = currentPage - 2 + i;
+              }
+              
+              return (
+                <PaginationItem key={pageNumber}>
+                  <PaginationLink
+                    isActive={pageNumber === currentPage}
+                    onClick={() => setCurrentPage(pageNumber)}
+                  >
+                    {pageNumber}
+                  </PaginationLink>
+                </PaginationItem>
+              );
+            })}
+            
+            <PaginationItem>
+              <PaginationNext 
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
     </div>
   );
 };
