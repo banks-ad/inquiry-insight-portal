@@ -1,6 +1,6 @@
-
 import { Inquiry } from '@/components/dashboard/InquiryTable';
 import { mockCommissionsData } from './mockCommissionsData';
+import { mockTickets } from './mockTicketData';
 
 // Mock commission data for charts
 export const commissionChartData = [
@@ -159,5 +159,5 @@ export const closedInquiries: Inquiry[] = [
   },
 ];
 
-// Export the commissions data
-export { mockCommissionsData };
+// Export the commissions data and ticket data
+export { mockCommissionsData, mockTickets };
