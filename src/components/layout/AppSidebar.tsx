@@ -98,53 +98,6 @@ const AppSidebar = () => {
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/reports/commission-trends" className="flex items-center">
-                    <LineChart className="mr-2 h-5 w-5" />
-                    <span>Commission Trends</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/reports/performance" className="flex items-center">
-                    <BarChart className="mr-2 h-5 w-5" />
-                    <span>Performance</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/reports/distribution" className="flex items-center">
-                    <PieChart className="mr-2 h-5 w-5" />
-                    <span>Distribution</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/reports/quarterly" className="flex items-center">
-                    <FileBarChart className="mr-2 h-5 w-5" />
-                    <span>Quarterly Report</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/settings" className="flex items-center">
-                    <Settings className="mr-2 h-5 w-5" />
-                    <span>Settings</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
