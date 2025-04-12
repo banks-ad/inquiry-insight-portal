@@ -66,6 +66,30 @@ const AppSidebar = () => {
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/commissions" className="flex items-center">
+                    <DollarSign className="mr-2 h-5 w-5" />
+                    <span>Commission Rates</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/commissions" className="flex items-center">
+                    <DollarSign className="mr-2 h-5 w-5" />
+                    <span>Commission Forecast</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/commissions" className="flex items-center">
+                    <DollarSign className="mr-2 h-5 w-5" />
+                    <span>Provider Payment Info</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
