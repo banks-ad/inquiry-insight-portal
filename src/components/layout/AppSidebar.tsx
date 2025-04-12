@@ -13,7 +13,7 @@ import {
   SidebarTrigger 
 } from '@/components/ui/sidebar';
 import { 
-  Home, 
+  LayoutDashboard, 
   FileText, 
   DollarSign, 
   Users, 
@@ -21,7 +21,10 @@ import {
   Settings, 
   LineChart, 
   PieChart,
-  FileBarChart
+  FileBarChart,
+  FileSpreadsheet,
+  CalendarRange,
+  Clock
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -42,8 +45,8 @@ const AppSidebar = () => {
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link to="/" className="flex items-center">
-                    <Home className="mr-2 h-5 w-5" />
-                    <span>Dashboard</span>
+                    <LayoutDashboard className="mr-2 h-5 w-5" />
+                    <span>Overview</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -63,14 +66,6 @@ const AppSidebar = () => {
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/agents" className="flex items-center">
-                    <Users className="mr-2 h-5 w-5" />
-                    <span>Agents</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -79,6 +74,30 @@ const AppSidebar = () => {
           <SidebarGroupLabel>Reports</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/reports/statement" className="flex items-center">
+                    <FileSpreadsheet className="mr-2 h-5 w-5" />
+                    <span>Statement</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/reports/provider" className="flex items-center">
+                    <CalendarRange className="mr-2 h-5 w-5" />
+                    <span>6 Month by Provider</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/reports/history" className="flex items-center">
+                    <Clock className="mr-2 h-5 w-5" />
+                    <span>Account History</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link to="/reports/commission-trends" className="flex items-center">
