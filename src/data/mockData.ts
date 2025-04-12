@@ -1,14 +1,56 @@
-
 import { Inquiry } from '@/components/dashboard/InquiryTable';
 
 // Mock commission data for charts
 export const commissionChartData = [
-  { name: 'Jan', gross: 40000, paid: 36000 },
-  { name: 'Feb', gross: 45000, paid: 40000 },
-  { name: 'Mar', gross: 35000, paid: 30000 },
-  { name: 'Apr', gross: 50000, paid: 43000 },
-  { name: 'May', gross: 55000, paid: 48000 },
-  { name: 'Jun', gross: 60000, paid: 52000 },
+  {
+    name: 'Jan',
+    gross: 32000,
+    paid: 28000,
+    spiff: 3000,
+    nonRecurring: 1000,
+  },
+  {
+    name: 'Feb',
+    gross: 34000,
+    paid: 29500,
+    spiff: 3200,
+    nonRecurring: 1300,
+  },
+  {
+    name: 'Mar',
+    gross: 36000,
+    paid: 31000,
+    spiff: 3500,
+    nonRecurring: 1500,
+  },
+  {
+    name: 'Apr',
+    gross: 35000,
+    paid: 30000,
+    spiff: 3400,
+    nonRecurring: 1600,
+  },
+  {
+    name: 'May',
+    gross: 38000,
+    paid: 33000,
+    spiff: 3600,
+    nonRecurring: 1400,
+  },
+  {
+    name: 'Jun',
+    gross: 42000,
+    paid: 36000,
+    spiff: 4000,
+    nonRecurring: 2000,
+  },
+  {
+    name: 'Jul',
+    gross: 45000,
+    paid: 39000,
+    spiff: 4200,
+    nonRecurring: 1800,
+  }
 ];
 
 // Mock commission inquiries
