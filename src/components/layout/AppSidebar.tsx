@@ -117,7 +117,7 @@ const AppSidebar = () => {
                 <SidebarMenuButton asChild>
                   <Link to="/reports/provider" className="flex items-center">
                     <CalendarRange className="mr-2 h-5 w-5" />
-                    <span>6 Month by Provider</span>
+                    <span>Summary by Provider</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
