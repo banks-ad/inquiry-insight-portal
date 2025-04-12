@@ -68,9 +68,9 @@ const AppSidebar = () => {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link to="/commissions" className="flex items-center">
+                  <Link to="https://www.appdirect.com/partners/advisors/telco-rate-card" className="flex items-center">
                     <DollarSign className="mr-2 h-5 w-5" />
-                    <span>Commission Rates</span>
+                    <span>Commission Rates & SPIFFS</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
