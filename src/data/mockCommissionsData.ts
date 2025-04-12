@@ -195,17 +195,8 @@ const generateCommissionEntries = (count: number, type: 'commissions' | 'spiffs'
   return entries;
 };
 
-// Generate full dataset with 500 entries total
-export const mockCommissionsData: CommissionEntry[] = [
-  ...generateCommissionEntries(350 - 50, 'commissions'), // 300 commission entries
-  ...generateCommissionEntries(50, 'spiffs'),           // 50 spiff entries
-  ...generateCommissionEntries(100, 'adjustments'),     // 100 adjustment entries
-  ...generateCommissionEntries(30, 'disputes'),         // 30 dispute entries
-  ...generateCommissionEntries(20, 'pending')           // 20 pending entries
-];
-
 // Add some specific entries to ensure we have data for recent months
-export const specificEntries: CommissionEntry[] = [
+const specificEntries: CommissionEntry[] = [
   // April 2025 Entries - will be used on first load
   {
     id: 'com-001',
@@ -249,5 +240,19 @@ export const specificEntries: CommissionEntry[] = [
   }
 ];
 
-// Combine generated data with specific entries
-export const mockCommissionsData = [...specificEntries, ...mockCommissionsData];
+// Generate the different types of entries
+const generatedCommissions = generateCommissionEntries(300, 'commissions');
+const generatedSpiffs = generateCommissionEntries(50, 'spiffs');
+const generatedAdjustments = generateCommissionEntries(100, 'adjustments');
+const generatedDisputes = generateCommissionEntries(30, 'disputes');
+const generatedPending = generateCommissionEntries(20, 'pending');
+
+// Combine all data into a single export
+export const mockCommissionsData: CommissionEntry[] = [
+  ...specificEntries,
+  ...generatedCommissions,
+  ...generatedSpiffs,
+  ...generatedAdjustments,
+  ...generatedDisputes,
+  ...generatedPending
+];
