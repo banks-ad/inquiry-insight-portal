@@ -33,7 +33,7 @@ const Dashboard = () => {
           />
           
           <StatCard 
-            title="Commissions Paid" 
+            title="Net Billed" 
             value="$249,000" 
             description="87.4% of gross" 
             icon={CreditCard}
