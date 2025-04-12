@@ -61,6 +61,7 @@ const CommissionsPage = () => {
           <TabsList className="mb-4">
             <TabsTrigger value="commissions">Commissions</TabsTrigger>
             <TabsTrigger value="spiffs">Spiffs</TabsTrigger>
+            <TabsTrigger value="adjustments">Adjustments</TabsTrigger>
             <TabsTrigger value="disputes">Disputes</TabsTrigger>
             <TabsTrigger value="pending">Pending</TabsTrigger>
           </TabsList>
@@ -71,6 +72,10 @@ const CommissionsPage = () => {
           
           <TabsContent value="spiffs">
             <CommissionsTable type="spiffs" cycle={selectedCycle} />
+          </TabsContent>
+          
+          <TabsContent value="adjustments">
+            <CommissionsTable type="adjustments" cycle={selectedCycle} />
           </TabsContent>
           
           <TabsContent value="disputes">

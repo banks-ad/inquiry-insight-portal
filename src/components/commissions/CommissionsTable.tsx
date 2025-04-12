@@ -14,7 +14,7 @@ import { mockCommissionsData } from '@/data/mockData';
 import { toast } from 'sonner';
 
 interface CommissionsTableProps {
-  type: 'commissions' | 'spiffs' | 'disputes' | 'pending';
+  type: 'commissions' | 'spiffs' | 'adjustments' | 'disputes' | 'pending';
   cycle: string;
 }
 
@@ -124,6 +124,8 @@ function getStatusStyles(status: string): string {
       return 'bg-red-100 text-red-800';
     case 'Approved':
       return 'bg-blue-100 text-blue-800';
+    case 'Adjusted':
+      return 'bg-purple-100 text-purple-800';
     default:
       return 'bg-gray-100 text-gray-800';
   }

@@ -7,7 +7,7 @@ export interface CommissionEntry {
   product: string;
   amount: number;
   status: string;
-  type: 'commissions' | 'spiffs' | 'disputes' | 'pending';
+  type: 'commissions' | 'spiffs' | 'adjustments' | 'disputes' | 'pending';
   cycle: string;
 }
 
@@ -103,6 +103,41 @@ export const mockCommissionsData: CommissionEntry[] = [
     type: 'spiffs',
     cycle: '2025-04'
   },
+  
+  // Adjustments - April 2025
+  {
+    id: 'adj-001',
+    date: '2025-04-06',
+    customer: 'Global Industries',
+    provider: 'Comcast',
+    product: 'Rate Correction',
+    amount: -125.50,
+    status: 'Adjusted',
+    type: 'adjustments',
+    cycle: '2025-04'
+  },
+  {
+    id: 'adj-002',
+    date: '2025-04-17',
+    customer: 'Tech Solutions',
+    provider: 'Spectrum',
+    product: 'Contract Renewal Bonus',
+    amount: 200.00,
+    status: 'Adjusted',
+    type: 'adjustments',
+    cycle: '2025-04'
+  },
+  {
+    id: 'adj-003',
+    date: '2025-04-23',
+    customer: 'InnoSys LLC',
+    provider: 'Microsoft',
+    product: 'Billing Error Correction',
+    amount: -75.25,
+    status: 'Adjusted',
+    type: 'adjustments',
+    cycle: '2025-04'
+  },
 
   // Disputes - April 2025
   {
@@ -195,6 +230,17 @@ export const mockCommissionsData: CommissionEntry[] = [
     amount: 450.00,
     status: 'Paid',
     type: 'spiffs',
+    cycle: '2025-03'
+  },
+  {
+    id: 'adj-101',
+    date: '2025-03-12',
+    customer: 'Allied Systems',
+    provider: 'Comcast',
+    product: 'Service Credit',
+    amount: -150.00,
+    status: 'Adjusted',
+    type: 'adjustments',
     cycle: '2025-03'
   },
   {
