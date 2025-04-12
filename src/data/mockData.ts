@@ -8,6 +8,7 @@ export const commissionChartData = [
     paid: 28000,
     spiff: 3000,
     nonRecurring: 1000,
+    adjustments: 500,
   },
   {
     name: 'Feb',
@@ -15,6 +16,7 @@ export const commissionChartData = [
     paid: 29500,
     spiff: 3200,
     nonRecurring: 1300,
+    adjustments: 700,
   },
   {
     name: 'Mar',
@@ -22,6 +24,7 @@ export const commissionChartData = [
     paid: 31000,
     spiff: 3500,
     nonRecurring: 1500,
+    adjustments: 600,
   },
   {
     name: 'Apr',
@@ -29,6 +32,7 @@ export const commissionChartData = [
     paid: 30000,
     spiff: 3400,
     nonRecurring: 1600,
+    adjustments: 400,
   },
   {
     name: 'May',
@@ -36,6 +40,7 @@ export const commissionChartData = [
     paid: 33000,
     spiff: 3600,
     nonRecurring: 1400,
+    adjustments: 800,
   },
   {
     name: 'Jun',
@@ -43,6 +48,7 @@ export const commissionChartData = [
     paid: 36000,
     spiff: 4000,
     nonRecurring: 2000,
+    adjustments: 900,
   },
   {
     name: 'Jul',
@@ -50,7 +56,18 @@ export const commissionChartData = [
     paid: 39000,
     spiff: 4200,
     nonRecurring: 1800,
+    adjustments: 750,
   }
+];
+
+// Top Providers data
+export const topProvidersData = [
+  { provider: 'Lumen', grossCommission: 125000 },
+  { provider: 'Comcast', grossCommission: 98000 },
+  { provider: 'Spectrum', grossCommission: 87500 },
+  { provider: 'Microsoft', grossCommission: 65000 },
+  { provider: 'Adobe', grossCommission: 42000 },
+  { provider: 'Other', grossCommission: 35000 },
 ];
 
 // Mock commission inquiries

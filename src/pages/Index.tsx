@@ -4,13 +4,14 @@ import DashboardLayout from '@/components/layout/DashboardLayout';
 import StatCard from '@/components/dashboard/StatCard';
 import InquiryTable from '@/components/dashboard/InquiryTable';
 import CommissionChart from '@/components/dashboard/CommissionChart';
+import TopProvidersChart from '@/components/dashboard/TopProvidersChart';
 import { 
   DollarSign, 
   CreditCard, 
   FileQuestion, 
   CheckCircle 
 } from 'lucide-react';
-import { commissionChartData, mockInquiries, closedInquiries } from '@/data/mockData';
+import { commissionChartData, mockInquiries, closedInquiries, topProvidersData } from '@/data/mockData';
 
 const Dashboard = () => {
   return (
@@ -60,9 +61,13 @@ const Dashboard = () => {
           />
         </div>
         
-        {/* Commission Chart */}
-        <div className="mb-8">
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          {/* Commission Chart */}
           <CommissionChart data={commissionChartData} />
+          
+          {/* Top Providers Chart */}
+          <TopProvidersChart data={topProvidersData} />
         </div>
         
         {/* Inquiries Tables */}

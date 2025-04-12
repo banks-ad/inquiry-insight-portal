@@ -11,7 +11,7 @@ import {
   Legend, 
   ResponsiveContainer 
 } from 'recharts';
-import { Check, Filter } from 'lucide-react';
+import { Filter } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -26,6 +26,7 @@ interface ChartData {
   name: string;
   spiff: number;
   nonRecurring: number;
+  adjustments: number;
 }
 
 interface CommissionChartProps {
@@ -35,7 +36,8 @@ interface CommissionChartProps {
 const CommissionChart: React.FC<CommissionChartProps> = ({ data }) => {
   const [selectedTypes, setSelectedTypes] = useState({
     spiff: true,
-    nonRecurring: true
+    nonRecurring: true,
+    adjustments: true
   });
 
   const handleTypeToggle = (type: keyof typeof selectedTypes) => {
@@ -72,6 +74,12 @@ const CommissionChart: React.FC<CommissionChartProps> = ({ data }) => {
               onCheckedChange={() => handleTypeToggle('nonRecurring')}
             >
               Non-Recurring
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem
+              checked={selectedTypes.adjustments}
+              onCheckedChange={() => handleTypeToggle('adjustments')}
+            >
+              Adjustments
             </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -112,6 +120,15 @@ const CommissionChart: React.FC<CommissionChartProps> = ({ data }) => {
                   name="Non-Recurring" 
                   stackId="a" 
                   fill="#F97316" 
+                  radius={[4, 4, 0, 0]} 
+                />
+              )}
+              {selectedTypes.adjustments && (
+                <Bar 
+                  dataKey="adjustments" 
+                  name="Adjustments" 
+                  stackId="a" 
+                  fill="#22c55e" 
                   radius={[4, 4, 0, 0]} 
                 />
               )}
