@@ -156,3 +156,6 @@ export const closedInquiries: Inquiry[] = [
     status: 'closed',
   },
 ];
+
+// Export the commissions data
+export { mockCommissionsData };
