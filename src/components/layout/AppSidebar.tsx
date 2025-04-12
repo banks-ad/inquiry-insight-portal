@@ -24,7 +24,8 @@ import {
   FileBarChart,
   FileSpreadsheet,
   CalendarRange,
-  Clock
+  Clock,
+  ExternalLink
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -68,10 +69,16 @@ const AppSidebar = () => {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link to="https://www.appdirect.com/partners/advisors/telco-rate-card" className="flex items-center">
+                  <a 
+                    href="https://www.appdirect.com/partners/advisors/telco-rate-card" 
+                    className="flex items-center"
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
                     <DollarSign className="mr-2 h-5 w-5" />
                     <span>Commission Rates & SPIFFS</span>
-                  </Link>
+                    <ExternalLink className="ml-1 h-3 w-3" />
+                  </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
