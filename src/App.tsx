@@ -11,6 +11,7 @@ import Commissions from "./pages/Commissions";
 import CommissionForecast from "./pages/CommissionForecast";
 import ProviderSummary from "./pages/reports/ProviderSummary";
 import ProviderPayment from "./pages/ProviderPayment";
+import Payments from "./pages/Payments";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/commissions" element={<Commissions />} />
           <Route path="/commission-forecast" element={<CommissionForecast />} />
           <Route path="/provider-payment" element={<ProviderPayment />} />
+          <Route path="/payments" element={<Payments />} />
           <Route path="/reports/statement" element={<NotFound />} />
           <Route path="/reports/provider" element={<ProviderSummary />} />
           <Route path="/reports/history" element={<NotFound />} />
