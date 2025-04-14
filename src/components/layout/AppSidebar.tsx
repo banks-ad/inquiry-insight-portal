@@ -69,6 +69,28 @@ const AppSidebar = () => {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
+                  <Link to="/payments" className="flex items-center">
+                    <DollarSign className="mr-2 h-5 w-5" />
+                    <span>Payments</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <a 
+                    href="https://catalog.appdirect.com/provider-sales/reports/my-order-aging" 
+                    className="flex items-center"
+                    target="_self" 
+                    rel="noopener noreferrer"
+                  >
+                    <DollarSign className="mr-2 h-5 w-5" />
+                    <span>Open Orders Aging</span>
+                    <ExternalLink className="ml-1 h-3 w-3" />
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
                   <a 
                     href="https://www.appdirect.com/partners/advisors/telco-rate-card" 
                     className="flex items-center"
