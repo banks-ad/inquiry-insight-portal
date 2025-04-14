@@ -10,6 +10,7 @@ import Inquiries from "./pages/Inquiries";
 import Commissions from "./pages/Commissions";
 import CommissionForecast from "./pages/CommissionForecast";
 import ProviderSummary from "./pages/reports/ProviderSummary";
+import ProviderPayment from "./pages/ProviderPayment";
 
 const queryClient = new QueryClient();
 
