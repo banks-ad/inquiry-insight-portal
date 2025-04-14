@@ -21,6 +21,7 @@ import { Search } from 'lucide-react';
 interface Inquiry {
   id: string;
   requestor: string;
+  submitDate: string;
   ticketNumber: string;
   subject: string;
   customer: string;
@@ -41,6 +42,7 @@ const InquiriesTable: React.FC<InquiriesTableProps> = ({ inquiries }) => {
     const searchStr = searchQuery.toLowerCase();
     return (
       inquiry.requestor.toLowerCase().includes(searchStr) ||
+      inquiry.submitDate.toLowerCase().includes(searchStr) ||
       inquiry.ticketNumber.toLowerCase().includes(searchStr) ||
       inquiry.subject.toLowerCase().includes(searchStr) ||
       inquiry.customer.toLowerCase().includes(searchStr) ||
@@ -71,6 +73,7 @@ const InquiriesTable: React.FC<InquiriesTableProps> = ({ inquiries }) => {
           <TableHeader>
             <TableRow>
               <TableHead>Requestor</TableHead>
+              <TableHead>Submit Date</TableHead>
               <TableHead>Ticket Number</TableHead>
               <TableHead>Subject</TableHead>
               <TableHead>Customer</TableHead>
@@ -85,6 +88,7 @@ const InquiriesTable: React.FC<InquiriesTableProps> = ({ inquiries }) => {
               filteredInquiries.map((inquiry) => (
                 <TableRow key={inquiry.id}>
                   <TableCell className="font-medium">{inquiry.requestor}</TableCell>
+                  <TableCell>{inquiry.submitDate}</TableCell>
                   <TableCell>{inquiry.ticketNumber}</TableCell>
                   <TableCell>{inquiry.subject}</TableCell>
                   <TableCell>{inquiry.customer}</TableCell>
@@ -120,7 +124,7 @@ const InquiriesTable: React.FC<InquiriesTableProps> = ({ inquiries }) => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={8} className="text-center py-4">
+                <TableCell colSpan={9} className="text-center py-4">
                   {searchQuery ? 'No matching inquiries found' : 'No inquiries found'}
                 </TableCell>
               </TableRow>

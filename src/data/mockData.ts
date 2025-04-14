@@ -94,6 +94,7 @@ export const mockInquiries = [
   {
     id: '1',
     requestor: 'John Smith',
+    submitDate: '2025-03-15',
     ticketNumber: 'TK-1001',
     subject: 'Missing Commission - Cloud Services',
     customer: 'Acme Corp',
@@ -105,6 +106,7 @@ export const mockInquiries = [
   {
     id: '2',
     requestor: 'Sarah Johnson',
+    submitDate: '2025-03-18',
     ticketNumber: 'TK-1002',
     subject: 'Commission Rate Discrepancy',
     customer: 'TechStart Inc',
@@ -116,6 +118,7 @@ export const mockInquiries = [
   {
     id: '3',
     requestor: 'Mike Wilson',
+    submitDate: '2025-03-20',
     ticketNumber: 'TK-1003',
     subject: 'Missing SPIFF Payment',
     customer: 'Global Solutions',
@@ -127,6 +130,7 @@ export const mockInquiries = [
   {
     id: '4',
     requestor: 'Emily Chen',
+    submitDate: '2025-03-22',
     ticketNumber: 'TK-1004',
     subject: 'Partial Commission Received',
     customer: 'DataFlow Systems',
@@ -138,6 +142,7 @@ export const mockInquiries = [
   {
     id: '5',
     requestor: 'David Brown',
+    submitDate: '2025-03-25',
     ticketNumber: 'TK-1005',
     subject: 'Commission Calculation Error',
     customer: 'Innovation Labs',
@@ -153,6 +158,7 @@ export const closedInquiries = [
   {
     id: '6',
     requestor: 'Lisa Anderson',
+    submitDate: '2025-03-10',
     ticketNumber: 'TK-1006',
     subject: 'Missing Renewal Commission',
     customer: 'Tech Solutions Ltd',
@@ -164,6 +170,7 @@ export const closedInquiries = [
   {
     id: '7',
     requestor: 'Robert Taylor',
+    submitDate: '2025-03-12',
     ticketNumber: 'TK-1007',
     subject: 'SPIFF Eligibility Review',
     customer: 'Digital Dynamics',
