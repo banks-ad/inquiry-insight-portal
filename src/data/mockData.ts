@@ -1,4 +1,3 @@
-
 import { faker } from '@faker-js/faker';
 
 // Chart data interface
@@ -91,21 +90,86 @@ export const topCustomersData: CustomerData[] = Array.from({ length: 5 }, () => 
 }));
 
 // Mock inquiries
-export const mockInquiries: Inquiry[] = Array.from({ length: 10 }, () => ({
-  id: faker.string.uuid(),
-  client: faker.company.name(),
-  agent: faker.person.fullName(),
-  amount: faker.number.int({ min: 2000, max: 15000 }),
-  date: faker.date.recent({ days: 30 }).toLocaleDateString(),
-  status: 'open',
-}));
+export const mockInquiries = [
+  {
+    id: '1',
+    requestor: 'John Smith',
+    ticketNumber: 'TK-1001',
+    subject: 'Missing Commission - Cloud Services',
+    customer: 'Acme Corp',
+    provider: 'AWS',
+    expectedCommission: 2500.00,
+    status: 'Open',
+    priority: 'High'
+  },
+  {
+    id: '2',
+    requestor: 'Sarah Johnson',
+    ticketNumber: 'TK-1002',
+    subject: 'Commission Rate Discrepancy',
+    customer: 'TechStart Inc',
+    provider: 'Microsoft',
+    expectedCommission: 1800.00,
+    status: 'Closed',
+    priority: 'Medium'
+  },
+  {
+    id: '3',
+    requestor: 'Mike Wilson',
+    ticketNumber: 'TK-1003',
+    subject: 'Missing SPIFF Payment',
+    customer: 'Global Solutions',
+    provider: 'Google Cloud',
+    expectedCommission: 3500.00,
+    status: 'Open',
+    priority: 'High'
+  },
+  {
+    id: '4',
+    requestor: 'Emily Chen',
+    ticketNumber: 'TK-1004',
+    subject: 'Partial Commission Received',
+    customer: 'DataFlow Systems',
+    provider: 'Oracle',
+    expectedCommission: 1200.00,
+    status: 'Open',
+    priority: 'Low'
+  },
+  {
+    id: '5',
+    requestor: 'David Brown',
+    ticketNumber: 'TK-1005',
+    subject: 'Commission Calculation Error',
+    customer: 'Innovation Labs',
+    provider: 'IBM',
+    expectedCommission: 2800.00,
+    status: 'Closed',
+    priority: 'Medium'
+  }
+] as const;
 
 // Closed inquiries
-export const closedInquiries: Inquiry[] = Array.from({ length: 15 }, () => ({
-  id: faker.string.uuid(),
-  client: faker.company.name(),
-  agent: faker.person.fullName(),
-  amount: faker.number.int({ min: 2000, max: 15000 }),
-  date: faker.date.recent({ days: 60 }).toLocaleDateString(),
-  status: 'closed',
-}));
+export const closedInquiries = [
+  {
+    id: '6',
+    requestor: 'Lisa Anderson',
+    ticketNumber: 'TK-1006',
+    subject: 'Missing Renewal Commission',
+    customer: 'Tech Solutions Ltd',
+    provider: 'Salesforce',
+    expectedCommission: 1500.00,
+    status: 'Closed',
+    priority: 'Low'
+  },
+  {
+    id: '7',
+    requestor: 'Robert Taylor',
+    ticketNumber: 'TK-1007',
+    subject: 'SPIFF Eligibility Review',
+    customer: 'Digital Dynamics',
+    provider: 'VMware',
+    expectedCommission: 2200.00,
+    status: 'Closed',
+    priority: 'Medium'
+  }
+] as const;

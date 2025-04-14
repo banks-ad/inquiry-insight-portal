@@ -17,7 +17,18 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
-import { Inquiry } from '@/components/dashboard/InquiryTable';
+
+interface Inquiry {
+  id: string;
+  requestor: string;
+  ticketNumber: string;
+  subject: string;
+  customer: string;
+  provider: string;
+  expectedCommission: number;
+  status: 'Open' | 'Closed';
+  priority: 'High' | 'Medium' | 'Low';
+}
 
 interface InquiriesTableProps {
   inquiries: Inquiry[];
@@ -29,11 +40,13 @@ const InquiriesTable: React.FC<InquiriesTableProps> = ({ inquiries }) => {
   const filteredInquiries = inquiries.filter((inquiry) => {
     const searchStr = searchQuery.toLowerCase();
     return (
-      inquiry.client.toLowerCase().includes(searchStr) ||
-      inquiry.agent.toLowerCase().includes(searchStr) ||
-      inquiry.amount.toString().includes(searchStr) ||
-      inquiry.date.toLowerCase().includes(searchStr) ||
-      inquiry.status.toLowerCase().includes(searchStr)
+      inquiry.requestor.toLowerCase().includes(searchStr) ||
+      inquiry.ticketNumber.toLowerCase().includes(searchStr) ||
+      inquiry.subject.toLowerCase().includes(searchStr) ||
+      inquiry.customer.toLowerCase().includes(searchStr) ||
+      inquiry.provider.toLowerCase().includes(searchStr) ||
+      inquiry.status.toLowerCase().includes(searchStr) ||
+      inquiry.priority.toLowerCase().includes(searchStr)
     );
   });
 
@@ -57,26 +70,31 @@ const InquiriesTable: React.FC<InquiriesTableProps> = ({ inquiries }) => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Client</TableHead>
-              <TableHead>Agent</TableHead>
-              <TableHead>Amount</TableHead>
-              <TableHead>Date</TableHead>
+              <TableHead>Requestor</TableHead>
+              <TableHead>Ticket Number</TableHead>
+              <TableHead>Subject</TableHead>
+              <TableHead>Customer</TableHead>
+              <TableHead>Provider</TableHead>
+              <TableHead>Expected Commission</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Priority</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filteredInquiries.length > 0 ? (
               filteredInquiries.map((inquiry) => (
                 <TableRow key={inquiry.id}>
-                  <TableCell className="font-medium">{inquiry.client}</TableCell>
-                  <TableCell>{inquiry.agent}</TableCell>
-                  <TableCell>${inquiry.amount.toLocaleString()}</TableCell>
-                  <TableCell>{inquiry.date}</TableCell>
+                  <TableCell className="font-medium">{inquiry.requestor}</TableCell>
+                  <TableCell>{inquiry.ticketNumber}</TableCell>
+                  <TableCell>{inquiry.subject}</TableCell>
+                  <TableCell>{inquiry.customer}</TableCell>
+                  <TableCell>{inquiry.provider}</TableCell>
+                  <TableCell>${inquiry.expectedCommission.toLocaleString()}</TableCell>
                   <TableCell>
                     <Badge 
                       variant="outline" 
                       className={`${
-                        inquiry.status === 'open' 
+                        inquiry.status === 'Open' 
                           ? 'bg-blue-50 text-commission-blue border-commission-blue' 
                           : 'bg-green-50 text-commission-green border-commission-green'
                       }`}
@@ -84,11 +102,25 @@ const InquiriesTable: React.FC<InquiriesTableProps> = ({ inquiries }) => {
                       {inquiry.status}
                     </Badge>
                   </TableCell>
+                  <TableCell>
+                    <Badge 
+                      variant="outline" 
+                      className={`${
+                        inquiry.priority === 'High'
+                          ? 'bg-red-50 text-red-600 border-red-600'
+                          : inquiry.priority === 'Medium'
+                          ? 'bg-yellow-50 text-yellow-600 border-yellow-600'
+                          : 'bg-green-50 text-green-600 border-green-600'
+                      }`}
+                    >
+                      {inquiry.priority}
+                    </Badge>
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={5} className="text-center py-4">
+                <TableCell colSpan={8} className="text-center py-4">
                   {searchQuery ? 'No matching inquiries found' : 'No inquiries found'}
                 </TableCell>
               </TableRow>
