@@ -1,173 +1,76 @@
-import { Inquiry } from '@/components/dashboard/InquiryTable';
-import { mockCommissionsData } from './mockCommissionsData';
-import { mockTickets } from './mockTicketData';
+import { faker } from '@faker-js/faker';
 
-// Mock commission data for charts
-export const commissionChartData = [
+interface TopProviderData {
+  name: string;
+  value: number;
+}
+
+interface TopCustomerData {
+  name: string;
+  value: number;
+}
+
+interface ChartData {
+  name: string;
+  spiff: number;
+  nonRecurring: number;
+  adjustments: number;
+  recurring: number;
+}
+
+export const commissionChartData: ChartData[] = [
   {
-    name: 'Jan',
-    gross: 32000,
-    paid: 28000,
-    spiff: 3000,
-    nonRecurring: 1000,
-    adjustments: 500,
+    name: "Jan",
+    recurring: 85000,
+    spiff: 15000,
+    nonRecurring: 25000,
+    adjustments: 5000,
   },
   {
-    name: 'Feb',
-    gross: 34000,
-    paid: 29500,
-    spiff: 3200,
-    nonRecurring: 1300,
-    adjustments: 700,
+    name: "Feb",
+    recurring: 95000,
+    spiff: 18000,
+    nonRecurring: 22000,
+    adjustments: 8000,
   },
   {
-    name: 'Mar',
-    gross: 36000,
-    paid: 31000,
-    spiff: 3500,
-    nonRecurring: 1500,
-    adjustments: 600,
+    name: "Mar",
+    recurring: 92000,
+    spiff: 20000,
+    nonRecurring: 28000,
+    adjustments: 6000,
   },
   {
-    name: 'Apr',
-    gross: 35000,
-    paid: 30000,
-    spiff: 3400,
-    nonRecurring: 1600,
-    adjustments: 400,
+    name: "Apr",
+    recurring: 98000,
+    spiff: 22000,
+    nonRecurring: 30000,
+    adjustments: 7000,
   },
   {
-    name: 'May',
-    gross: 38000,
-    paid: 33000,
-    spiff: 3600,
-    nonRecurring: 1400,
-    adjustments: 800,
+    name: "May",
+    recurring: 105000,
+    spiff: 25000,
+    nonRecurring: 32000,
+    adjustments: 9000,
   },
   {
-    name: 'Jun',
-    gross: 42000,
-    paid: 36000,
-    spiff: 4000,
-    nonRecurring: 2000,
-    adjustments: 900,
-  },
-  {
-    name: 'Jul',
-    gross: 45000,
-    paid: 39000,
-    spiff: 4200,
-    nonRecurring: 1800,
-    adjustments: 750,
+    name: "Jun",
+    recurring: 110000,
+    spiff: 28000,
+    nonRecurring: 35000,
+    adjustments: 8000,
   }
 ];
 
-// Top Providers data
-export const topProvidersData = [
-  { provider: 'Lumen', grossCommission: 125000 },
-  { provider: 'Comcast', grossCommission: 98000 },
-  { provider: 'Spectrum', grossCommission: 87500 },
-  { provider: 'Microsoft', grossCommission: 65000 },
-  { provider: 'Adobe', grossCommission: 42000 },
-  { provider: 'Other', grossCommission: 35000 },
-];
+// Mock data for Top Providers chart
+export const topProvidersData: TopProviderData[] = Array.from({ length: 5 }, () => ({
+  name: faker.company.name(),
+  value: faker.number.int({ min: 50000, max: 200000 }),
+}));
 
-// Top Customers data
-export const topCustomersData = [
-  { customer: 'Enterprise Solutions Inc.', grossCommission: 112000 },
-  { customer: 'TechNova Systems', grossCommission: 85000 },
-  { customer: 'Global Communications Ltd.', grossCommission: 67500 },
-  { customer: 'Pinnacle Networks', grossCommission: 53000 },
-  { customer: 'Digital Horizon Corp.', grossCommission: 41500 },
-  { customer: 'Other', grossCommission: 32000 },
-];
-
-// Mock commission inquiries
-export const mockInquiries: Inquiry[] = [
-  {
-    id: '1',
-    client: 'Acme Corp',
-    agent: 'John Smith',
-    amount: 12500,
-    date: '2025-04-01',
-    status: 'open',
-  },
-  {
-    id: '2',
-    client: 'TechStart Inc.',
-    agent: 'Sarah Johnson',
-    amount: 8700,
-    date: '2025-04-03',
-    status: 'open',
-  },
-  {
-    id: '3',
-    client: 'Global Logistics',
-    agent: 'Michael Brown',
-    amount: 15200,
-    date: '2025-04-05',
-    status: 'open',
-  },
-  {
-    id: '4',
-    client: 'Pinnacle Realty',
-    agent: 'Emma Wilson',
-    amount: 9300,
-    date: '2025-04-07',
-    status: 'open',
-  },
-  {
-    id: '5',
-    client: 'Northwest Retail',
-    agent: 'James Taylor',
-    amount: 6800,
-    date: '2025-04-09',
-    status: 'open',
-  },
-];
-
-export const closedInquiries: Inquiry[] = [
-  {
-    id: '6',
-    client: 'Summit Software',
-    agent: 'Alex Turner',
-    amount: 11200,
-    date: '2025-03-25',
-    status: 'closed',
-  },
-  {
-    id: '7',
-    client: 'Coastal Properties',
-    agent: 'Linda Parker',
-    amount: 7300,
-    date: '2025-03-28',
-    status: 'closed',
-  },
-  {
-    id: '8',
-    client: 'River Media Group',
-    agent: 'Robert Davis',
-    amount: 9800,
-    date: '2025-03-30',
-    status: 'closed',
-  },
-  {
-    id: '9',
-    client: 'Horizon Health',
-    agent: 'Jennifer Lopez',
-    amount: 13500,
-    date: '2025-04-02',
-    status: 'closed',
-  },
-  {
-    id: '10',
-    client: 'Evergreen Solutions',
-    agent: 'Thomas Wilson',
-    amount: 8200,
-    date: '2025-04-04',
-    status: 'closed',
-  },
-];
-
-// Export the commissions data and ticket data
-export { mockCommissionsData, mockTickets };
+// Mock data for Top Customers chart
+export const topCustomersData: TopCustomerData[] = Array.from({ length: 5 }, () => ({
+  name: faker.company.name(),
+  value: faker.number.int({ min: 60000, max: 220000 }),
+}));

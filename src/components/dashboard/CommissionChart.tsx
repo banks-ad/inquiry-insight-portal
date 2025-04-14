@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 
 interface ChartData {
   name: string;
+  recurring: number;
   spiff: number;
   nonRecurring: number;
   adjustments: number;
@@ -35,6 +36,7 @@ interface CommissionChartProps {
 
 const CommissionChart: React.FC<CommissionChartProps> = ({ data }) => {
   const [selectedTypes, setSelectedTypes] = useState({
+    recurring: true,
     spiff: true,
     nonRecurring: true,
     adjustments: true
@@ -46,8 +48,6 @@ const CommissionChart: React.FC<CommissionChartProps> = ({ data }) => {
       [type]: !prev[type]
     }));
   };
-
-  const selectedTypesCount = Object.values(selectedTypes).filter(Boolean).length;
 
   return (
     <Card className="shadow-sm">
@@ -63,6 +63,12 @@ const CommissionChart: React.FC<CommissionChartProps> = ({ data }) => {
           <DropdownMenuContent align="end" className="w-[200px]">
             <DropdownMenuLabel>Commission Types</DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuCheckboxItem
+              checked={selectedTypes.recurring}
+              onCheckedChange={() => handleTypeToggle('recurring')}
+            >
+              Recurring
+            </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem
               checked={selectedTypes.spiff}
               onCheckedChange={() => handleTypeToggle('spiff')}
@@ -105,6 +111,15 @@ const CommissionChart: React.FC<CommissionChartProps> = ({ data }) => {
                 formatter={(value: number) => [`$${value.toLocaleString()}`, undefined]}
               />
               <Legend />
+              {selectedTypes.recurring && (
+                <Bar 
+                  dataKey="recurring" 
+                  name="Recurring" 
+                  stackId="a" 
+                  fill="#22c55e" 
+                  radius={[4, 4, 0, 0]} 
+                />
+              )}
               {selectedTypes.spiff && (
                 <Bar 
                   dataKey="spiff" 
@@ -128,7 +143,7 @@ const CommissionChart: React.FC<CommissionChartProps> = ({ data }) => {
                   dataKey="adjustments" 
                   name="Adjustments" 
                   stackId="a" 
-                  fill="#22c55e" 
+                  fill="#3b82f6" 
                   radius={[4, 4, 0, 0]} 
                 />
               )}
