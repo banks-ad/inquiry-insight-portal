@@ -25,7 +25,8 @@ import {
   FileSpreadsheet,
   CalendarRange,
   Clock,
-  ExternalLink
+  ExternalLink,
+  TrendingUp
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -105,8 +106,8 @@ const AppSidebar = () => {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link to="/commissions" className="flex items-center">
-                    <DollarSign className="mr-2 h-5 w-5" />
+                  <Link to="/commission-forecast" className="flex items-center">
+                    <TrendingUp className="mr-2 h-5 w-5" />
                     <span>Commission Forecast</span>
                   </Link>
                 </SidebarMenuButton>
