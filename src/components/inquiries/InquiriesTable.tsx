@@ -91,7 +91,7 @@ const InquiriesTable: React.FC<InquiriesTableProps> = ({ inquiries }) => {
                 <TableCell colSpan={5} className="text-center py-4">
                   {searchQuery ? 'No matching inquiries found' : 'No inquiries found'}
                 </TableCell>
-              </TableCell>
+              </TableRow>
             )}
           </TableBody>
         </Table>
