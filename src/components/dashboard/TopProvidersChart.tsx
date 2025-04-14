@@ -11,11 +11,7 @@ import {
   Legend, 
   ResponsiveContainer 
 } from 'recharts';
-
-interface ProviderData {
-  provider: string;
-  grossCommission: number;
-}
+import { ProviderData } from '@/data/mockData';
 
 interface TopProvidersChartProps {
   data: ProviderData[];

@@ -11,11 +11,7 @@ import {
   Legend, 
   ResponsiveContainer 
 } from 'recharts';
-
-interface CustomerData {
-  customer: string;
-  grossCommission: number;
-}
+import { CustomerData } from '@/data/mockData';
 
 interface TopCustomersChartProps {
   data: CustomerData[];

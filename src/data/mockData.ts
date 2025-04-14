@@ -1,16 +1,8 @@
+
 import { faker } from '@faker-js/faker';
 
-interface TopProviderData {
-  name: string;
-  value: number;
-}
-
-interface TopCustomerData {
-  name: string;
-  value: number;
-}
-
-interface ChartData {
+// Chart data interface
+export interface ChartData {
   name: string;
   spiff: number;
   nonRecurring: number;
@@ -18,6 +10,29 @@ interface ChartData {
   recurring: number;
 }
 
+// Provider data interface for chart
+export interface ProviderData {
+  provider: string;
+  grossCommission: number;
+}
+
+// Customer data interface for chart
+export interface CustomerData {
+  customer: string;
+  grossCommission: number;
+}
+
+// Inquiry interface
+export interface Inquiry {
+  id: string;
+  client: string;
+  agent: string;
+  amount: number;
+  date: string;
+  status: 'open' | 'closed';
+}
+
+// Commission chart data
 export const commissionChartData: ChartData[] = [
   {
     name: "Jan",
@@ -64,13 +79,33 @@ export const commissionChartData: ChartData[] = [
 ];
 
 // Mock data for Top Providers chart
-export const topProvidersData: TopProviderData[] = Array.from({ length: 5 }, () => ({
-  name: faker.company.name(),
-  value: faker.number.int({ min: 50000, max: 200000 }),
+export const topProvidersData: ProviderData[] = Array.from({ length: 5 }, () => ({
+  provider: faker.company.name(),
+  grossCommission: faker.number.int({ min: 50000, max: 200000 }),
 }));
 
 // Mock data for Top Customers chart
-export const topCustomersData: TopCustomerData[] = Array.from({ length: 5 }, () => ({
-  name: faker.company.name(),
-  value: faker.number.int({ min: 60000, max: 220000 }),
+export const topCustomersData: CustomerData[] = Array.from({ length: 5 }, () => ({
+  customer: faker.company.name(),
+  grossCommission: faker.number.int({ min: 60000, max: 220000 }),
+}));
+
+// Mock inquiries
+export const mockInquiries: Inquiry[] = Array.from({ length: 10 }, () => ({
+  id: faker.string.uuid(),
+  client: faker.company.name(),
+  agent: faker.person.fullName(),
+  amount: faker.number.int({ min: 2000, max: 15000 }),
+  date: faker.date.recent({ days: 30 }).toLocaleDateString(),
+  status: 'open',
+}));
+
+// Closed inquiries
+export const closedInquiries: Inquiry[] = Array.from({ length: 15 }, () => ({
+  id: faker.string.uuid(),
+  client: faker.company.name(),
+  agent: faker.person.fullName(),
+  amount: faker.number.int({ min: 2000, max: 15000 }),
+  date: faker.date.recent({ days: 60 }).toLocaleDateString(),
+  status: 'closed',
 }));
