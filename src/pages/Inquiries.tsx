@@ -17,16 +17,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 const InquiriesPage = () => {
   // Combine both inquiry datasets
   const allInquiries = [...mockInquiries, ...closedInquiries];
-  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [statusFilter, setStatusFilter] = useState<"All" | "Open" | "Closed">("All");
   
   // Filter inquiries based on status
-  const filteredInquiries = statusFilter === "all" 
+  const filteredInquiries = statusFilter === "All" 
     ? allInquiries 
     : allInquiries.filter(inquiry => inquiry.status === statusFilter);
 
   // Count of open and closed inquiries
-  const openInquiriesCount = allInquiries.filter(inquiry => inquiry.status === 'open').length;
-  const closedInquiriesCount = allInquiries.filter(inquiry => inquiry.status === 'closed').length;
+  const openInquiriesCount = allInquiries.filter(inquiry => inquiry.status === "Open").length;
+  const closedInquiriesCount = allInquiries.filter(inquiry => inquiry.status === "Closed").length;
 
   return (
     <DashboardLayout>
@@ -58,11 +58,11 @@ const InquiriesPage = () => {
         </div>
 
         <div className="mb-6 flex justify-between items-center">
-          <Tabs defaultValue="all" onValueChange={setStatusFilter}>
+          <Tabs defaultValue="All" onValueChange={(value) => setStatusFilter(value as "All" | "Open" | "Closed")}>
             <TabsList>
-              <TabsTrigger value="all">All Inquiries</TabsTrigger>
-              <TabsTrigger value="open">Open</TabsTrigger>
-              <TabsTrigger value="closed">Closed</TabsTrigger>
+              <TabsTrigger value="All">All Inquiries</TabsTrigger>
+              <TabsTrigger value="Open">Open</TabsTrigger>
+              <TabsTrigger value="Closed">Closed</TabsTrigger>
             </TabsList>
           </Tabs>
 
@@ -88,3 +88,4 @@ const InquiriesPage = () => {
 };
 
 export default InquiriesPage;
+
