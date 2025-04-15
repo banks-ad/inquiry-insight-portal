@@ -206,6 +206,7 @@ export interface CommissionEntry {
   activatedDate?: string;
   expectedCommissionDate?: string;
   adjustmentType?: string;
+  type?: string;
 }
 
 // Mock commission data

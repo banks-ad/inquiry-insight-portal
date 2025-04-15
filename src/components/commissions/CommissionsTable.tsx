@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import {
   Table,
@@ -26,7 +27,13 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { Download, Search, Filter } from 'lucide-react';
-import { mockCommissionsData, CommissionEntry } from '@/data/mockCommissionsData';
+import { 
+  mockCommissionsData, 
+  CommissionEntry, 
+  newAccountsData, 
+  lostAccountsData, 
+  accountVarianceData 
+} from '@/data/mockData';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
 
