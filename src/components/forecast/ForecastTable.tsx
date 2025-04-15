@@ -12,10 +12,15 @@ import { mockForecastData } from "@/data/mockForecastData";
 
 interface ForecastTableProps {
   months: number;
+  churnRate: number;
 }
 
-const ForecastTable: React.FC<ForecastTableProps> = ({ months }) => {
-  const data = mockForecastData.slice(0, months);
+const ForecastTable: React.FC<ForecastTableProps> = ({ months, churnRate }) => {
+  const data = mockForecastData.slice(0, months).map(item => ({
+    ...item,
+    expectedCommissions: item.expectedCommissions * (1 - churnRate / 100),
+    pendingCommissions: item.pendingCommissions * (1 - churnRate / 100)
+  }));
 
   const totals = data.reduce((acc, curr) => ({
     paidCommissions: acc.paidCommissions + curr.paidCommissions,
@@ -73,3 +78,4 @@ const ForecastTable: React.FC<ForecastTableProps> = ({ months }) => {
 };
 
 export default ForecastTable;
+

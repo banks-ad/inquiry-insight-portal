@@ -15,10 +15,15 @@ import { mockForecastData, ForecastData } from '@/data/mockForecastData';
 
 interface ForecastChartProps {
   months: number;
+  churnRate: number;
 }
 
-const ForecastChart: React.FC<ForecastChartProps> = ({ months }) => {
-  const data = mockForecastData.slice(0, months);
+const ForecastChart: React.FC<ForecastChartProps> = ({ months, churnRate }) => {
+  const data = mockForecastData.slice(0, months).map(item => ({
+    ...item,
+    expectedCommissions: item.expectedCommissions * (1 - churnRate / 100),
+    pendingCommissions: item.pendingCommissions * (1 - churnRate / 100)
+  }));
 
   return (
     <Card>
@@ -63,3 +68,4 @@ const ForecastChart: React.FC<ForecastChartProps> = ({ months }) => {
 };
 
 export default ForecastChart;
+
