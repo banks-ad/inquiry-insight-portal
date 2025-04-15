@@ -1,3 +1,4 @@
+
 import { faker } from '@faker-js/faker';
 
 // Chart data interface
@@ -253,7 +254,7 @@ const getRandomCommissionType = () => {
   return types[0];
 };
 
-// Mock data for new accounts - increased to 15 entries
+// Mock data for new accounts
 export const newAccountsData = Array.from({ length: 15 }, () => ({
   id: faker.string.uuid(),
   cycle: '2025-04',
@@ -270,7 +271,7 @@ export const newAccountsData = Array.from({ length: 15 }, () => ({
   expectedCommissionDate: faker.date.future().toISOString().split('T')[0]
 }));
 
-// Mock data for lost accounts - increased to 15 entries
+// Mock data for lost accounts
 export const lostAccountsData = Array.from({ length: 15 }, () => ({
   id: faker.string.uuid(),
   cycle: '2025-04',
@@ -286,7 +287,7 @@ export const lostAccountsData = Array.from({ length: 15 }, () => ({
   status: 'Inactive'
 }));
 
-// Mock data for account variance - increased to 15 entries
+// Mock data for account variance
 export const accountVarianceData: AccountVariance[] = Array.from({ length: 15 }, () => ({
   id: faker.string.uuid(),
   cycle: '2025-04',
