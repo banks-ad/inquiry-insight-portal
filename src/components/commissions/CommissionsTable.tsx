@@ -48,11 +48,12 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProvider, setSelectedProvider] = useState<string>('all');
+  const [selectedTypes, setSelectedTypes] = useState<string[]>(['Recurring', 'Non-recurring', 'SPIFF', 'Adjustment']);
   
   const uniqueProviders = Array.from(
     new Set(mockCommissionsData.map(item => item.provider))
   ).sort();
-  
+
   const filteredData = React.useMemo(() => {
     let data;
     if (type === 'new-accounts') {
@@ -74,14 +75,15 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
             value.toLowerCase().includes(searchTerm.toLowerCase())
         );
       const matchesProvider = selectedProvider === 'all' || item.provider === selectedProvider;
+      const matchesType = type === 'commissions' ? selectedTypes.includes(item.commissionType || '') : true;
       
       if (type === 'new-accounts' || type === 'lost-accounts' || type === 'account-variance') {
         return matchesCycle && matchesSearch && matchesProvider;
       }
       
-      return item.type === type && matchesCycle && matchesSearch && matchesProvider;
+      return item.type === type && matchesCycle && matchesSearch && matchesProvider && matchesType;
     });
-  }, [type, cycle, searchTerm, selectedProvider]);
+  }, [type, cycle, searchTerm, selectedProvider, selectedTypes]);
 
   const totalNetBilled = filteredData.reduce((sum, item) => sum + (item.netBilled || 0), 0);
   const totalGrossCommission = filteredData.reduce((sum, item) => sum + item.amount, 0);
@@ -500,6 +502,27 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
               </SelectContent>
             </Select>
           </div>
+
+          {type === 'commissions' && (
+            <div className="flex flex-wrap gap-2">
+              {['Recurring', 'Non-recurring', 'SPIFF', 'Adjustment'].map((commType) => (
+                <Button
+                  key={commType}
+                  variant={selectedTypes.includes(commType) ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => {
+                    setSelectedTypes(prev => 
+                      prev.includes(commType)
+                        ? prev.filter(t => t !== commType)
+                        : [...prev, commType]
+                    );
+                  }}
+                >
+                  {commType}
+                </Button>
+              ))}
+            </div>
+          )}
         </div>
         
         <div className="flex justify-end">
