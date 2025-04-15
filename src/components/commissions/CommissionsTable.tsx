@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import {
   Table,
@@ -121,7 +120,7 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
     } else if (type === 'lost-accounts') {
       headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", "Gross Commission", "Rate", "Type"];
     } else if (type === 'account-variance') {
-      headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", "Gross Commission", "Rate", "Type"];
+      headers = ["Current Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", "Gross Commission", "Rate", "Type", "Variance vs. Last Month", "Variance vs. 2 Months Ago", "Variance vs. 3 Months Ago"];
     }
 
     const csvRows = filteredData.map(row => {
@@ -210,7 +209,10 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
           (row.netBilled || 0).toFixed(2),
           row.amount.toFixed(2),
           row.rate || '',
-          row.commissionType || type
+          row.commissionType || type,
+          row.varianceLastMonth.toFixed(2),
+          row.varianceTwoMonths.toFixed(2),
+          row.varianceThreeMonths.toFixed(2)
         ];
       }
       
@@ -321,7 +323,7 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
     } else if (type === 'account-variance') {
       return (
         <TableRow>
-          <TableHead>Cycle</TableHead>
+          <TableHead>Current Cycle</TableHead>
           <TableHead>Provider</TableHead>
           <TableHead>Product</TableHead>
           {!isMobile && <TableHead>Account Number</TableHead>}
@@ -330,6 +332,9 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
           <TableHead className="text-right">Gross Commission</TableHead>
           {!isMobile && <TableHead>Rate</TableHead>}
           {!isMobile && <TableHead>Type</TableHead>}
+          <TableHead className="text-right">Variance vs. Last Month</TableHead>
+          {!isMobile && <TableHead className="text-right">Variance vs. 2 Months Ago</TableHead>}
+          {!isMobile && <TableHead className="text-right">Variance vs. 3 Months Ago</TableHead>}
         </TableRow>
       );
     }
@@ -446,7 +451,20 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
           {!isMobile && <TableCell className="text-right">${(row.netBilled || 0).toFixed(2)}</TableCell>}
           <TableCell className="text-right">${row.amount.toFixed(2)}</TableCell>
           {!isMobile && <TableCell>{row.rate || 'N/A'}</TableCell>}
-          {!isMobile && <TableCell>{row.commissionType || type}</TableCell>}
+          {!isMobile && <TableCell>{row.type}</TableCell>}
+          <TableCell className={`text-right ${row.varianceLastMonth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            ${row.varianceLastMonth.toFixed(2)}
+          </TableCell>
+          {!isMobile && (
+            <TableCell className={`text-right ${row.varianceTwoMonths >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              ${row.varianceTwoMonths.toFixed(2)}
+            </TableCell>
+          )}
+          {!isMobile && (
+            <TableCell className={`text-right ${row.varianceThreeMonths >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              ${row.varianceThreeMonths.toFixed(2)}
+            </TableCell>
+          )}
         </TableRow>
       );
     }
