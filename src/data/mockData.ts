@@ -206,7 +206,6 @@ export interface CommissionEntry {
   activatedDate?: string;
   expectedCommissionDate?: string;
   adjustmentType?: string;
-  lastCommission?: string;
 }
 
 // Mock commission data
@@ -217,13 +216,13 @@ export const mockCommissionsData: CommissionEntry[] = Array.from({ length: 50 },
   product: faker.commerce.productName(),
   accountNumber: faker.finance.accountNumber(),
   customer: faker.company.name(),
-  netBilled: faker.number.float({ min: 1000, max: 50000, precision: 0.01 }),
-  amount: faker.number.float({ min: 100, max: 5000, precision: 0.01 }),
-  rate: faker.number.float({ min: 0.01, max: 0.15, precision: 0.001 }).toFixed(3),
+  netBilled: faker.number.float({ min: 1000, max: 50000, fractionDigits: 2 }),
+  amount: faker.number.float({ min: 100, max: 5000, fractionDigits: 2 }),
+  rate: faker.number.float({ min: 0.01, max: 0.15, fractionDigits: 3 }).toFixed(3),
   type: faker.helpers.arrayElement(['commissions', 'spiffs', 'adjustments', 'disputes', 'pending']),
   status: faker.helpers.arrayElement(['Paid', 'Pending', 'Disputed', 'Approved', 'Adjusted']),
-  paidCommission: faker.number.float({ min: 0, max: 5000, precision: 0.01 }),
-  expectedCommission: faker.number.float({ min: 100, max: 5000, precision: 0.01 }),
+  paidCommission: faker.number.float({ min: 0, max: 5000, fractionDigits: 2 }),
+  expectedCommission: faker.number.float({ min: 100, max: 5000, fractionDigits: 2 }),
   ticketNumber: faker.string.alphanumeric(8),
   inquiryDate: faker.date.recent().toISOString().split('T')[0],
   closedDate: faker.date.recent().toISOString().split('T')[0],
@@ -248,9 +247,9 @@ export const newAccountsData = Array.from({ length: 5 }, () => ({
   product: faker.commerce.productName(),
   accountNumber: faker.finance.accountNumber(),
   customer: faker.company.name(),
-  netBilled: faker.number.float({ min: 1000, max: 50000, precision: 0.01 }),
-  amount: faker.number.float({ min: 100, max: 5000, precision: 0.01 }),
-  rate: faker.number.float({ min: 0.01, max: 0.15, precision: 0.001 }).toFixed(3),
+  netBilled: faker.number.float({ min: 1000, max: 50000, fractionDigits: 2 }),
+  amount: faker.number.float({ min: 100, max: 5000, fractionDigits: 2 }),
+  rate: faker.number.float({ min: 0.01, max: 0.15, fractionDigits: 3 }).toFixed(3),
   type: 'New Account',
   status: 'Active'
 }));
@@ -264,9 +263,9 @@ export const lostAccountsData = Array.from({ length: 5 }, () => ({
   accountNumber: faker.finance.accountNumber(),
   customer: faker.company.name(),
   lastCommission: faker.date.recent().toISOString().split('T')[0],
-  netBilled: faker.number.float({ min: 1000, max: 50000, precision: 0.01 }),
-  amount: faker.number.float({ min: 100, max: 5000, precision: 0.01 }),
-  rate: faker.number.float({ min: 0.01, max: 0.15, precision: 0.001 }).toFixed(3),
+  netBilled: faker.number.float({ min: 1000, max: 50000, fractionDigits: 2 }),
+  amount: faker.number.float({ min: 100, max: 5000, fractionDigits: 2 }),
+  rate: faker.number.float({ min: 0.01, max: 0.15, fractionDigits: 3 }).toFixed(3),
   type: 'Lost Account',
   status: 'Inactive'
 }));
@@ -279,12 +278,12 @@ export const accountVarianceData: AccountVariance[] = Array.from({ length: 5 }, 
   product: faker.commerce.productName(),
   accountNumber: faker.finance.accountNumber(),
   customer: faker.company.name(),
-  netBilled: faker.number.float({ min: 1000, max: 50000, precision: 0.01 }),
-  amount: faker.number.float({ min: 100, max: 5000, precision: 0.01 }),
-  rate: faker.number.float({ min: 0.01, max: 0.15, precision: 0.001 }).toFixed(3),
+  netBilled: faker.number.float({ min: 1000, max: 50000, fractionDigits: 2 }),
+  amount: faker.number.float({ min: 100, max: 5000, fractionDigits: 2 }),
+  rate: faker.number.float({ min: 0.01, max: 0.15, fractionDigits: 3 }).toFixed(3),
   type: 'Active',
   status: 'Active',
-  varianceLastMonth: faker.number.float({ min: -1000, max: 1000, precision: 0.01 }),
-  varianceTwoMonths: faker.number.float({ min: -1000, max: 1000, precision: 0.01 }),
-  varianceThreeMonths: faker.number.float({ min: -1000, max: 1000, precision: 0.01 })
+  varianceLastMonth: faker.number.float({ min: -1000, max: 1000, fractionDigits: 2 }),
+  varianceTwoMonths: faker.number.float({ min: -1000, max: 1000, fractionDigits: 2 }),
+  varianceThreeMonths: faker.number.float({ min: -1000, max: 1000, fractionDigits: 2 })
 }));

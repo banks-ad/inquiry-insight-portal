@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import {
   Table,
@@ -32,7 +31,7 @@ import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface CommissionsTableProps {
-  type: 'commissions' | 'spiffs' | 'adjustments' | 'disputes' | 'pending';
+  type: 'commissions' | 'spiffs' | 'adjustments' | 'disputes' | 'pending' | 'new-accounts' | 'lost-accounts' | 'account-variance';
   cycle: string;
 }
 
@@ -44,12 +43,10 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProvider, setSelectedProvider] = useState<string>('all');
   
-  // Get unique providers from the data for filtering
   const uniqueProviders = Array.from(
     new Set(mockCommissionsData.map(item => item.provider))
   ).sort();
   
-  // Filter data based on type, cycle, search term, and selected provider
   const filteredData = mockCommissionsData.filter(
     (item) => {
       const matchesType = item.type === type;
@@ -66,18 +63,15 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
     }
   );
 
-  // Calculate totals for the filtered data
   const totalNetBilled = filteredData.reduce((sum, item) => sum + (item.netBilled || 0), 0);
   const totalGrossCommission = filteredData.reduce((sum, item) => sum + item.amount, 0);
 
-  // Calculate pagination
   const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
   const paginatedData = filteredData.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
 
-  // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, selectedProvider, type, cycle]);
@@ -88,7 +82,6 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
       return;
     }
 
-    // Create CSV content based on the type of table
     let headers: string[] = [];
     
     if (type === 'commissions' || type === 'spiffs') {
@@ -102,6 +95,12 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
                  "Activated Date", "Expected Commission Date"];
     } else if (type === 'adjustments') {
       headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Amount", "Adjustment Type", "Status"];
+    } else if (type === 'new-accounts') {
+      headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", "Gross Commission", "Rate", "Type"];
+    } else if (type === 'lost-accounts') {
+      headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", "Gross Commission", "Rate", "Type"];
+    } else if (type === 'account-variance') {
+      headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", "Gross Commission", "Rate", "Type"];
     }
 
     const csvRows = filteredData.map(row => {
@@ -156,6 +155,42 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
           row.adjustmentType || 'Manual',
           row.status
         ];
+      } else if (type === 'new-accounts') {
+        values = [
+          row.cycle,
+          `"${row.provider}"`,
+          `"${row.product}"`,
+          row.accountNumber || '',
+          `"${row.customer}"`,
+          (row.netBilled || 0).toFixed(2),
+          row.amount.toFixed(2),
+          row.rate || '',
+          row.commissionType || type
+        ];
+      } else if (type === 'lost-accounts') {
+        values = [
+          row.cycle,
+          `"${row.provider}"`,
+          `"${row.product}"`,
+          row.accountNumber || '',
+          `"${row.customer}"`,
+          (row.netBilled || 0).toFixed(2),
+          row.amount.toFixed(2),
+          row.rate || '',
+          row.commissionType || type
+        ];
+      } else if (type === 'account-variance') {
+        values = [
+          row.cycle,
+          `"${row.provider}"`,
+          `"${row.product}"`,
+          row.accountNumber || '',
+          `"${row.customer}"`,
+          (row.netBilled || 0).toFixed(2),
+          row.amount.toFixed(2),
+          row.rate || '',
+          row.commissionType || type
+        ];
       }
       
       return values.join(',');
@@ -163,7 +198,6 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
 
     const csvContent = [headers.join(','), ...csvRows].join('\n');
 
-    // Create a Blob and download link
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -177,7 +211,6 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
     toast.success("Download started");
   };
 
-  // Render different table structures based on the type
   const renderTableHeaders = () => {
     if (type === 'commissions' || type === 'spiffs') {
       return (
@@ -234,6 +267,48 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
           <TableHead className="text-right">Amount</TableHead>
           {!isMobile && <TableHead>Adjustment Type</TableHead>}
           <TableHead>Status</TableHead>
+        </TableRow>
+      );
+    } else if (type === 'new-accounts') {
+      return (
+        <TableRow>
+          <TableHead>Cycle</TableHead>
+          <TableHead>Provider</TableHead>
+          <TableHead>Product</TableHead>
+          {!isMobile && <TableHead>Account Number</TableHead>}
+          <TableHead>Customer</TableHead>
+          {!isMobile && <TableHead className="text-right">Net Billed</TableHead>}
+          <TableHead className="text-right">Gross Commission</TableHead>
+          {!isMobile && <TableHead>Rate</TableHead>}
+          {!isMobile && <TableHead>Type</TableHead>}
+        </TableRow>
+      );
+    } else if (type === 'lost-accounts') {
+      return (
+        <TableRow>
+          <TableHead>Cycle</TableHead>
+          <TableHead>Provider</TableHead>
+          <TableHead>Product</TableHead>
+          {!isMobile && <TableHead>Account Number</TableHead>}
+          <TableHead>Customer</TableHead>
+          {!isMobile && <TableHead className="text-right">Net Billed</TableHead>}
+          <TableHead className="text-right">Gross Commission</TableHead>
+          {!isMobile && <TableHead>Rate</TableHead>}
+          {!isMobile && <TableHead>Type</TableHead>}
+        </TableRow>
+      );
+    } else if (type === 'account-variance') {
+      return (
+        <TableRow>
+          <TableHead>Cycle</TableHead>
+          <TableHead>Provider</TableHead>
+          <TableHead>Product</TableHead>
+          {!isMobile && <TableHead>Account Number</TableHead>}
+          <TableHead>Customer</TableHead>
+          {!isMobile && <TableHead className="text-right">Net Billed</TableHead>}
+          <TableHead className="text-right">Gross Commission</TableHead>
+          {!isMobile && <TableHead>Rate</TableHead>}
+          {!isMobile && <TableHead>Type</TableHead>}
         </TableRow>
       );
     }
@@ -311,6 +386,48 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
           </TableCell>
         </TableRow>
       );
+    } else if (type === 'new-accounts') {
+      return (
+        <TableRow key={row.id}>
+          <TableCell>{row.cycle}</TableCell>
+          <TableCell>{row.provider}</TableCell>
+          <TableCell>{row.product}</TableCell>
+          {!isMobile && <TableCell>{row.accountNumber || 'N/A'}</TableCell>}
+          <TableCell>{row.customer}</TableCell>
+          {!isMobile && <TableCell className="text-right">${(row.netBilled || 0).toFixed(2)}</TableCell>}
+          <TableCell className="text-right">${row.amount.toFixed(2)}</TableCell>
+          {!isMobile && <TableCell>{row.rate || 'N/A'}</TableCell>}
+          {!isMobile && <TableCell>{row.commissionType || type}</TableCell>}
+        </TableRow>
+      );
+    } else if (type === 'lost-accounts') {
+      return (
+        <TableRow key={row.id}>
+          <TableCell>{row.cycle}</TableCell>
+          <TableCell>{row.provider}</TableCell>
+          <TableCell>{row.product}</TableCell>
+          {!isMobile && <TableCell>{row.accountNumber || 'N/A'}</TableCell>}
+          <TableCell>{row.customer}</TableCell>
+          {!isMobile && <TableCell className="text-right">${(row.netBilled || 0).toFixed(2)}</TableCell>}
+          <TableCell className="text-right">${row.amount.toFixed(2)}</TableCell>
+          {!isMobile && <TableCell>{row.rate || 'N/A'}</TableCell>}
+          {!isMobile && <TableCell>{row.commissionType || type}</TableCell>}
+        </TableRow>
+      );
+    } else if (type === 'account-variance') {
+      return (
+        <TableRow key={row.id}>
+          <TableCell>{row.cycle}</TableCell>
+          <TableCell>{row.provider}</TableCell>
+          <TableCell>{row.product}</TableCell>
+          {!isMobile && <TableCell>{row.accountNumber || 'N/A'}</TableCell>}
+          <TableCell>{row.customer}</TableCell>
+          {!isMobile && <TableCell className="text-right">${(row.netBilled || 0).toFixed(2)}</TableCell>}
+          <TableCell className="text-right">${row.amount.toFixed(2)}</TableCell>
+          {!isMobile && <TableCell>{row.rate || 'N/A'}</TableCell>}
+          {!isMobile && <TableCell>{row.commissionType || type}</TableCell>}
+        </TableRow>
+      );
     }
   };
 
@@ -318,7 +435,6 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="flex flex-col sm:flex-row gap-2 sm:w-2/3">
-          {/* Search Input */}
           <div className="relative w-full sm:w-64">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
@@ -329,7 +445,6 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
             />
           </div>
           
-          {/* Provider Filter */}
           <div className="w-full sm:w-64">
             <Select value={selectedProvider} onValueChange={setSelectedProvider}>
               <SelectTrigger>
@@ -361,7 +476,6 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
         </div>
       </div>
       
-      {/* Table Stats */}
       <div className="text-sm text-muted-foreground">
         Showing {paginatedData.length} of {filteredData.length} entries
       </div>
@@ -403,7 +517,6 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
         </Table>
       </div>
       
-      {/* Pagination */}
       {totalPages > 1 && (
         <Pagination>
           <PaginationContent>
@@ -417,7 +530,6 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
               let pageNumber: number;
               
-              // Logic to display correct page numbers based on current page
               if (totalPages <= 5) {
                 pageNumber = i + 1;
               } else if (currentPage <= 3) {
@@ -453,7 +565,6 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
   );
 };
 
-// Helper function to get status badge styles
 function getStatusStyles(status: string): string {
   switch (status) {
     case 'Paid':
