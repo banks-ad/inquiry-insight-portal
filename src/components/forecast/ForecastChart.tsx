@@ -11,7 +11,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { mockForecastData, ForecastData } from '@/data/mockForecastData';
+import { mockForecastData } from '@/data/mockForecastData';
 
 interface ForecastChartProps {
   months: number;
@@ -22,7 +22,10 @@ const ForecastChart: React.FC<ForecastChartProps> = ({ months, churnRate }) => {
   const data = mockForecastData.slice(0, months).map(item => ({
     ...item,
     expectedCommissions: item.expectedCommissions * (1 - churnRate / 100),
-    pendingCommissions: item.pendingCommissions * (1 - churnRate / 100)
+    pendingCommissions: item.pendingCommissions * (1 - churnRate / 100),
+    total: item.paidCommissions + 
+           (item.expectedCommissions * (1 - churnRate / 100)) + 
+           (item.pendingCommissions * (1 - churnRate / 100))
   }));
 
   return (
@@ -39,24 +42,34 @@ const ForecastChart: React.FC<ForecastChartProps> = ({ months, churnRate }) => {
               <YAxis tickFormatter={(value) => `$${value / 1000}k`} />
               <Tooltip 
                 formatter={(value: number) => [`$${value.toLocaleString()}`, undefined]}
+                labelFormatter={(label) => `Month: ${label}`}
               />
               <Legend />
               <Bar
-                dataKey="paidCommissions"
-                name="Paid Commissions"
-                fill="#22c55e"
-                radius={[4, 4, 0, 0]}
+                dataKey="pendingCommissions"
+                name="Pending Commissions"
+                stackId="commissions"
+                fill="#f59e0b"
+                radius={[0, 0, 0, 0]}
               />
               <Bar
                 dataKey="expectedCommissions"
                 name="Expected Commissions"
+                stackId="commissions"
                 fill="#3b82f6"
-                radius={[4, 4, 0, 0]}
+                radius={[0, 0, 0, 0]}
               />
               <Bar
-                dataKey="pendingCommissions"
-                name="Pending Commissions"
-                fill="#f59e0b"
+                dataKey="paidCommissions"
+                name="Paid Commissions"
+                stackId="commissions"
+                fill="#22c55e"
+                radius={[0, 0, 0, 0]}
+              />
+              <Bar
+                dataKey="total"
+                name="Total"
+                fill="#6b7280"
                 radius={[4, 4, 0, 0]}
               />
             </BarChart>
@@ -68,4 +81,3 @@ const ForecastChart: React.FC<ForecastChartProps> = ({ months, churnRate }) => {
 };
 
 export default ForecastChart;
-
