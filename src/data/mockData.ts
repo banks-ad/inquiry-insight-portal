@@ -250,7 +250,7 @@ export const newAccountsData = Array.from({ length: 5 }, () => ({
   netBilled: faker.number.float({ min: 1000, max: 50000, fractionDigits: 2 }),
   amount: faker.number.float({ min: 100, max: 5000, fractionDigits: 2 }),
   rate: faker.number.float({ min: 0.01, max: 0.15, fractionDigits: 3 }).toFixed(3),
-  type: 'New Account',
+  type: 'new-accounts',
   status: 'Active'
 }));
 
@@ -266,7 +266,7 @@ export const lostAccountsData = Array.from({ length: 5 }, () => ({
   netBilled: faker.number.float({ min: 1000, max: 50000, fractionDigits: 2 }),
   amount: faker.number.float({ min: 100, max: 5000, fractionDigits: 2 }),
   rate: faker.number.float({ min: 0.01, max: 0.15, fractionDigits: 3 }).toFixed(3),
-  type: 'Lost Account',
+  type: 'lost-accounts',
   status: 'Inactive'
 }));
 
@@ -281,7 +281,7 @@ export const accountVarianceData: AccountVariance[] = Array.from({ length: 5 }, 
   netBilled: faker.number.float({ min: 1000, max: 50000, fractionDigits: 2 }),
   amount: faker.number.float({ min: 100, max: 5000, fractionDigits: 2 }),
   rate: faker.number.float({ min: 0.01, max: 0.15, fractionDigits: 3 }).toFixed(3),
-  type: 'Active',
+  type: 'account-variance',
   status: 'Active',
   varianceLastMonth: faker.number.float({ min: -1000, max: 1000, fractionDigits: 2 }),
   varianceTwoMonths: faker.number.float({ min: -1000, max: 1000, fractionDigits: 2 }),

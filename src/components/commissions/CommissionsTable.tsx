@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Table,
   TableBody,
@@ -47,9 +47,19 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
     new Set(mockCommissionsData.map(item => item.provider))
   ).sort();
   
-  const filteredData = mockCommissionsData.filter(
-    (item) => {
-      const matchesType = item.type === type;
+  const filteredData = React.useMemo(() => {
+    let data;
+    if (type === 'new-accounts') {
+      data = [...newAccountsData];
+    } else if (type === 'lost-accounts') {
+      data = [...lostAccountsData];
+    } else if (type === 'account-variance') {
+      data = [...accountVarianceData];
+    } else {
+      data = [...mockCommissionsData];
+    }
+    
+    return data.filter((item) => {
       const matchesCycle = item.cycle === cycle;
       const matchesSearch = searchTerm === '' || 
         Object.values(item).some(
@@ -59,9 +69,13 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
         );
       const matchesProvider = selectedProvider === 'all' || item.provider === selectedProvider;
       
-      return matchesType && matchesCycle && matchesSearch && matchesProvider;
-    }
-  );
+      if (type === 'new-accounts' || type === 'lost-accounts' || type === 'account-variance') {
+        return matchesCycle && matchesSearch && matchesProvider;
+      }
+      
+      return item.type === type && matchesCycle && matchesSearch && matchesProvider;
+    });
+  }, [type, cycle, searchTerm, selectedProvider]);
 
   const totalNetBilled = filteredData.reduce((sum, item) => sum + (item.netBilled || 0), 0);
   const totalGrossCommission = filteredData.reduce((sum, item) => sum + item.amount, 0);
