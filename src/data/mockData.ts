@@ -240,8 +240,21 @@ export interface AccountVariance extends CommissionEntry {
   varianceThreeMonths: number;
 }
 
-// Mock data for new accounts
-export const newAccountsData = Array.from({ length: 5 }, () => ({
+// Helper function to get random commission type with weighted distribution
+const getRandomCommissionType = () => {
+  const types = ['Recurring', 'SPIFF', 'Non-Recurring', 'Adjustments'];
+  const weights = [0.7, 0.1, 0.1, 0.1]; // 70% chance of Recurring
+  const random = Math.random();
+  let sum = 0;
+  for (let i = 0; i < weights.length; i++) {
+    sum += weights[i];
+    if (random < sum) return types[i];
+  }
+  return types[0];
+};
+
+// Mock data for new accounts - increased to 15 entries
+export const newAccountsData = Array.from({ length: 15 }, () => ({
   id: faker.string.uuid(),
   cycle: '2025-04',
   provider: faker.company.name(),
@@ -251,12 +264,14 @@ export const newAccountsData = Array.from({ length: 5 }, () => ({
   netBilled: faker.number.float({ min: 1000, max: 50000, fractionDigits: 2 }),
   amount: faker.number.float({ min: 100, max: 5000, fractionDigits: 2 }),
   rate: faker.number.float({ min: 0.01, max: 0.15, fractionDigits: 3 }).toFixed(3),
-  type: 'new-accounts',
-  status: 'Active'
+  type: getRandomCommissionType(),
+  status: 'Active',
+  activatedDate: faker.date.recent().toISOString().split('T')[0],
+  expectedCommissionDate: faker.date.future().toISOString().split('T')[0]
 }));
 
-// Mock data for lost accounts
-export const lostAccountsData = Array.from({ length: 5 }, () => ({
+// Mock data for lost accounts - increased to 15 entries
+export const lostAccountsData = Array.from({ length: 15 }, () => ({
   id: faker.string.uuid(),
   cycle: '2025-04',
   provider: faker.company.name(),
@@ -267,12 +282,12 @@ export const lostAccountsData = Array.from({ length: 5 }, () => ({
   netBilled: faker.number.float({ min: 1000, max: 50000, fractionDigits: 2 }),
   amount: faker.number.float({ min: 100, max: 5000, fractionDigits: 2 }),
   rate: faker.number.float({ min: 0.01, max: 0.15, fractionDigits: 3 }).toFixed(3),
-  type: 'lost-accounts',
+  type: getRandomCommissionType(),
   status: 'Inactive'
 }));
 
-// Mock data for account variance
-export const accountVarianceData: AccountVariance[] = Array.from({ length: 5 }, () => ({
+// Mock data for account variance - increased to 15 entries
+export const accountVarianceData: AccountVariance[] = Array.from({ length: 15 }, () => ({
   id: faker.string.uuid(),
   cycle: '2025-04',
   provider: faker.company.name(),
@@ -282,7 +297,7 @@ export const accountVarianceData: AccountVariance[] = Array.from({ length: 5 }, 
   netBilled: faker.number.float({ min: 1000, max: 50000, fractionDigits: 2 }),
   amount: faker.number.float({ min: 100, max: 5000, fractionDigits: 2 }),
   rate: faker.number.float({ min: 0.01, max: 0.15, fractionDigits: 3 }).toFixed(3),
-  type: 'account-variance',
+  type: getRandomCommissionType(),
   status: 'Active',
   varianceLastMonth: faker.number.float({ min: -1000, max: 1000, fractionDigits: 2 }),
   varianceTwoMonths: faker.number.float({ min: -1000, max: 1000, fractionDigits: 2 }),
