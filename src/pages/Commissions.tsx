@@ -64,6 +64,9 @@ const CommissionsPage = () => {
             <TabsTrigger value="adjustments">Adjustments</TabsTrigger>
             <TabsTrigger value="disputes">Disputes</TabsTrigger>
             <TabsTrigger value="pending">Pending</TabsTrigger>
+            <TabsTrigger value="new-accounts">New Accounts</TabsTrigger>
+            <TabsTrigger value="lost-accounts">Lost Accounts</TabsTrigger>
+            <TabsTrigger value="account-variance">Account Variance</TabsTrigger>
           </TabsList>
           
           <TabsContent value="commissions">
@@ -84,6 +87,18 @@ const CommissionsPage = () => {
           
           <TabsContent value="pending">
             <CommissionsTable type="pending" cycle={selectedCycle} />
+          </TabsContent>
+
+          <TabsContent value="new-accounts">
+            <CommissionsTable type="new-accounts" cycle={selectedCycle} />
+          </TabsContent>
+
+          <TabsContent value="lost-accounts">
+            <CommissionsTable type="lost-accounts" cycle={selectedCycle} />
+          </TabsContent>
+
+          <TabsContent value="account-variance">
+            <CommissionsTable type="account-variance" cycle={selectedCycle} />
           </TabsContent>
         </Tabs>
       </div>

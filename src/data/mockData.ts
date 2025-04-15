@@ -24,11 +24,15 @@ export interface CustomerData {
 // Inquiry interface
 export interface Inquiry {
   id: string;
-  client: string;
-  agent: string;
-  amount: number;
-  date: string;
-  status: 'open' | 'closed';
+  requestor: string;
+  submitDate: string;
+  ticketNumber: string;
+  subject: string;
+  customer: string;
+  provider: string;
+  expectedCommission: number;
+  status: 'Open' | 'Closed';
+  priority: 'High' | 'Medium' | 'Low';
 }
 
 // Commission chart data
@@ -180,3 +184,107 @@ export const closedInquiries = [
     priority: 'Medium'
   }
 ] as const;
+
+export interface CommissionEntry {
+  id: string;
+  cycle: string;
+  provider: string;
+  product: string;
+  accountNumber?: string;
+  customer: string;
+  netBilled?: number;
+  amount: number;
+  rate?: string;
+  commissionType?: string;
+  status: string;
+  paidCommission?: number;
+  expectedCommission?: number;
+  ticketNumber?: string;
+  inquiryDate?: string;
+  closedDate?: string;
+  orderNumber?: string;
+  activatedDate?: string;
+  expectedCommissionDate?: string;
+  adjustmentType?: string;
+  lastCommission?: string;
+}
+
+// Mock commission data
+export const mockCommissionsData: CommissionEntry[] = Array.from({ length: 50 }, (_, i) => ({
+  id: faker.string.uuid(),
+  cycle: '2025-04',
+  provider: faker.company.name(),
+  product: faker.commerce.productName(),
+  accountNumber: faker.finance.accountNumber(),
+  customer: faker.company.name(),
+  netBilled: faker.number.float({ min: 1000, max: 50000, precision: 0.01 }),
+  amount: faker.number.float({ min: 100, max: 5000, precision: 0.01 }),
+  rate: faker.number.float({ min: 0.01, max: 0.15, precision: 0.001 }).toFixed(3),
+  type: faker.helpers.arrayElement(['commissions', 'spiffs', 'adjustments', 'disputes', 'pending']),
+  status: faker.helpers.arrayElement(['Paid', 'Pending', 'Disputed', 'Approved', 'Adjusted']),
+  paidCommission: faker.number.float({ min: 0, max: 5000, precision: 0.01 }),
+  expectedCommission: faker.number.float({ min: 100, max: 5000, precision: 0.01 }),
+  ticketNumber: faker.string.alphanumeric(8),
+  inquiryDate: faker.date.recent().toISOString().split('T')[0],
+  closedDate: faker.date.recent().toISOString().split('T')[0],
+  orderNumber: faker.string.alphanumeric(10),
+  activatedDate: faker.date.past().toISOString().split('T')[0],
+  expectedCommissionDate: faker.date.future().toISOString().split('T')[0],
+  adjustmentType: faker.helpers.arrayElement(['Manual', 'Automatic']),
+}));
+
+// New Account interface for variance data
+export interface AccountVariance extends CommissionEntry {
+  varianceLastMonth: number;
+  varianceTwoMonths: number;
+  varianceThreeMonths: number;
+}
+
+// Mock data for new accounts
+export const newAccountsData = Array.from({ length: 5 }, () => ({
+  id: faker.string.uuid(),
+  cycle: '2025-04',
+  provider: faker.company.name(),
+  product: faker.commerce.productName(),
+  accountNumber: faker.finance.accountNumber(),
+  customer: faker.company.name(),
+  netBilled: faker.number.float({ min: 1000, max: 50000, precision: 0.01 }),
+  amount: faker.number.float({ min: 100, max: 5000, precision: 0.01 }),
+  rate: faker.number.float({ min: 0.01, max: 0.15, precision: 0.001 }).toFixed(3),
+  type: 'New Account',
+  status: 'Active'
+}));
+
+// Mock data for lost accounts
+export const lostAccountsData = Array.from({ length: 5 }, () => ({
+  id: faker.string.uuid(),
+  cycle: '2025-04',
+  provider: faker.company.name(),
+  product: faker.commerce.productName(),
+  accountNumber: faker.finance.accountNumber(),
+  customer: faker.company.name(),
+  lastCommission: faker.date.recent().toISOString().split('T')[0],
+  netBilled: faker.number.float({ min: 1000, max: 50000, precision: 0.01 }),
+  amount: faker.number.float({ min: 100, max: 5000, precision: 0.01 }),
+  rate: faker.number.float({ min: 0.01, max: 0.15, precision: 0.001 }).toFixed(3),
+  type: 'Lost Account',
+  status: 'Inactive'
+}));
+
+// Mock data for account variance
+export const accountVarianceData: AccountVariance[] = Array.from({ length: 5 }, () => ({
+  id: faker.string.uuid(),
+  cycle: '2025-04',
+  provider: faker.company.name(),
+  product: faker.commerce.productName(),
+  accountNumber: faker.finance.accountNumber(),
+  customer: faker.company.name(),
+  netBilled: faker.number.float({ min: 1000, max: 50000, precision: 0.01 }),
+  amount: faker.number.float({ min: 100, max: 5000, precision: 0.01 }),
+  rate: faker.number.float({ min: 0.01, max: 0.15, precision: 0.001 }).toFixed(3),
+  type: 'Active',
+  status: 'Active',
+  varianceLastMonth: faker.number.float({ min: -1000, max: 1000, precision: 0.01 }),
+  varianceTwoMonths: faker.number.float({ min: -1000, max: 1000, precision: 0.01 }),
+  varianceThreeMonths: faker.number.float({ min: -1000, max: 1000, precision: 0.01 })
+}));
