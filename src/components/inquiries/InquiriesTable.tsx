@@ -16,7 +16,7 @@ import {
   CardTitle
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
+import { Search, DollarSign } from 'lucide-react';
 
 interface Inquiry {
   id: string;
@@ -29,6 +29,7 @@ interface Inquiry {
   expectedCommission: number;
   status: 'Open' | 'Closed';
   priority: 'High' | 'Medium' | 'Low';
+  recoveredAmount?: number;
 }
 
 interface InquiriesTableProps {
@@ -79,6 +80,7 @@ const InquiriesTable: React.FC<InquiriesTableProps> = ({ inquiries }) => {
               <TableHead>Customer</TableHead>
               <TableHead>Provider</TableHead>
               <TableHead>Expected Commission</TableHead>
+              <TableHead>Recovered Amount</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Priority</TableHead>
             </TableRow>
@@ -94,6 +96,16 @@ const InquiriesTable: React.FC<InquiriesTableProps> = ({ inquiries }) => {
                   <TableCell>{inquiry.customer}</TableCell>
                   <TableCell>{inquiry.provider}</TableCell>
                   <TableCell>${inquiry.expectedCommission.toLocaleString()}</TableCell>
+                  <TableCell>
+                    {inquiry.status === 'Closed' ? (
+                      <span className="flex items-center text-commission-green">
+                        <DollarSign className="h-4 w-4 mr-1" />
+                        {(inquiry.recoveredAmount || inquiry.expectedCommission).toLocaleString()}
+                      </span>
+                    ) : (
+                      "—"
+                    )}
+                  </TableCell>
                   <TableCell>
                     <Badge 
                       variant="outline" 
@@ -124,7 +136,7 @@ const InquiriesTable: React.FC<InquiriesTableProps> = ({ inquiries }) => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={9} className="text-center py-4">
+                <TableCell colSpan={10} className="text-center py-4">
                   {searchQuery ? 'No matching inquiries found' : 'No inquiries found'}
                 </TableCell>
               </TableRow>

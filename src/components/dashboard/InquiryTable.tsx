@@ -9,6 +9,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { DollarSign } from 'lucide-react';
 
 export interface Inquiry {
   id: string;
@@ -17,6 +18,7 @@ export interface Inquiry {
   amount: number;
   date: string;
   status: 'open' | 'closed';
+  recoveredAmount?: number;
 }
 
 interface InquiryTableProps {
@@ -40,6 +42,7 @@ const InquiryTable: React.FC<InquiryTableProps> = ({ inquiries, title }) => {
               <TableHead>Client</TableHead>
               <TableHead>Agent</TableHead>
               <TableHead>Amount</TableHead>
+              <TableHead>Recovered</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Status</TableHead>
             </TableRow>
@@ -50,6 +53,16 @@ const InquiryTable: React.FC<InquiryTableProps> = ({ inquiries, title }) => {
                 <TableCell className="font-medium">{inquiry.client}</TableCell>
                 <TableCell>{inquiry.agent}</TableCell>
                 <TableCell>${inquiry.amount.toLocaleString()}</TableCell>
+                <TableCell>
+                  {inquiry.status === 'closed' ? (
+                    <span className="flex items-center text-commission-green">
+                      <DollarSign className="h-4 w-4 mr-1" />
+                      {(inquiry.recoveredAmount || inquiry.amount).toLocaleString()}
+                    </span>
+                  ) : (
+                    "—"
+                  )}
+                </TableCell>
                 <TableCell>{inquiry.date}</TableCell>
                 <TableCell>
                   <Badge 
