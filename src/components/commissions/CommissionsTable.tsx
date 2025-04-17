@@ -25,7 +25,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import { Download, Search, Filter } from 'lucide-react';
+import { Download, Search, Filter, ChevronDown } from 'lucide-react';
 import { 
   mockCommissionsData, 
   CommissionEntry, 
@@ -35,6 +35,12 @@ import {
 } from '@/data/mockData';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface CommissionsTableProps {
   type: 'commissions' | 'spiffs' | 'adjustments' | 'disputes' | 'pending' | 'new-accounts' | 'lost-accounts' | 'account-variance';
@@ -98,142 +104,217 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
     setCurrentPage(1);
   }, [searchTerm, selectedProvider, type, cycle]);
 
-  const handleDownloadCSV = () => {
+  const handleDownloadCSV = (format: string = 'standard') => {
     if (filteredData.length === 0) {
       toast.error("No data available to download");
       return;
     }
 
     let headers: string[] = [];
+    let filename = `${type}-${cycle}`;
+    let values: string[][] = [];
     
-    if (type === 'commissions' || type === 'spiffs') {
-      headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", "Gross Commission", "Rate", "Type"];
-    } else if (type === 'disputes') {
-      headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", 
-                 "Paid Commission", "Expected Commission", "Actual Commission", "Dispute Status", 
-                 "Ticket Number", "Inquiry Date", "Closed Date"];
-    } else if (type === 'pending') {
-      headers = ["Customer", "Provider", "Product", "Order Number", "Status", 
-                 "Activated Date", "Expected Commission Date"];
-    } else if (type === 'adjustments') {
-      headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Amount", "Adjustment Type", "Status"];
-    } else if (type === 'new-accounts') {
-      headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", "Gross Commission", "Rate", "Type"];
-    } else if (type === 'lost-accounts') {
-      headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", "Gross Commission", "Rate", "Type"];
-    } else if (type === 'account-variance') {
-      headers = ["Current Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", "Gross Commission", "Rate", "Type", "Variance vs. Last Month", "Variance vs. 2 Months Ago", "Variance vs. 3 Months Ago"];
+    if (format === 'summary') {
+      headers = ["Cycle", "Provider", "Total Net Billed", "Total Gross Commission", "Number of Accounts"];
+      
+      const providerSummary = filteredData.reduce((acc, row) => {
+        const provider = row.provider;
+        if (!acc[provider]) {
+          acc[provider] = { 
+            netBilled: 0, 
+            grossCommission: 0,
+            accountCount: 0
+          };
+        }
+        acc[provider].netBilled += (row.netBilled || 0);
+        acc[provider].grossCommission += row.amount;
+        acc[provider].accountCount += 1;
+        return acc;
+      }, {} as Record<string, { netBilled: number, grossCommission: number, accountCount: number }>);
+      
+      values = Object.entries(providerSummary).map(([provider, data]) => [
+        cycle,
+        `"${provider}"`,
+        data.netBilled.toFixed(2),
+        data.grossCommission.toFixed(2),
+        data.accountCount.toString()
+      ]);
+      
+      filename = `commission-summary-${cycle}`;
+    } else if (format === 'extended') {
+      headers = [
+        "Cycle", "Provider", "Product", "Account Number", "Customer", 
+        "Net Billed", "Gross Commission", "Rate", "Type", "Status", 
+        "Created Date", "Last Updated", "Order Number"
+      ];
+      
+      values = filteredData.map(row => [
+        row.cycle,
+        `"${row.provider}"`,
+        `"${row.product}"`,
+        row.accountNumber || '',
+        `"${row.customer}"`,
+        (row.netBilled || 0).toFixed(2),
+        row.amount.toFixed(2),
+        row.rate || '',
+        row.commissionType || type,
+        row.status || 'Paid',
+        row.inquiryDate || '2025-01-01',
+        row.closedDate || '2025-01-15',
+        row.orderNumber || ''
+      ]);
+      
+      filename = `commissions-extended-${cycle}`;
+    } else if (format === 'rpm') {
+      headers = [
+        "RPM ID", "Cycle", "Provider", "Account Number", "Customer", 
+        "Net Billed", "Gross Commission", "Type", "Order Date"
+      ];
+      
+      values = filteredData.map((row, index) => [
+        `RPM-${cycle}-${index + 1000}`,
+        row.cycle,
+        `"${row.provider}"`,
+        row.accountNumber || '',
+        `"${row.customer}"`,
+        (row.netBilled || 0).toFixed(2),
+        row.amount.toFixed(2),
+        row.commissionType || type,
+        row.inquiryDate || '2025-01-01'
+      ]);
+      
+      filename = `rpm-export-${cycle}`;
+    } else {
+      if (type === 'commissions' || type === 'spiffs') {
+        headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", "Gross Commission", "Rate", "Type"];
+      } else if (type === 'disputes') {
+        headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", 
+                   "Paid Commission", "Expected Commission", "Actual Commission", "Dispute Status", 
+                   "Ticket Number", "Inquiry Date", "Closed Date"];
+      } else if (type === 'pending') {
+        headers = ["Customer", "Provider", "Product", "Order Number", "Status", 
+                   "Activated Date", "Expected Commission Date"];
+      } else if (type === 'adjustments') {
+        headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Amount", "Adjustment Type", "Status"];
+      } else if (type === 'new-accounts') {
+        headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", "Gross Commission", "Rate", "Type"];
+      } else if (type === 'lost-accounts') {
+        headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", "Gross Commission", "Rate", "Type"];
+      } else if (type === 'account-variance') {
+        headers = ["Current Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", "Gross Commission", "Rate", "Type", "Variance vs. Last Month", "Variance vs. 2 Months Ago", "Variance vs. 3 Months Ago"];
+      }
+
+      values = filteredData.map(row => {
+        let rowValues: string[] = [];
+        
+        if (type === 'commissions' || type === 'spiffs') {
+          rowValues = [
+            row.cycle,
+            `"${row.provider}"`,
+            `"${row.product}"`,
+            row.accountNumber || '',
+            `"${row.customer}"`,
+            (row.netBilled || 0).toFixed(2),
+            row.amount.toFixed(2),
+            row.rate || '',
+            row.commissionType || type
+          ];
+        } else if (type === 'disputes') {
+          rowValues = [
+            row.cycle,
+            `"${row.provider}"`,
+            `"${row.product}"`,
+            row.accountNumber || '',
+            `"${row.customer}"`,
+            (row.netBilled || 0).toFixed(2),
+            (row.paidCommission || 0).toFixed(2),
+            (row.expectedCommission || 0).toFixed(2),
+            row.amount.toFixed(2),
+            row.status,
+            row.ticketNumber || '',
+            row.inquiryDate || '',
+            row.closedDate || ''
+          ];
+        } else if (type === 'pending') {
+          rowValues = [
+            `"${row.customer}"`,
+            `"${row.provider}"`,
+            `"${row.product}"`,
+            row.orderNumber || '',
+            row.status,
+            row.activatedDate || '',
+            row.expectedCommissionDate || ''
+          ];
+        } else if (type === 'adjustments') {
+          rowValues = [
+            row.cycle,
+            `"${row.provider}"`,
+            `"${row.product}"`,
+            row.accountNumber || '',
+            `"${row.customer}"`,
+            row.amount.toFixed(2),
+            row.adjustmentType || 'Manual',
+            row.status
+          ];
+        } else if (type === 'new-accounts') {
+          rowValues = [
+            row.cycle,
+            `"${row.provider}"`,
+            `"${row.product}"`,
+            row.accountNumber || '',
+            `"${row.customer}"`,
+            (row.netBilled || 0).toFixed(2),
+            row.amount.toFixed(2),
+            row.rate || '',
+            row.commissionType || type
+          ];
+        } else if (type === 'lost-accounts') {
+          rowValues = [
+            row.cycle,
+            `"${row.provider}"`,
+            `"${row.product}"`,
+            row.accountNumber || '',
+            `"${row.customer}"`,
+            (row.netBilled || 0).toFixed(2),
+            row.amount.toFixed(2),
+            row.rate || '',
+            row.commissionType || type
+          ];
+        } else if (type === 'account-variance') {
+          rowValues = [
+            row.cycle,
+            `"${row.provider}"`,
+            `"${row.product}"`,
+            row.accountNumber || '',
+            `"${row.customer}"`,
+            (row.netBilled || 0).toFixed(2),
+            row.amount.toFixed(2),
+            row.rate || '',
+            row.commissionType || type,
+            row.varianceLastMonth.toFixed(2),
+            row.varianceTwoMonths.toFixed(2),
+            row.varianceThreeMonths.toFixed(2)
+          ];
+        }
+        
+        return rowValues;
+      });
     }
 
-    const csvRows = filteredData.map(row => {
-      let values: string[] = [];
-      
-      if (type === 'commissions' || type === 'spiffs') {
-        values = [
-          row.cycle,
-          `"${row.provider}"`,
-          `"${row.product}"`,
-          row.accountNumber || '',
-          `"${row.customer}"`,
-          (row.netBilled || 0).toFixed(2),
-          row.amount.toFixed(2),
-          row.rate || '',
-          row.commissionType || type
-        ];
-      } else if (type === 'disputes') {
-        values = [
-          row.cycle,
-          `"${row.provider}"`,
-          `"${row.product}"`,
-          row.accountNumber || '',
-          `"${row.customer}"`,
-          (row.netBilled || 0).toFixed(2),
-          (row.paidCommission || 0).toFixed(2),
-          (row.expectedCommission || 0).toFixed(2),
-          row.amount.toFixed(2),
-          row.status,
-          row.ticketNumber || '',
-          row.inquiryDate || '',
-          row.closedDate || ''
-        ];
-      } else if (type === 'pending') {
-        values = [
-          `"${row.customer}"`,
-          `"${row.provider}"`,
-          `"${row.product}"`,
-          row.orderNumber || '',
-          row.status,
-          row.activatedDate || '',
-          row.expectedCommissionDate || ''
-        ];
-      } else if (type === 'adjustments') {
-        values = [
-          row.cycle,
-          `"${row.provider}"`,
-          `"${row.product}"`,
-          row.accountNumber || '',
-          `"${row.customer}"`,
-          row.amount.toFixed(2),
-          row.adjustmentType || 'Manual',
-          row.status
-        ];
-      } else if (type === 'new-accounts') {
-        values = [
-          row.cycle,
-          `"${row.provider}"`,
-          `"${row.product}"`,
-          row.accountNumber || '',
-          `"${row.customer}"`,
-          (row.netBilled || 0).toFixed(2),
-          row.amount.toFixed(2),
-          row.rate || '',
-          row.commissionType || type
-        ];
-      } else if (type === 'lost-accounts') {
-        values = [
-          row.cycle,
-          `"${row.provider}"`,
-          `"${row.product}"`,
-          row.accountNumber || '',
-          `"${row.customer}"`,
-          (row.netBilled || 0).toFixed(2),
-          row.amount.toFixed(2),
-          row.rate || '',
-          row.commissionType || type
-        ];
-      } else if (type === 'account-variance') {
-        values = [
-          row.cycle,
-          `"${row.provider}"`,
-          `"${row.product}"`,
-          row.accountNumber || '',
-          `"${row.customer}"`,
-          (row.netBilled || 0).toFixed(2),
-          row.amount.toFixed(2),
-          row.rate || '',
-          row.commissionType || type,
-          row.varianceLastMonth.toFixed(2),
-          row.varianceTwoMonths.toFixed(2),
-          row.varianceThreeMonths.toFixed(2)
-        ];
-      }
-      
-      return values.join(',');
-    });
-
+    const csvRows = values.map(row => row.join(','));
     const csvContent = [headers.join(','), ...csvRows].join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
-    link.setAttribute('download', `${type}-${cycle}.csv`);
+    link.setAttribute('download', `${filename}.csv`);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     
-    toast.success("Download started");
+    toast.success(`${format.charAt(0).toUpperCase() + format.slice(1)} download started`);
   };
 
   const renderTableHeaders = () => {
@@ -526,15 +607,33 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
         </div>
         
         <div className="flex justify-end">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={handleDownloadCSV}
-            disabled={filteredData.length === 0}
-          >
-            <Download className="mr-2 h-4 w-4" />
-            Download CSV
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button 
+                variant="outline" 
+                size="sm"
+                disabled={filteredData.length === 0}
+              >
+                <Download className="mr-2 h-4 w-4" />
+                Download
+                <ChevronDown className="ml-1 h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => handleDownloadCSV('standard')}>
+                Standard CSV
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleDownloadCSV('summary')}>
+                Commission Summary
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleDownloadCSV('extended')}>
+                Commissions (Extended)
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleDownloadCSV('rpm')}>
+                RPM Formatted
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
       
