@@ -21,6 +21,21 @@ const TopCustomersChart: React.FC<TopCustomersChartProps> = ({ data }) => {
   // Sort data by grossCommission in descending order
   const sortedData = [...data].sort((a, b) => b.grossCommission - a.grossCommission);
   
+  // Take top 4 customers and group the rest as "Others"
+  const topCustomers = sortedData.slice(0, 4);
+  
+  // Calculate the sum of commissions for all other customers
+  const othersCommission = sortedData.slice(4).reduce(
+    (sum, customer) => sum + customer.grossCommission, 
+    0
+  );
+  
+  // Create the chart data with the Others category
+  const chartData = [
+    ...topCustomers,
+    ...(othersCommission > 0 ? [{ customer: "Others", grossCommission: othersCommission }] : [])
+  ];
+  
   return (
     <Card className="shadow-sm">
       <CardHeader className="pb-2">
@@ -30,7 +45,7 @@ const TopCustomersChart: React.FC<TopCustomersChartProps> = ({ data }) => {
         <div className="h-[350px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
-              data={sortedData}
+              data={chartData}
               layout="vertical"
               margin={{
                 top: 5,

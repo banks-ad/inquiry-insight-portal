@@ -21,6 +21,21 @@ const TopProvidersChart: React.FC<TopProvidersChartProps> = ({ data }) => {
   // Sort data by grossCommission in descending order
   const sortedData = [...data].sort((a, b) => b.grossCommission - a.grossCommission);
   
+  // Take top 4 providers and group the rest as "Others"
+  const topProviders = sortedData.slice(0, 4);
+  
+  // Calculate the sum of commissions for all other providers
+  const othersCommission = sortedData.slice(4).reduce(
+    (sum, provider) => sum + provider.grossCommission, 
+    0
+  );
+  
+  // Create the chart data with the Others category
+  const chartData = [
+    ...topProviders,
+    ...(othersCommission > 0 ? [{ provider: "Others", grossCommission: othersCommission }] : [])
+  ];
+  
   return (
     <Card className="shadow-sm">
       <CardHeader className="pb-2">
@@ -30,7 +45,7 @@ const TopProvidersChart: React.FC<TopProvidersChartProps> = ({ data }) => {
         <div className="h-[350px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
-              data={sortedData}
+              data={chartData}
               layout="vertical"
               margin={{
                 top: 5,
