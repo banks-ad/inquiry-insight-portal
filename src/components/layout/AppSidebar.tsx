@@ -153,6 +153,15 @@ const AppSidebar = () => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
+            <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/reports/history" className="flex items-center">
+                    <Clock className="mr-2 h-5 w-5" />
+                    <span>RPM Export</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
