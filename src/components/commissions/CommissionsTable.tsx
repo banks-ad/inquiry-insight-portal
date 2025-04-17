@@ -47,6 +47,12 @@ interface CommissionsTableProps {
   cycle: string;
 }
 
+interface ProviderSummary {
+  netBilled: number;
+  grossCommission: number;
+  accountCount: number;
+}
+
 const ITEMS_PER_PAGE = 10;
 
 const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
@@ -130,7 +136,7 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
         acc[provider].grossCommission += row.amount;
         acc[provider].accountCount += 1;
         return acc;
-      }, {} as Record<string, { netBilled: number, grossCommission: number, accountCount: number }>);
+      }, {} as Record<string, ProviderSummary>);
       
       values = Object.entries(providerSummary).map(([provider, data]) => [
         cycle,
