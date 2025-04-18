@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Overview from "./pages/Overview";
 import NotFound from "./pages/NotFound";
@@ -31,8 +31,6 @@ const App = () => (
           <Route path="/commissions/forecast" element={<CommissionForecast />} />
           <Route path="/commissions/provider-payment" element={<ProviderPayment />} />
           <Route path="/commissions/payments" element={<Payments />} />
-          <Route path="/provider-sales" element={<NotFound />} />
-          <Route path="/appdirect-sales" element={<NotFound />} />
           <Route path="/reports/statement" element={<NotFound />} />
           <Route path="/reports/provider" element={<ProviderSummary />} />
           <Route path="/reports/account-history" element={<AccountHistory />} />

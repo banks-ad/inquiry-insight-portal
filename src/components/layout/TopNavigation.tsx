@@ -1,13 +1,20 @@
-
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 import { DollarSign } from 'lucide-react';
+import { toast } from 'sonner';
 
 const TopNavigation = () => {
   const location = useLocation();
   const isCommissionsPath = location.pathname.startsWith('/commissions');
+
+  const handleComingSoon = (feature: string) => {
+    toast.info(`${feature} functionality is coming soon!`, {
+      description: 'Stay tuned for exciting updates.',
+      position: 'top-right'
+    });
+  };
 
   return (
     <div className="w-full border-b">
@@ -29,21 +36,21 @@ const TopNavigation = () => {
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <Link 
-                to="/provider-sales"
+              <button 
+                onClick={() => handleComingSoon('Provider Sales')}
                 className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50"
               >
                 Provider Sales
-              </Link>
+              </button>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <Link 
-                to="/appdirect-sales"
+              <button 
+                onClick={() => handleComingSoon('AppDirect Sales')}
                 className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50"
               >
                 AppDirect Sales
-              </Link>
+              </button>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
