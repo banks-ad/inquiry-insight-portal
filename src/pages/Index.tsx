@@ -7,7 +7,7 @@ const Index = () => {
     <DashboardLayout>
       <div className="p-6">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold">Welcome to CommissionIQ</h1>
+          <h1 className="text-3xl font-bold">Welcome to commissionMOCK</h1>
           <p className="text-muted-foreground">Select a section from the navigation to get started</p>
         </div>
       </div>
