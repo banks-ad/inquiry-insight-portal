@@ -89,7 +89,7 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
     if (format === 'summary') {
       headers = ["Cycle", "Provider", "Total Net Billed", "Total Gross Commission", "Number of Accounts"];
       
-      const providerSummary = filteredData.reduce((acc: Record<string, ProviderSummary>, row) => {
+      const providerSummary = filteredData.reduce<Record<string, ProviderSummary>>((acc, row) => {
         const provider = row.provider;
         if (!acc[provider]) {
           acc[provider] = { 
