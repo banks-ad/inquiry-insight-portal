@@ -6,6 +6,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { InfoCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { CommissionsTableProps } from './types';
@@ -126,6 +128,15 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle, second
 
   return (
     <div className="space-y-4">
+      {type === 'pending' && (
+        <Alert>
+          <InfoCircle className="h-4 w-4" />
+          <AlertDescription>
+            Pending items represent orders that have been provisioned and are awaiting their first commission payment.
+          </AlertDescription>
+        </Alert>
+      )}
+      
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <FilterBar
           searchTerm={searchTerm}

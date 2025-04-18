@@ -1,4 +1,3 @@
-
 import { CommissionEntry } from '../types';
 
 export const filterCommissionsData = (
@@ -9,7 +8,18 @@ export const filterCommissionsData = (
   selectedProvider: string,
   selectedTypes: string[]
 ) => {
-  return data.filter((item) => {
+  // Update all pending items to have "Provisioned" status
+  const updatedData = data.map(item => {
+    if (item.type === 'pending') {
+      return {
+        ...item,
+        status: 'Provisioned'
+      };
+    }
+    return item;
+  });
+
+  return updatedData.filter((item) => {
     // For pending, we don't need to match by cycle as they're not cycle-specific
     const matchesCycle = type === 'pending' ? true : item.cycle === cycle;
     

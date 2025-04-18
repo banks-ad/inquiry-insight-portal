@@ -1,4 +1,3 @@
-
 export interface CommissionEntry {
   id: string;
   cycle: string;
@@ -176,17 +175,12 @@ const generateCommissionEntries = (count: number, type: 'commissions' | 'spiffs'
       } as CommissionEntry);
     }
     else if (type === 'pending') {
-      const randomStatus = getRandomItem(['Provisioning', 'Submitted', 'Active']);
-      const activatedDate = randomStatus === 'Active' 
-        ? getRandomDate(new Date(2025, 2, 1), new Date(2025, 3, 30)) 
-        : '';
-        
       entries.push({
         ...baseEntry,
         amount: parseFloat(getRandomNumber(500, 2000).toFixed(2)),
-        status: randomStatus,
+        status: 'Provisioned',
         orderNumber: `ORD-${Math.floor(10000 + Math.random() * 90000)}`,
-        activatedDate,
+        activatedDate: getRandomDate(new Date(2025, 2, 1), new Date(2025, 3, 30)),
         expectedCommissionDate: getRandomDate(new Date(2025, 3, 15), new Date(2025, 6, 30))
       } as CommissionEntry);
     }
