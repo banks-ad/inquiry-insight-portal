@@ -11,15 +11,13 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const location = useLocation();
-  // Show sidebar for all routes in commissions section
   const showSidebar = location.pathname.includes('/commissions');
 
-  // Always wrap the content in SidebarProvider, even if the sidebar isn't shown
   return (
     <SidebarProvider>
       <div className="min-h-screen flex flex-col w-full">
         <TopNavigation />
-        <div className="flex flex-1">
+        <div className="flex-1 flex">
           {showSidebar && <AppSidebar />}
           <main className="flex-1 overflow-auto">
             {children}
@@ -31,3 +29,4 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 };
 
 export default DashboardLayout;
+
