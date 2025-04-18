@@ -18,7 +18,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       <div className="min-h-screen flex flex-col w-full">
         <TopNavigation />
         <div className="flex-1 flex">
-          {showSidebar && <AppSidebar />}
+          {showSidebar && (
+            <AppSidebar className="pt-16" /> // Add padding-top to match top nav height
+          )}
           <main className="flex-1 overflow-auto">
             {children}
           </main>

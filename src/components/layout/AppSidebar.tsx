@@ -21,10 +21,15 @@ import {
   Home 
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 
-const AppSidebar = () => {
+interface AppSidebarProps {
+  className?: string;
+}
+
+const AppSidebar: React.FC<AppSidebarProps> = ({ className }) => {
   return (
-    <Sidebar>
+    <Sidebar className={className}>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Main</SidebarGroupLabel>
