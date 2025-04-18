@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   Sidebar, 
@@ -6,52 +5,30 @@ import {
   SidebarGroup, 
   SidebarGroupContent, 
   SidebarGroupLabel, 
-  SidebarHeader, 
   SidebarMenu, 
   SidebarMenuItem, 
   SidebarMenuButton, 
   SidebarTrigger 
 } from '@/components/ui/sidebar';
 import { 
-  LayoutDashboard, 
   FileText, 
-  DollarSign, 
-  Users, 
-  BarChart, 
-  Settings, 
-  LineChart, 
-  PieChart,
-  FileBarChart,
-  FileSpreadsheet,
-  CalendarRange,
+  DollarSign,
+  TrendingUp,
   Clock,
-  ExternalLink,
-  TrendingUp
+  CalendarRange,
+  FileSpreadsheet,
+  ExternalLink
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const AppSidebar = () => {
   return (
     <Sidebar>
-      <SidebarHeader className="px-4 py-2">
-        <div className="flex items-center space-x-2">
-          <DollarSign className="h-6 w-6 text-commission-green" />
-          <span className="text-lg font-bold">CommissionIQ</span>
-        </div>
-      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Main</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/" className="flex items-center">
-                    <LayoutDashboard className="mr-2 h-5 w-5" />
-                    <span>Overview</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link to="/commissions" className="flex items-center">
