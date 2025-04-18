@@ -231,17 +231,15 @@ const companies = [
 
 // Providers for generating sample data
 const providers = [
-  'Lumen', 'Comcast', 'Spectrum', 'Microsoft', 'Adobe', 'AWS', 'Google Cloud', 'IBM Cloud',
-  'Verizon', 'AT&T', 'CenturyLink', 'Oracle', 'Salesforce', 'Zoom', 'RingCentral', 'Vonage'
+  'Lumen', 'AT&T', 'Verizon', 'Comcast Business', 'Spectrum Enterprise', 'Cox Business',
+  'CenturyLink', 'T-Mobile', 'Windstream', 'Frontier'
 ];
 
 // Products for generating sample data
 const products = [
-  'Dedicated Internet', 'Business Internet', 'Voice Services', 'Microsoft 365', 'Creative Suite',
-  'SD-WAN', 'Cloud Hosting', 'VoIP Solutions', 'Unified Communications', 'Security Services',
-  'Data Backup', 'Disaster Recovery', 'Email Services', 'Video Conferencing', 'Team Collaboration',
-  'DaaS', 'IaaS', 'PaaS', 'SaaS', 'UCaaS', 'CCaaS', 'Security as a Service', 'Network as a Service',
-  'Managed Services', 'Professional Services', 'Consulting Services', 'Support Services'
+  'Dedicated Internet', 'SD-WAN', 'MPLS', 'Ethernet', 'Dark Fiber', 'Wavelength',
+  'UCaaS', 'Managed Network', 'Broadband', 'Voice Services', 'Security Services',
+  'Cloud Connect', 'DDoS Protection', 'Metro Ethernet', 'Private Line'
 ];
 
 // Statuses for generating sample data
@@ -468,8 +466,8 @@ export interface AccountVariance extends CommissionEntry {
 export const newAccountsData = Array.from({ length: 15 }, () => ({
   id: faker.string.uuid(),
   cycle: '2025-04',
-  provider: faker.company.name(),
-  product: faker.commerce.productName(),
+  provider: getRandomItem(providers),
+  product: getRandomItem(products),
   accountNumber: faker.finance.accountNumber(),
   customer: faker.company.name(),
   netBilled: faker.number.float({ min: 1000, max: 50000, fractionDigits: 2 }),
@@ -485,8 +483,8 @@ export const newAccountsData = Array.from({ length: 15 }, () => ({
 export const lostAccountsData = Array.from({ length: 15 }, () => ({
   id: faker.string.uuid(),
   cycle: '2025-04',
-  provider: faker.company.name(),
-  product: faker.commerce.productName(),
+  provider: getRandomItem(providers),
+  product: getRandomItem(products),
   accountNumber: faker.finance.accountNumber(),
   customer: faker.company.name(),
   lastCommission: faker.date.recent().toISOString().split('T')[0],
@@ -501,14 +499,14 @@ export const lostAccountsData = Array.from({ length: 15 }, () => ({
 export const accountVarianceData: AccountVariance[] = Array.from({ length: 15 }, () => ({
   id: faker.string.uuid(),
   cycle: '2025-04',
-  provider: faker.company.name(),
-  product: faker.commerce.productName(),
+  provider: getRandomItem(providers),
+  product: getRandomItem(products),
   accountNumber: faker.finance.accountNumber(),
   customer: faker.company.name(),
   netBilled: faker.number.float({ min: 1000, max: 50000, fractionDigits: 2 }),
   amount: faker.number.float({ min: 100, max: 5000, fractionDigits: 2 }),
   rate: faker.number.float({ min: 0.01, max: 0.15, fractionDigits: 3 }).toFixed(3),
-  type: 'commissions' as 'commissions',
+  type: 'commissions',
   status: 'Active',
   varianceLastMonth: faker.number.float({ min: -1000, max: 1000, fractionDigits: 2 }),
   varianceTwoMonths: faker.number.float({ min: -1000, max: 1000, fractionDigits: 2 }),
