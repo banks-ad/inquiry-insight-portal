@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Input } from '@/components/ui/input';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -10,6 +10,12 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { FilterBarProps } from './types';
 
 export const FilterBar: React.FC<FilterBarProps> = ({
@@ -22,6 +28,16 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   type,
   uniqueProviders,
 }) => {
+  const commissionTypes = ['Recurring', 'Non-recurring', 'SPIFF', 'Adjustment'];
+  
+  const handleTypeToggle = (type: string) => {
+    if (selectedTypes.includes(type)) {
+      onTypesChange(selectedTypes.filter(t => t !== type));
+    } else {
+      onTypesChange([...selectedTypes, type]);
+    }
+  };
+
   return (
     <div className="flex flex-col sm:flex-row gap-2 sm:w-2/3">
       <div className="relative w-full sm:w-64">
@@ -52,24 +68,24 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       </div>
 
       {type === 'commissions' && (
-        <div className="flex flex-wrap gap-2">
-          {['Recurring', 'Non-recurring', 'SPIFF', 'Adjustment'].map((commType) => (
-            <Button
-              key={commType}
-              variant={selectedTypes.includes(commType) ? "default" : "outline"}
-              size="sm"
-              onClick={() => {
-                onTypesChange(
-                  selectedTypes.includes(commType)
-                    ? selectedTypes.filter(t => t !== commType)
-                    : [...selectedTypes, commType]
-                );
-              }}
-            >
-              {commType}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="w-full sm:w-auto">
+              Commission Types ({selectedTypes.length}/{commissionTypes.length})
             </Button>
-          ))}
-        </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            {commissionTypes.map((type) => (
+              <DropdownMenuCheckboxItem
+                key={type}
+                checked={selectedTypes.includes(type)}
+                onCheckedChange={() => handleTypeToggle(type)}
+              >
+                {type}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       )}
     </div>
   );
