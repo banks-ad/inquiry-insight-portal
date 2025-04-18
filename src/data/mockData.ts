@@ -188,15 +188,16 @@ export const closedInquiries = [
 export interface CommissionEntry {
   id: string;
   cycle: string;
+  customer: string;
   provider: string;
   product: string;
-  accountNumber?: string;
-  customer: string;
-  netBilled?: number;
   amount: number;
+  status: string;
+  type: 'commissions' | 'spiffs' | 'adjustments' | 'disputes' | 'inquiries' | 'pending';
+  accountNumber?: string;
+  netBilled?: number;
   rate?: string;
   commissionType?: string;
-  status: string;
   paidCommission?: number;
   expectedCommission?: number;
   ticketNumber?: string;
@@ -206,7 +207,9 @@ export interface CommissionEntry {
   activatedDate?: string;
   expectedCommissionDate?: string;
   adjustmentType?: string;
-  type?: string;
+  varianceLastMonth?: number;
+  varianceTwoMonths?: number;
+  varianceThreeMonths?: number;
 }
 
 // Companies for generating sample data

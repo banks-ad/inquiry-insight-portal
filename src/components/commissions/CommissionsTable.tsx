@@ -43,7 +43,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 interface CommissionsTableProps {
-  type: 'commissions' | 'spiffs' | 'adjustments' | 'disputes' | 'pending' | 'new-accounts' | 'lost-accounts' | 'account-variance';
+  type: 'commissions' | 'spiffs' | 'adjustments' | 'inquiries' | 'pending' | 'new-accounts' | 'lost-accounts' | 'account-variance';
   cycle: string;
 }
 
@@ -93,7 +93,9 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
         return matchesCycle && matchesSearch && matchesProvider;
       }
       
-      return item.type === type && matchesCycle && matchesSearch && matchesProvider && matchesType;
+      // Update to map 'inquiries' to 'disputes' for backward compatibility with data
+      const dataType = type === 'inquiries' ? 'disputes' : type;
+      return item.type === dataType && matchesCycle && matchesSearch && matchesProvider && matchesType;
     });
   }, [type, cycle, searchTerm, selectedProvider, selectedTypes]);
 
@@ -191,11 +193,12 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
       
       filename = `rpm-export-${cycle}`;
     } else {
+      // Standard format - update to handle inquiries type
       if (type === 'commissions' || type === 'spiffs') {
         headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", "Gross Commission", "Rate", "Type"];
-      } else if (type === 'disputes') {
+      } else if (type === 'inquiries') {
         headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", 
-                   "Paid Commission", "Expected Commission", "Actual Commission", "Dispute Status", 
+                   "Paid Commission", "Expected Commission", "Actual Commission", "Inquiry Status", 
                    "Ticket Number", "Inquiry Date", "Closed Date"];
       } else if (type === 'pending') {
         headers = ["Customer", "Provider", "Product", "Order Number", "Status", 
@@ -225,7 +228,7 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
             row.rate || '',
             row.commissionType || type
           ];
-        } else if (type === 'disputes') {
+        } else if (type === 'inquiries') {
           rowValues = [
             row.cycle,
             `"${row.provider}"`,
@@ -324,6 +327,7 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
   };
 
   const renderTableHeaders = () => {
+    // Update table headers to handle inquiries instead of disputes
     if (type === 'commissions' || type === 'spiffs') {
       return (
         <TableRow>
@@ -338,7 +342,7 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
           {!isMobile && <TableHead>Type</TableHead>}
         </TableRow>
       );
-    } else if (type === 'disputes') {
+    } else if (type === 'inquiries') {
       return (
         <TableRow>
           <TableHead>Cycle</TableHead>
@@ -350,7 +354,7 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
           {!isMobile && <TableHead className="text-right">Paid Commission</TableHead>}
           <TableHead className="text-right">Expected Commission</TableHead>
           <TableHead className="text-right">Actual Commission</TableHead>
-          <TableHead>Dispute Status</TableHead>
+          <TableHead>Inquiry Status</TableHead>
           {!isMobile && <TableHead>Ticket Number</TableHead>}
           {!isMobile && <TableHead>Inquiry Date</TableHead>}
           {!isMobile && <TableHead>Closed Date</TableHead>}
@@ -430,6 +434,7 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
   };
 
   const renderTableRow = (row: any) => {
+    // Update renderTableRow to handle inquiries instead of disputes
     if (type === 'commissions' || type === 'spiffs') {
       return (
         <TableRow key={row.id}>
@@ -444,7 +449,7 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
           {!isMobile && <TableCell>{row.commissionType || type}</TableCell>}
         </TableRow>
       );
-    } else if (type === 'disputes') {
+    } else if (type === 'inquiries') {
       return (
         <TableRow key={row.id}>
           <TableCell>{row.cycle}</TableCell>
@@ -559,6 +564,7 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
     }
   };
 
+  
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
