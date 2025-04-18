@@ -21,7 +21,6 @@ interface ForecastChartProps {
 const ForecastChart: React.FC<ForecastChartProps> = ({ months, churnRate }) => {
   const data = mockForecastData.slice(0, months).map(item => ({
     ...item,
-    expectedCommissions: item.expectedCommissions * (1 - churnRate / 100),
     pendingCommissions: item.pendingCommissions * (1 - churnRate / 100)
   }));
 
@@ -47,13 +46,6 @@ const ForecastChart: React.FC<ForecastChartProps> = ({ months, churnRate }) => {
                 name="Pending Commissions"
                 stackId="commissions"
                 fill="#f59e0b"
-                radius={[0, 0, 0, 0]}
-              />
-              <Bar
-                dataKey="expectedCommissions"
-                name="Expected Commissions"
-                stackId="commissions"
-                fill="#3b82f6"
                 radius={[0, 0, 0, 0]}
               />
               <Bar
