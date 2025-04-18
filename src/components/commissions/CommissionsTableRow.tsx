@@ -31,7 +31,7 @@ export const CommissionsTableRow: React.FC<TableRowProps> = ({ row, type, isMobi
         <TableCell>{row.customer}</TableCell>
         {!isMobile && <TableCell className="text-right">${(row.netBilled || 0).toFixed(2)}</TableCell>}
         {!isMobile && <TableCell className="text-right">${(row.paidCommission || 0).toFixed(2)}</TableCell>}
-        <TableCell className="text-right">${(row.expectedCommission || 0).toFixed(2)}</TableCell>}
+        <TableCell className="text-right">${(row.expectedCommission || 0).toFixed(2)}</TableCell>
         <TableCell className="text-right">${row.amount.toFixed(2)}</TableCell>
         <TableCell>
           <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusStyles(row.status)}`}>
