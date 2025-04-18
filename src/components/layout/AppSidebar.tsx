@@ -17,7 +17,8 @@ import {
   Clock,
   CalendarRange,
   FileSpreadsheet,
-  ExternalLink
+  ExternalLink,
+  Home 
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -29,6 +30,14 @@ const AppSidebar = () => {
           <SidebarGroupLabel>Main</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/" className="flex items-center">
+                    <Home className="mr-2 h-5 w-5" />
+                    <span>Overview</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link to="/commissions" className="flex items-center">
