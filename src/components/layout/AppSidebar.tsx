@@ -18,7 +18,8 @@ import {
   Clock,
   LayoutDashboard,
   FileSpreadsheet,
-  ExternalLink
+  ExternalLink,
+  CalendarRange
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
