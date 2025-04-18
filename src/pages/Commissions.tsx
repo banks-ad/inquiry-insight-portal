@@ -39,37 +39,8 @@ const Commissions = () => {
             <p className="text-muted-foreground">View and manage your commission data</p>
           </div>
           
-          <div className="mt-4 sm:mt-0 flex gap-2">
-            {activeTab === 'account-variance' ? (
-              <>
-                <Select value={selectedCycle} onValueChange={setSelectedCycle}>
-                  <SelectTrigger className="w-[180px]">
-                    <Calendar className="mr-2 h-4 w-4" />
-                    <SelectValue placeholder="First cycle" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {cycles.map((cycle) => (
-                      <SelectItem key={cycle.value} value={cycle.value}>
-                        {cycle.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Select value={secondCycle} onValueChange={setSecondCycle}>
-                  <SelectTrigger className="w-[180px]">
-                    <Calendar className="mr-2 h-4 w-4" />
-                    <SelectValue placeholder="Second cycle" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {cycles.map((cycle) => (
-                      <SelectItem key={cycle.value} value={cycle.value}>
-                        {cycle.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </>
-            ) : (
+          {activeTab !== 'account-variance' && (
+            <div className="mt-4 sm:mt-0">
               <Select value={selectedCycle} onValueChange={setSelectedCycle}>
                 <SelectTrigger className="w-[180px]">
                   <Calendar className="mr-2 h-4 w-4" />
@@ -83,8 +54,8 @@ const Commissions = () => {
                   ))}
                 </SelectContent>
               </Select>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         <Tabs defaultValue="commissions" onValueChange={setActiveTab} className="w-full">
@@ -118,6 +89,47 @@ const Commissions = () => {
           </TabsContent>
 
           <TabsContent value="account-variance">
+            {activeTab === 'account-variance' && (
+              <div className="mb-6">
+                <p className="text-muted-foreground mb-4">
+                  Select two commission cycles below to compare their performance and view the variance between them.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">First Cycle</label>
+                    <Select value={selectedCycle} onValueChange={setSelectedCycle}>
+                      <SelectTrigger className="w-[180px]">
+                        <Calendar className="mr-2 h-4 w-4" />
+                        <SelectValue placeholder="First cycle" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {cycles.map((cycle) => (
+                          <SelectItem key={cycle.value} value={cycle.value}>
+                            {cycle.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Second Cycle</label>
+                    <Select value={secondCycle} onValueChange={setSecondCycle}>
+                      <SelectTrigger className="w-[180px]">
+                        <Calendar className="mr-2 h-4 w-4" />
+                        <SelectValue placeholder="Second cycle" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {cycles.map((cycle) => (
+                          <SelectItem key={cycle.value} value={cycle.value}>
+                            {cycle.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </div>
+            )}
             <CommissionsTable 
               type="account-variance" 
               cycle={selectedCycle} 
