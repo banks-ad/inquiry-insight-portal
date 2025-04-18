@@ -112,6 +112,35 @@ const InquiriesPage = () => {
         </div>
 
         <div className="mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <StatCard 
+              title="Open Inquiries" 
+              value={openInquiriesCount.toString()} 
+              description="Requiring action" 
+              icon={FileQuestion}
+              trend={-12.5}
+              colorClass="bg-orange-50 text-commission-orange"
+            />
+            
+            <StatCard 
+              title="Closed Inquiries" 
+              value={closedInquiriesCount.toString()} 
+              description="Last 30 days" 
+              icon={CheckCircle}
+              trend={3.8}
+              colorClass="bg-purple-50 text-purple-700"
+            />
+
+            <StatCard 
+              title="Total Recovered" 
+              value={`$${totalRecoveredAmount.toLocaleString()}`} 
+              description={filterPeriods[timeFilter as keyof typeof filterPeriods]} 
+              icon={DollarSign}
+              trend={8.3}
+              colorClass="bg-green-50 text-commission-green"
+            />
+          </div>
+
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-bold">Commission Recovery Dashboard</h2>
             <Select 
@@ -127,17 +156,6 @@ const InquiriesPage = () => {
                 ))}
               </SelectContent>
             </Select>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-1 gap-6 mb-6">
-            <StatCard 
-              title="Total Recovered" 
-              value={`$${totalRecoveredAmount.toLocaleString()}`} 
-              description={filterPeriods[timeFilter as keyof typeof filterPeriods]} 
-              icon={DollarSign}
-              trend={8.3}
-              colorClass="bg-green-50 text-commission-green"
-            />
           </div>
 
           <Card className="mb-8">
@@ -176,26 +194,6 @@ const InquiriesPage = () => {
               </ChartContainer>
             </CardContent>
           </Card>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-          <StatCard 
-            title="Open Inquiries" 
-            value={openInquiriesCount.toString()} 
-            description="Requiring action" 
-            icon={FileQuestion}
-            trend={-12.5}
-            colorClass="bg-orange-50 text-commission-orange"
-          />
-          
-          <StatCard 
-            title="Closed Inquiries" 
-            value={closedInquiriesCount.toString()} 
-            description="Last 30 days" 
-            icon={CheckCircle}
-            trend={3.8}
-            colorClass="bg-purple-50 text-purple-700"
-          />
         </div>
 
         <div className="mb-6 flex justify-between items-center">
