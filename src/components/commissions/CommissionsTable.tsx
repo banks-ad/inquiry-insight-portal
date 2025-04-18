@@ -10,7 +10,7 @@ import {
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { CommissionsTableProps } from './types';
+import { CommissionsTableProps, ProviderSummary } from './types';
 import { CommissionsTableHeaders } from './CommissionsTableHeaders';
 import { CommissionsTableRow } from './CommissionsTableRow';
 import { DownloadButton } from './DownloadButton';
@@ -96,7 +96,7 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
             netBilled: 0, 
             grossCommission: 0,
             accountCount: 0
-          };
+          } as ProviderSummary;
         }
         acc[provider].netBilled += (row.netBilled || 0);
         acc[provider].grossCommission += row.amount;
