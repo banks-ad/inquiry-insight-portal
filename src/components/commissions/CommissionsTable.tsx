@@ -2,56 +2,21 @@ import React, { useState, useEffect, useMemo } from 'react';
 import {
   Table,
   TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
   TableFooter,
+  TableRow,
+  TableCell,
+  TableHeader,
 } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
-import { Download, Search, Filter, ChevronDown } from 'lucide-react';
-import { 
-  mockCommissionsData, 
-  CommissionEntry, 
-  newAccountsData, 
-  lostAccountsData, 
-  accountVarianceData 
-} from '@/data/mockData';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-interface CommissionsTableProps {
-  type: 'commissions' | 'spiffs' | 'adjustments' | 'inquiries' | 'pending' | 'new-accounts' | 'lost-accounts' | 'account-variance';
-  cycle: string;
-}
-
-interface ProviderSummary {
-  netBilled: number;
-  grossCommission: number;
-  accountCount: number;
-}
+import { CommissionsTableProps } from './types';
+import { CommissionsTableHeaders } from './CommissionsTableHeaders';
+import { CommissionsTableRow } from './CommissionsTableRow';
+import { DownloadButton } from './DownloadButton';
+import { FilterBar } from './FilterBar';
+import { generateCSVHeaders, formatDataForCSV } from './utils';
+import { mockCommissionsData, newAccountsData, lostAccountsData, accountVarianceData } from '@/data/mockData';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -93,7 +58,6 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
         return matchesCycle && matchesSearch && matchesProvider;
       }
       
-      // Update to map 'inquiries' to 'disputes' for backward compatibility with data
       const dataType = type === 'inquiries' ? 'disputes' : type;
       return item.type === dataType && matchesCycle && matchesSearch && matchesProvider && matchesType;
     });
@@ -193,7 +157,6 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
       
       filename = `rpm-export-${cycle}`;
     } else {
-      // Standard format - update to handle inquiries type
       if (type === 'commissions' || type === 'spiffs') {
         headers = ["Cycle", "Provider", "Product", "Account Number", "Customer", "Net Billed", "Gross Commission", "Rate", "Type"];
       } else if (type === 'inquiries') {
@@ -326,326 +289,25 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
     toast.success(`${format.charAt(0).toUpperCase() + format.slice(1)} download started`);
   };
 
-  const renderTableHeaders = () => {
-    // Update table headers to handle inquiries instead of disputes
-    if (type === 'commissions' || type === 'spiffs') {
-      return (
-        <TableRow>
-          <TableHead>Cycle</TableHead>
-          <TableHead>Provider</TableHead>
-          <TableHead>Product</TableHead>
-          {!isMobile && <TableHead>Account Number</TableHead>}
-          <TableHead>Customer</TableHead>
-          {!isMobile && <TableHead className="text-right">Net Billed</TableHead>}
-          <TableHead className="text-right">Gross Commission</TableHead>
-          {!isMobile && <TableHead>Rate</TableHead>}
-          {!isMobile && <TableHead>Type</TableHead>}
-        </TableRow>
-      );
-    } else if (type === 'inquiries') {
-      return (
-        <TableRow>
-          <TableHead>Cycle</TableHead>
-          <TableHead>Provider</TableHead>
-          {!isMobile && <TableHead>Product</TableHead>}
-          {!isMobile && <TableHead>Account Number</TableHead>}
-          <TableHead>Customer</TableHead>
-          {!isMobile && <TableHead className="text-right">Net Billed</TableHead>}
-          {!isMobile && <TableHead className="text-right">Paid Commission</TableHead>}
-          <TableHead className="text-right">Expected Commission</TableHead>
-          <TableHead className="text-right">Actual Commission</TableHead>
-          <TableHead>Inquiry Status</TableHead>
-          {!isMobile && <TableHead>Ticket Number</TableHead>}
-          {!isMobile && <TableHead>Inquiry Date</TableHead>}
-          {!isMobile && <TableHead>Closed Date</TableHead>}
-        </TableRow>
-      );
-    } else if (type === 'pending') {
-      return (
-        <TableRow>
-          <TableHead>Customer</TableHead>
-          <TableHead>Provider</TableHead>
-          {!isMobile && <TableHead>Product</TableHead>}
-          {!isMobile && <TableHead>Order Number</TableHead>}
-          <TableHead>Status</TableHead>
-          {!isMobile && <TableHead>Activated Date</TableHead>}
-          <TableHead>Expected Commission Date</TableHead>
-        </TableRow>
-      );
-    } else if (type === 'adjustments') {
-      return (
-        <TableRow>
-          <TableHead>Cycle</TableHead>
-          <TableHead>Provider</TableHead>
-          {!isMobile && <TableHead>Product</TableHead>}
-          {!isMobile && <TableHead>Account Number</TableHead>}
-          <TableHead>Customer</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
-          {!isMobile && <TableHead>Adjustment Type</TableHead>}
-          <TableHead>Status</TableHead>
-        </TableRow>
-      );
-    } else if (type === 'new-accounts') {
-      return (
-        <TableRow>
-          <TableHead>Cycle</TableHead>
-          <TableHead>Provider</TableHead>
-          <TableHead>Product</TableHead>
-          {!isMobile && <TableHead>Account Number</TableHead>}
-          <TableHead>Customer</TableHead>
-          {!isMobile && <TableHead className="text-right">Net Billed</TableHead>}
-          <TableHead className="text-right">Gross Commission</TableHead>
-          {!isMobile && <TableHead>Rate</TableHead>}
-          {!isMobile && <TableHead>Type</TableHead>}
-        </TableRow>
-      );
-    } else if (type === 'lost-accounts') {
-      return (
-        <TableRow>
-          <TableHead>Cycle</TableHead>
-          <TableHead>Provider</TableHead>
-          <TableHead>Product</TableHead>
-          {!isMobile && <TableHead>Account Number</TableHead>}
-          <TableHead>Customer</TableHead>
-          {!isMobile && <TableHead className="text-right">Net Billed</TableHead>}
-          <TableHead className="text-right">Gross Commission</TableHead>
-          {!isMobile && <TableHead>Rate</TableHead>}
-          {!isMobile && <TableHead>Type</TableHead>}
-        </TableRow>
-      );
-    } else if (type === 'account-variance') {
-      return (
-        <TableRow>
-          <TableHead>Current Cycle</TableHead>
-          <TableHead>Provider</TableHead>
-          <TableHead>Product</TableHead>
-          {!isMobile && <TableHead>Account Number</TableHead>}
-          <TableHead>Customer</TableHead>
-          {!isMobile && <TableHead className="text-right">Net Billed</TableHead>}
-          <TableHead className="text-right">Gross Commission</TableHead>
-          {!isMobile && <TableHead>Rate</TableHead>}
-          {!isMobile && <TableHead>Type</TableHead>}
-          <TableHead className="text-right">Variance vs. Last Month</TableHead>
-          {!isMobile && <TableHead className="text-right">Variance vs. 2 Months Ago</TableHead>}
-          {!isMobile && <TableHead className="text-right">Variance vs. 3 Months Ago</TableHead>}
-        </TableRow>
-      );
-    }
-  };
-
-  const renderTableRow = (row: any) => {
-    // Update renderTableRow to handle inquiries instead of disputes
-    if (type === 'commissions' || type === 'spiffs') {
-      return (
-        <TableRow key={row.id}>
-          <TableCell>{row.cycle}</TableCell>
-          <TableCell>{row.provider}</TableCell>
-          <TableCell>{row.product}</TableCell>
-          {!isMobile && <TableCell>{row.accountNumber || 'N/A'}</TableCell>}
-          <TableCell>{row.customer}</TableCell>
-          {!isMobile && <TableCell className="text-right">${(row.netBilled || 0).toFixed(2)}</TableCell>}
-          <TableCell className="text-right">${row.amount.toFixed(2)}</TableCell>
-          {!isMobile && <TableCell>{row.rate || 'N/A'}</TableCell>}
-          {!isMobile && <TableCell>{row.commissionType || type}</TableCell>}
-        </TableRow>
-      );
-    } else if (type === 'inquiries') {
-      return (
-        <TableRow key={row.id}>
-          <TableCell>{row.cycle}</TableCell>
-          <TableCell>{row.provider}</TableCell>
-          {!isMobile && <TableCell>{row.product}</TableCell>}
-          {!isMobile && <TableCell>{row.accountNumber || 'N/A'}</TableCell>}
-          <TableCell>{row.customer}</TableCell>
-          {!isMobile && <TableCell className="text-right">${(row.netBilled || 0).toFixed(2)}</TableCell>}
-          {!isMobile && <TableCell className="text-right">${(row.paidCommission || 0).toFixed(2)}</TableCell>}
-          <TableCell className="text-right">${(row.expectedCommission || 0).toFixed(2)}</TableCell>
-          <TableCell className="text-right">${row.amount.toFixed(2)}</TableCell>
-          <TableCell>
-            <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusStyles(row.status)}`}>
-              {row.status}
-            </div>
-          </TableCell>
-          {!isMobile && <TableCell>{row.ticketNumber || 'N/A'}</TableCell>}
-          {!isMobile && <TableCell>{row.inquiryDate || 'N/A'}</TableCell>}
-          {!isMobile && <TableCell>{row.closedDate || 'N/A'}</TableCell>}
-        </TableRow>
-      );
-    } else if (type === 'pending') {
-      return (
-        <TableRow key={row.id}>
-          <TableCell>{row.customer}</TableCell>
-          <TableCell>{row.provider}</TableCell>
-          {!isMobile && <TableCell>{row.product}</TableCell>}
-          {!isMobile && <TableCell>{row.orderNumber || 'N/A'}</TableCell>}
-          <TableCell>
-            <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusStyles(row.status)}`}>
-              {row.status}
-            </div>
-          </TableCell>
-          {!isMobile && <TableCell>{row.activatedDate || 'N/A'}</TableCell>}
-          <TableCell>{row.expectedCommissionDate || 'N/A'}</TableCell>
-        </TableRow>
-      );
-    } else if (type === 'adjustments') {
-      return (
-        <TableRow key={row.id}>
-          <TableCell>{row.cycle}</TableCell>
-          <TableCell>{row.provider}</TableCell>
-          {!isMobile && <TableCell>{row.product}</TableCell>}
-          {!isMobile && <TableCell>{row.accountNumber || 'N/A'}</TableCell>}
-          <TableCell>{row.customer}</TableCell>
-          <TableCell className={`text-right ${row.amount < 0 ? 'text-red-600' : 'text-green-600'}`}>
-            ${row.amount.toFixed(2)}
-          </TableCell>
-          {!isMobile && <TableCell>{row.adjustmentType || 'Manual'}</TableCell>}
-          <TableCell>
-            <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusStyles(row.status)}`}>
-              {row.status}
-            </div>
-          </TableCell>
-        </TableRow>
-      );
-    } else if (type === 'new-accounts') {
-      return (
-        <TableRow key={row.id}>
-          <TableCell>{row.cycle}</TableCell>
-          <TableCell>{row.provider}</TableCell>
-          <TableCell>{row.product}</TableCell>
-          {!isMobile && <TableCell>{row.accountNumber || 'N/A'}</TableCell>}
-          <TableCell>{row.customer}</TableCell>
-          {!isMobile && <TableCell className="text-right">${(row.netBilled || 0).toFixed(2)}</TableCell>}
-          <TableCell className="text-right">${row.amount.toFixed(2)}</TableCell>
-          {!isMobile && <TableCell>{row.rate || 'N/A'}</TableCell>}
-          {!isMobile && <TableCell>{row.commissionType || type}</TableCell>}
-        </TableRow>
-      );
-    } else if (type === 'lost-accounts') {
-      return (
-        <TableRow key={row.id}>
-          <TableCell>{row.cycle}</TableCell>
-          <TableCell>{row.provider}</TableCell>
-          <TableCell>{row.product}</TableCell>
-          {!isMobile && <TableCell>{row.accountNumber || 'N/A'}</TableCell>}
-          <TableCell>{row.customer}</TableCell>
-          {!isMobile && <TableCell className="text-right">${(row.netBilled || 0).toFixed(2)}</TableCell>}
-          <TableCell className="text-right">${row.amount.toFixed(2)}</TableCell>
-          {!isMobile && <TableCell>{row.rate || 'N/A'}</TableCell>}
-          {!isMobile && <TableCell>{row.commissionType || type}</TableCell>}
-        </TableRow>
-      );
-    } else if (type === 'account-variance') {
-      return (
-        <TableRow key={row.id}>
-          <TableCell>{row.cycle}</TableCell>
-          <TableCell>{row.provider}</TableCell>
-          <TableCell>{row.product}</TableCell>
-          {!isMobile && <TableCell>{row.accountNumber || 'N/A'}</TableCell>}
-          <TableCell>{row.customer}</TableCell>
-          {!isMobile && <TableCell className="text-right">${(row.netBilled || 0).toFixed(2)}</TableCell>}
-          <TableCell className="text-right">${row.amount.toFixed(2)}</TableCell>
-          {!isMobile && <TableCell>{row.rate || 'N/A'}</TableCell>}
-          {!isMobile && <TableCell>{row.type}</TableCell>}
-          <TableCell className={`text-right ${row.varianceLastMonth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-            ${row.varianceLastMonth.toFixed(2)}
-          </TableCell>
-          {!isMobile && (
-            <TableCell className={`text-right ${row.varianceTwoMonths >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-              ${row.varianceTwoMonths.toFixed(2)}
-            </TableCell>
-          )}
-          {!isMobile && (
-            <TableCell className={`text-right ${row.varianceThreeMonths >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-              ${row.varianceThreeMonths.toFixed(2)}
-            </TableCell>
-          )}
-        </TableRow>
-      );
-    }
-  };
-
-  
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
-        <div className="flex flex-col sm:flex-row gap-2 sm:w-2/3">
-          <div className="relative w-full sm:w-64">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-8"
-            />
-          </div>
-          
-          <div className="w-full sm:w-64">
-            <Select value={selectedProvider} onValueChange={setSelectedProvider}>
-              <SelectTrigger>
-                <Filter className="mr-2 h-4 w-4" />
-                <SelectValue placeholder="Filter by Provider" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Providers</SelectItem>
-                {uniqueProviders.map((provider) => (
-                  <SelectItem key={provider} value={provider}>
-                    {provider}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {type === 'commissions' && (
-            <div className="flex flex-wrap gap-2">
-              {['Recurring', 'Non-recurring', 'SPIFF', 'Adjustment'].map((commType) => (
-                <Button
-                  key={commType}
-                  variant={selectedTypes.includes(commType) ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => {
-                    setSelectedTypes(prev => 
-                      prev.includes(commType)
-                        ? prev.filter(t => t !== commType)
-                        : [...prev, commType]
-                    );
-                  }}
-                >
-                  {commType}
-                </Button>
-              ))}
-            </div>
-          )}
-        </div>
+        <FilterBar
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          selectedProvider={selectedProvider}
+          onProviderChange={setSelectedProvider}
+          selectedTypes={selectedTypes}
+          onTypesChange={setSelectedTypes}
+          type={type}
+          uniqueProviders={uniqueProviders}
+        />
         
         <div className="flex justify-end">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button 
-                variant="outline" 
-                size="sm"
-                disabled={filteredData.length === 0}
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Download
-                <ChevronDown className="ml-1 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => handleDownloadCSV('standard')}>
-                Standard CSV
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleDownloadCSV('summary')}>
-                Commission Summary
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleDownloadCSV('extended')}>
-                Commissions (Extended)
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleDownloadCSV('rpm')}>
-                RPM Formatted
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <DownloadButton
+            onDownload={handleDownloadCSV}
+            disabled={filteredData.length === 0}
+          />
         </div>
       </div>
       
@@ -656,11 +318,18 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
       <div className="rounded-md border">
         <Table>
           <TableHeader>
-            {renderTableHeaders()}
+            <CommissionsTableHeaders type={type} isMobile={isMobile} />
           </TableHeader>
           <TableBody>
             {paginatedData.length > 0 ? (
-              paginatedData.map((row) => renderTableRow(row))
+              paginatedData.map((row) => (
+                <CommissionsTableRow
+                  key={row.id}
+                  row={row}
+                  type={type}
+                  isMobile={isMobile}
+                />
+              ))
             ) : (
               <TableRow>
                 <TableCell colSpan={12} className="h-24 text-center">
@@ -737,32 +406,5 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
     </div>
   );
 };
-
-function getStatusStyles(status: string): string {
-  switch (status) {
-    case 'Paid':
-      return 'bg-green-100 text-green-800';
-    case 'Pending':
-      return 'bg-yellow-100 text-yellow-800';
-    case 'Disputed':
-      return 'bg-red-100 text-red-800';
-    case 'Approved':
-      return 'bg-blue-100 text-blue-800';
-    case 'Adjusted':
-      return 'bg-purple-100 text-purple-800';
-    case 'Active':
-      return 'bg-blue-100 text-blue-800';
-    case 'Provisioning':
-      return 'bg-indigo-100 text-indigo-800';
-    case 'Submitted':
-      return 'bg-amber-100 text-amber-800';
-    case 'Open':
-      return 'bg-orange-100 text-orange-800';
-    case 'Closed':
-      return 'bg-gray-100 text-gray-800';
-    default:
-      return 'bg-gray-100 text-gray-800';
-  }
-}
 
 export default CommissionsTable;
