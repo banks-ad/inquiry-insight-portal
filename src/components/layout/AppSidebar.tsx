@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { 
   Sidebar, 
@@ -61,7 +62,7 @@ const AppSidebar = () => {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link to="/payments" className="flex items-center">
+                  <Link to="/commissions/payments" className="flex items-center">
                     <DollarSign className="mr-2 h-5 w-5" />
                     <span>Payments</span>
                   </Link>
@@ -69,7 +70,7 @@ const AppSidebar = () => {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link to="/inquiries" className="flex items-center">
+                  <Link to="/commissions/inquiries" className="flex items-center">
                     <FileText className="mr-2 h-5 w-5" />
                     <span>Inquiries</span>
                   </Link>
@@ -105,7 +106,7 @@ const AppSidebar = () => {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link to="/commission-forecast" className="flex items-center">
+                  <Link to="/commissions/forecast" className="flex items-center">
                     <TrendingUp className="mr-2 h-5 w-5" />
                     <span>Commission Forecast</span>
                   </Link>
@@ -113,7 +114,7 @@ const AppSidebar = () => {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link to="/provider-payment-info" className="flex items-center">
+                  <Link to="/commissions/provider-payment" className="flex items-center">
                     <DollarSign className="mr-2 h-5 w-5" />
                     <span>Provider Payment Info</span>
                   </Link>
