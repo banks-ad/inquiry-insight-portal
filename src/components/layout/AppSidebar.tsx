@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { 
   Sidebar, 
@@ -25,8 +26,7 @@ import {
   CalendarRange,
   Clock,
   ExternalLink,
-  TrendingUp,
-  List
+  TrendingUp
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -48,7 +48,7 @@ const AppSidebar = () => {
                 <SidebarMenuButton asChild>
                   <Link to="/" className="flex items-center">
                     <LayoutDashboard className="mr-2 h-5 w-5" />
-                    <span>Dashboard</span>
+                    <span>Overview</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -57,14 +57,6 @@ const AppSidebar = () => {
                   <Link to="/commissions" className="flex items-center">
                     <DollarSign className="mr-2 h-5 w-5" />
                     <span>Commissions</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/commissions/list" className="flex items-center">
-                    <List className="mr-2 h-5 w-5" />
-                    <span>Commissions List</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
