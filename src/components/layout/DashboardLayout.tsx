@@ -17,13 +17,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     <SidebarProvider>
       <div className="min-h-screen flex flex-col w-full">
         <TopNavigation />
-        <div className="flex-1 flex">
+        <div className="pt-16 flex flex-1 relative">
           {showSidebar && (
-            <div className="mt-16 fixed left-0 top-0 h-screen z-10">
+            <div className="fixed left-0 top-16 h-[calc(100vh-4rem)] z-10 w-64">
               <AppSidebar />
             </div>
           )}
-          <main className={`flex-1 overflow-auto ${showSidebar ? 'md:ml-[16rem]' : ''}`}>
+          <main className={`flex-1 ${showSidebar ? 'md:ml-64' : ''}`}>
             <div className="p-4">
               {children}
             </div>
