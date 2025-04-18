@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { TableHead, TableRow } from '@/components/ui/table';
 import { TableHeadersProps } from './types';
@@ -16,6 +15,7 @@ export const CommissionsTableHeaders: React.FC<TableHeadersProps> = ({ type, isM
         <TableHead className="text-right">Gross Commission</TableHead>
         {!isMobile && <TableHead>Rate</TableHead>}
         {!isMobile && <TableHead>Type</TableHead>}
+        <TableHead className="text-right">Actions</TableHead>
       </TableRow>
     );
   }
@@ -40,6 +40,5 @@ export const CommissionsTableHeaders: React.FC<TableHeadersProps> = ({ type, isM
     );
   }
 
-  // ... add other table header configurations for different types
   return null;
 };

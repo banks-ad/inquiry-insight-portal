@@ -1,10 +1,16 @@
-
 import React from 'react';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { TableRowProps } from './types';
 import { getStatusStyles } from './utils';
+import { Button } from '@/components/ui/button';
+import { FilePlus } from 'lucide-react';
+import { toast } from 'sonner';
 
 export const CommissionsTableRow: React.FC<TableRowProps> = ({ row, type, isMobile }) => {
+  const handleCreateInquiry = () => {
+    toast.info("Create inquiry functionality coming soon");
+  };
+
   if (type === 'commissions' || type === 'spiffs') {
     return (
       <TableRow key={row.id}>
@@ -17,6 +23,16 @@ export const CommissionsTableRow: React.FC<TableRowProps> = ({ row, type, isMobi
         <TableCell className="text-right">${row.amount.toFixed(2)}</TableCell>
         {!isMobile && <TableCell>{row.rate || 'N/A'}</TableCell>}
         {!isMobile && <TableCell>{row.commissionType || type}</TableCell>}
+        <TableCell className="text-right">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleCreateInquiry}
+          >
+            <FilePlus className="h-4 w-4 mr-1" />
+            Create Inquiry
+          </Button>
+        </TableCell>
       </TableRow>
     );
   }
@@ -45,6 +61,5 @@ export const CommissionsTableRow: React.FC<TableRowProps> = ({ row, type, isMobi
     );
   }
 
-  // ... add other row configurations for different types
   return null;
 };
