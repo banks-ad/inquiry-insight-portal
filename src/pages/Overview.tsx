@@ -1,23 +1,36 @@
-
 import React from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import StatCard from '@/components/dashboard/StatCard';
 import CommissionChart from '@/components/dashboard/CommissionChart';
 import TopProvidersChart from '@/components/dashboard/TopProvidersChart';
 import TopCustomersChart from '@/components/dashboard/TopCustomersChart';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 import { 
   DollarSign, 
-  CreditCard
+  CreditCard,
+  Eye
 } from 'lucide-react';
 import { commissionChartData, topProvidersData, topCustomersData } from '@/data/mockData';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
   return (
     <DashboardLayout>
       <div className="p-6">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold">Commission Overview</h1>
-          <p className="text-muted-foreground">Overview of your commission metrics and inquiries</p>
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h1 className="text-3xl font-bold">Commission Overview</h1>
+            <p className="text-muted-foreground">Overview of your commission metrics and inquiries</p>
+          </div>
+          <Button 
+            onClick={() => navigate('/commissions')}
+            className="gap-2"
+          >
+            <Eye className="h-4 w-4" />
+            Preview Commissions
+          </Button>
         </div>
         
         {/* Stats Cards */}
@@ -60,4 +73,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

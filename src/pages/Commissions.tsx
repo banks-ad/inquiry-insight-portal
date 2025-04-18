@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { 
@@ -13,8 +14,9 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Info, Calendar } from 'lucide-react';
 import CommissionsTable from '@/components/commissions/CommissionsTable';
-import { Calendar } from 'lucide-react';
 
 const cycles = [
   { value: '2025-04', label: 'April 2025' },
@@ -29,6 +31,8 @@ const Commissions = () => {
   const [activeTab, setActiveTab] = useState<string>("commissions");
   const [selectedCycle, setSelectedCycle] = useState<string>(cycles[0].value);
   const [secondCycle, setSecondCycle] = useState<string>(cycles[1].value);
+
+  const isCurrentMonth = selectedCycle === cycles[0].value;
 
   return (
     <DashboardLayout>
@@ -57,6 +61,15 @@ const Commissions = () => {
             </div>
           )}
         </div>
+
+        {isCurrentMonth && (
+          <Alert className="mb-6">
+            <Info className="h-4 w-4" />
+            <AlertDescription>
+              You are viewing preview data for the current commission cycle. Numbers shown here may change until the cycle has closed.
+            </AlertDescription>
+          </Alert>
+        )}
 
         <Tabs defaultValue="commissions" onValueChange={setActiveTab} className="w-full">
           <TabsList className="mb-4">
