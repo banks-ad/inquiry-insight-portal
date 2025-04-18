@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   Sidebar, 
@@ -141,6 +140,14 @@ const AppSidebar = () => {
                   <Link to="/reports/provider" className="flex items-center">
                     <CalendarRange className="mr-2 h-5 w-5" />
                     <span>Summary by Provider</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/reports/account-history" className="flex items-center">
+                    <Clock className="mr-2 h-5 w-5" />
+                    <span>Account History</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

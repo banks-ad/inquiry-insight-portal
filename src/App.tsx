@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +11,7 @@ import CommissionForecast from "./pages/CommissionForecast";
 import ProviderSummary from "./pages/reports/ProviderSummary";
 import ProviderPayment from "./pages/ProviderPayment";
 import Payments from "./pages/Payments";
+import AccountHistory from "./pages/reports/AccountHistory";
 
 const queryClient = new QueryClient();
 
@@ -30,13 +30,13 @@ const App = () => (
           <Route path="/payments" element={<Payments />} />
           <Route path="/reports/statement" element={<NotFound />} />
           <Route path="/reports/provider" element={<ProviderSummary />} />
+          <Route path="/reports/account-history" element={<AccountHistory />} />
           <Route path="/reports/history" element={<NotFound />} />
           <Route path="/reports/commission-trends" element={<NotFound />} />
           <Route path="/reports/performance" element={<NotFound />} />
           <Route path="/reports/distribution" element={<NotFound />} />
           <Route path="/reports/quarterly" element={<NotFound />} />
           <Route path="/settings" element={<NotFound />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
