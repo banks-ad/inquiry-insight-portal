@@ -11,17 +11,16 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const location = useLocation();
+  // Show sidebar for all routes in commissions section
   const showSidebar = location.pathname.includes('/commissions');
 
   return (
     <SidebarProvider>
-      <div className="flex flex-col min-h-screen w-full">
-        <div className="w-full">
-          <TopNavigation />
-        </div>
+      <div className="min-h-screen flex flex-col w-full">
+        <TopNavigation />
         <div className="flex flex-1">
           {showSidebar && <AppSidebar />}
-          <main className="flex-1 overflow-auto p-6">
+          <main className="flex-1 overflow-auto">
             {children}
           </main>
         </div>
