@@ -16,7 +16,7 @@ const Dashboard = () => {
     <DashboardLayout>
       <div className="p-6">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold">Commission Dashboard</h1>
+          <h1 className="text-3xl font-bold">Commission Overview</h1>
           <p className="text-muted-foreground">Overview of your commission metrics and inquiries</p>
         </div>
         
@@ -60,3 +60,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
