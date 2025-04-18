@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import Overview from "./pages/commissions/Overview";
 import Inquiries from "./pages/Inquiries";
 import Commissions from "./pages/Commissions";
 import CommissionForecast from "./pages/CommissionForecast";
@@ -24,11 +25,14 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/commissions" element={<Commissions />} />
-          <Route path="/commissions/inquiries" element={<Inquiries />} />
-          <Route path="/commissions/forecast" element={<CommissionForecast />} />
-          <Route path="/commissions/provider-payment" element={<ProviderPayment />} />
-          <Route path="/commissions/payments" element={<Payments />} />
+          <Route path="/commissions">
+            <Route index element={<Overview />} />
+            <Route path="list" element={<Commissions />} />
+            <Route path="inquiries" element={<Inquiries />} />
+            <Route path="forecast" element={<CommissionForecast />} />
+            <Route path="provider-payment" element={<ProviderPayment />} />
+            <Route path="payments" element={<Payments />} />
+          </Route>
           <Route path="/reports/statement" element={<NotFound />} />
           <Route path="/reports/provider" element={<ProviderSummary />} />
           <Route path="/reports/account-history" element={<AccountHistory />} />
