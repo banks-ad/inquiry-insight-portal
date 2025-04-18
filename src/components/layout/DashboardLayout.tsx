@@ -11,7 +11,8 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const location = useLocation();
-  const showSidebar = location.pathname.startsWith('/commissions');
+  // Show sidebar for all routes in commissions section
+  const showSidebar = location.pathname.includes('/commissions');
 
   return (
     <SidebarProvider>
