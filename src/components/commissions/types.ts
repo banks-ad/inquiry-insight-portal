@@ -1,6 +1,9 @@
+
 export interface CommissionsTableProps {
   type: 'commissions' | 'spiffs' | 'adjustments' | 'inquiries' | 'pending' | 'new-accounts' | 'lost-accounts' | 'account-variance';
   cycle: string;
+  secondCycle?: string;
+  cyclePair?: CyclePair;
 }
 
 export interface ProviderSummary {
