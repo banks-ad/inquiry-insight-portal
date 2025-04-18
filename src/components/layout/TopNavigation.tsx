@@ -14,7 +14,7 @@ const TopNavigation = () => {
       <div className="container flex h-16 items-center px-4">
         <div className="flex items-center space-x-2 mr-4">
           <DollarSign className="h-6 w-6 text-commission-green" />
-          <span className="text-lg font-bold">CommissionIQ</span>
+          <span className="text-lg font-bold">commissionMOCK</span>
         </div>
         
         <NavigationMenu>
