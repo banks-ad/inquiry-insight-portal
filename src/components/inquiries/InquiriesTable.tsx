@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Search, DollarSign, Filter } from 'lucide-react';
+import { toast } from 'sonner';
 import {
   Select,
   SelectContent,
@@ -23,6 +24,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Download, ChevronDown } from 'lucide-react';
 
 interface Inquiry {
   id: string;
@@ -59,6 +68,102 @@ const InquiriesTable: React.FC<InquiriesTableProps> = ({ inquiries }) => {
     
     return matchesSearch && matchesProvider && matchesCustomer;
   });
+
+  const handleDownloadCSV = (format: string = 'standard') => {
+    if (filteredInquiries.length === 0) {
+      toast.error("No data available to download");
+      return;
+    }
+
+    let headers: string[];
+    let filename = 'commission-inquiries';
+    
+    if (format === 'summary') {
+      headers = [
+        "Provider",
+        "Total Expected Commission",
+        "Total Recovered Amount",
+        "Number of Inquiries",
+        "Open Inquiries",
+        "Closed Inquiries"
+      ];
+
+      const providerSummary = filteredInquiries.reduce((acc, inquiry) => {
+        const provider = inquiry.provider;
+        if (!acc[provider]) {
+          acc[provider] = {
+            expectedCommission: 0,
+            recoveredAmount: 0,
+            totalInquiries: 0,
+            openInquiries: 0,
+            closedInquiries: 0
+          };
+        }
+        acc[provider].expectedCommission += inquiry.expectedCommission;
+        acc[provider].recoveredAmount += inquiry.status === 'Closed' ? (inquiry.recoveredAmount || inquiry.expectedCommission) : 0;
+        acc[provider].totalInquiries += 1;
+        acc[provider].openInquiries += inquiry.status === 'Open' ? 1 : 0;
+        acc[provider].closedInquiries += inquiry.status === 'Closed' ? 1 : 0;
+        return acc;
+      }, {} as Record<string, any>);
+
+      const values = Object.entries(providerSummary).map(([provider, data]) => [
+        provider,
+        data.expectedCommission.toFixed(2),
+        data.recoveredAmount.toFixed(2),
+        data.totalInquiries.toString(),
+        data.openInquiries.toString(),
+        data.closedInquiries.toString()
+      ]);
+
+      filename = 'commission-inquiries-summary';
+      const csvContent = [headers.join(','), ...values.map(row => row.join(','))].join('\n');
+      downloadCSV(csvContent, filename);
+    } else {
+      headers = [
+        "Requestor",
+        "Submit Date",
+        "Ticket Number",
+        "Subject",
+        "Customer",
+        "Provider",
+        "Expected Commission",
+        "Recovered Amount",
+        "Status",
+        "Priority"
+      ];
+
+      const values = filteredInquiries.map(inquiry => [
+        inquiry.requestor,
+        inquiry.submitDate,
+        inquiry.ticketNumber,
+        `"${inquiry.subject}"`,
+        `"${inquiry.customer}"`,
+        `"${inquiry.provider}"`,
+        inquiry.expectedCommission.toFixed(2),
+        inquiry.status === 'Closed' ? (inquiry.recoveredAmount || inquiry.expectedCommission).toFixed(2) : '',
+        inquiry.status,
+        inquiry.priority
+      ]);
+
+      filename = 'commission-inquiries-detailed';
+      const csvContent = [headers.join(','), ...values.map(row => row.join(','))].join('\n');
+      downloadCSV(csvContent, filename);
+    }
+  };
+
+  const downloadCSV = (csvContent: string, filename: string) => {
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${filename}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success("Download started");
+  };
 
   return (
     <Card>
@@ -99,6 +204,27 @@ const InquiriesTable: React.FC<InquiriesTableProps> = ({ inquiries }) => {
                 ))}
               </SelectContent>
             </Select>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  disabled={filteredInquiries.length === 0}
+                >
+                  <Download className="mr-2 h-4 w-4" />
+                  Download
+                  <ChevronDown className="ml-1 h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => handleDownloadCSV('summary')}>
+                  Summary Report
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleDownloadCSV('standard')}>
+                  Detailed Report
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </CardHeader>
