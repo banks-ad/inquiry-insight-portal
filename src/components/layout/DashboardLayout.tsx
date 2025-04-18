@@ -14,6 +14,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   // Show sidebar for all routes in commissions section
   const showSidebar = location.pathname.includes('/commissions');
 
+  // Always wrap the content in SidebarProvider, even if the sidebar isn't shown
   return (
     <SidebarProvider>
       <div className="min-h-screen flex flex-col w-full">
