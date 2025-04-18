@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { TableHead, TableRow } from '@/components/ui/table';
 import { TableHeadersProps } from './types';
@@ -16,6 +17,20 @@ export const CommissionsTableHeaders: React.FC<TableHeadersProps> = ({ type, isM
         {!isMobile && <TableHead>Rate</TableHead>}
         {!isMobile && <TableHead>Type</TableHead>}
         <TableHead className="text-right">Actions</TableHead>
+      </TableRow>
+    );
+  }
+
+  if (type === 'pending') {
+    return (
+      <TableRow>
+        <TableHead>Customer</TableHead>
+        <TableHead>Provider</TableHead>
+        <TableHead>Product</TableHead>
+        {!isMobile && <TableHead>Order Number</TableHead>}
+        <TableHead>Status</TableHead>
+        {!isMobile && <TableHead>Activated Date</TableHead>}
+        <TableHead>Expected Commission Date</TableHead>
       </TableRow>
     );
   }

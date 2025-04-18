@@ -10,13 +10,16 @@ export const filterCommissionsData = (
   selectedTypes: string[]
 ) => {
   return data.filter((item) => {
-    const matchesCycle = item.cycle === cycle;
+    // For pending, we don't need to match by cycle as they're not cycle-specific
+    const matchesCycle = type === 'pending' ? true : item.cycle === cycle;
+    
     const matchesSearch = searchTerm === '' || 
       Object.values(item).some(
         value => 
           typeof value === 'string' && 
           value.toLowerCase().includes(searchTerm.toLowerCase())
       );
+    
     const matchesProvider = selectedProvider === 'all' || item.provider === selectedProvider;
     const matchesType = type === 'commissions' ? selectedTypes.includes(item.commissionType || '') : true;
     
@@ -24,7 +27,12 @@ export const filterCommissionsData = (
       return matchesCycle && matchesSearch && matchesProvider;
     }
     
-    const dataType = type === 'inquiries' ? 'disputes' : type;
+    const dataType = type === 'inquiries' 
+      ? 'disputes' 
+      : type === 'pending'
+      ? 'pending'
+      : type;
+      
     return item.type === dataType && matchesCycle && matchesSearch && matchesProvider && matchesType;
   });
 };

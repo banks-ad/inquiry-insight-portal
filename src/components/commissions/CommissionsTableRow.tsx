@@ -38,6 +38,24 @@ export const CommissionsTableRow: React.FC<TableRowProps> = ({ row, type, isMobi
     );
   }
 
+  if (type === 'pending') {
+    return (
+      <TableRow key={row.id}>
+        <TableCell>{row.customer}</TableCell>
+        <TableCell>{row.provider}</TableCell>
+        <TableCell>{row.product}</TableCell>
+        {!isMobile && <TableCell>{row.orderNumber || 'N/A'}</TableCell>}
+        <TableCell>
+          <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusStyles(row.status)}`}>
+            {row.status}
+          </div>
+        </TableCell>
+        {!isMobile && <TableCell>{row.activatedDate || 'N/A'}</TableCell>}
+        <TableCell>{row.expectedCommissionDate || 'N/A'}</TableCell>
+      </TableRow>
+    );
+  }
+
   if (type === 'inquiries') {
     return (
       <TableRow key={row.id}>
@@ -120,4 +138,3 @@ export const CommissionsTableRow: React.FC<TableRowProps> = ({ row, type, isMobi
 
   return null;
 };
-
