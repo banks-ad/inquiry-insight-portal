@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import {
   Table,
@@ -7,7 +8,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { InfoCircle } from 'lucide-react';
+import { Info } from 'lucide-react';  // Changed from 'InfoCircle' to 'Info'
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { CommissionsTableProps } from './types';
@@ -130,7 +131,7 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle, second
     <div className="space-y-4">
       {type === 'pending' && (
         <Alert>
-          <InfoCircle className="h-4 w-4" />
+          <Info className="h-4 w-4" />  {/* Changed from 'InfoCircle' to 'Info' */}
           <AlertDescription>
             Pending items represent orders that have been provisioned and are awaiting their first commission payment.
           </AlertDescription>
