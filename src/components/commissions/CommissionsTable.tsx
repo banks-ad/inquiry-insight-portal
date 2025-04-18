@@ -58,7 +58,7 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
     setCurrentPage(1);
   }, [searchTerm, selectedProvider, type, cycle]);
 
-  const handleDownloadCSV = (format: string = 'standard') => {
+  const handleDownloadCSV = (format: string = 'summary') => {
     if (filteredData.length === 0) {
       toast.error("No data available to download");
       return;

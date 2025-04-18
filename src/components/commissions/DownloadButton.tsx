@@ -25,9 +25,6 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ onDownload, disa
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => onDownload('standard')}>
-          Standard CSV
-        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => onDownload('summary')}>
           Commission Summary
         </DropdownMenuItem>
