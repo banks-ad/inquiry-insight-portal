@@ -32,7 +32,7 @@ const AppSidebar = () => {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link to="/overview" className="flex items-center">
+                  <Link to="/commissions/overview" className="flex items-center">
                     <Home className="mr-2 h-5 w-5" />
                     <span>Overview</span>
                   </Link>
