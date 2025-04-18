@@ -54,14 +54,6 @@ const AppSidebar = () => {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link to="/inquiries" className="flex items-center">
-                    <FileText className="mr-2 h-5 w-5" />
-                    <span>Inquiries</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
                   <Link to="/commissions" className="flex items-center">
                     <DollarSign className="mr-2 h-5 w-5" />
                     <span>Commissions</span>
@@ -73,6 +65,14 @@ const AppSidebar = () => {
                   <Link to="/payments" className="flex items-center">
                     <DollarSign className="mr-2 h-5 w-5" />
                     <span>Payments</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/inquiries" className="flex items-center">
+                    <FileText className="mr-2 h-5 w-5" />
+                    <span>Inquiries</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
