@@ -4,6 +4,9 @@ import { cn } from "@/lib/utils"
 import { Sheet, SheetContent } from "@/components/ui/sheet"
 import { useSidebar } from "./sidebar-provider"
 
+// Define the constant here to make it available
+const SIDEBAR_WIDTH_MOBILE = "18rem"
+
 export const Sidebar = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & {

@@ -1,6 +1,7 @@
 
 import * as React from "react"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { cn } from "@/lib/utils"
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -49,7 +50,7 @@ export const SidebarProvider = React.forwardRef<
     },
     ref
   ) => {
-    const isMobile = useIsMobile()
+    const [isMobile, setIsMobile] = React.useState(false)
     const [openMobile, setOpenMobile] = React.useState(false)
     const [_open, _setOpen] = React.useState(defaultOpen)
     const open = openProp ?? _open
@@ -65,6 +66,20 @@ export const SidebarProvider = React.forwardRef<
       },
       [setOpenProp, open]
     )
+
+    // Handle mobile detection
+    React.useEffect(() => {
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768)
+      }
+      
+      checkMobile()
+      window.addEventListener('resize', checkMobile)
+      
+      return () => {
+        window.removeEventListener('resize', checkMobile)
+      }
+    }, [])
 
     const toggleSidebar = React.useCallback(() => {
       return isMobile
