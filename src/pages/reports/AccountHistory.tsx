@@ -80,11 +80,11 @@ const AccountHistory = () => {
                     {dateRange?.from ? (
                       dateRange.to ? (
                         <>
-                          {format(dateRange.from, "LLL yyyy")} -{" "}
-                          {format(dateRange.to, "LLL yyyy")}
+                          {format(dateRange.from, "MMM yyyy")} -{" "}
+                          {format(dateRange.to, "MMM yyyy")}
                         </>
                       ) : (
-                        format(dateRange.from, "LLL yyyy")
+                        format(dateRange.from, "MMM yyyy")
                       )
                     ) : (
                       <span>Pick a date range</span>
@@ -98,6 +98,10 @@ const AccountHistory = () => {
                     selected={dateRange}
                     onSelect={setDateRange}
                     numberOfMonths={2}
+                    ISOWeek
+                    captionLayout="dropdown-buttons"
+                    fromYear={2020}
+                    toYear={2025}
                     className={cn("p-3 pointer-events-auto")}
                   />
                 </PopoverContent>
@@ -153,3 +157,4 @@ const AccountHistory = () => {
 };
 
 export default AccountHistory;
+
