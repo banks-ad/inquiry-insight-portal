@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { 
   Sidebar, 
@@ -15,7 +16,7 @@ import {
   DollarSign,
   TrendingUp,
   Clock,
-  CalendarRange,
+  LayoutDashboard,
   FileSpreadsheet,
   ExternalLink
 } from 'lucide-react';
@@ -32,8 +33,8 @@ const AppSidebar = () => {
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link to="/commissions" className="flex items-center">
-                    <DollarSign className="mr-2 h-5 w-5" />
-                    <span>Commissions</span>
+                    <LayoutDashboard className="mr-2 h-5 w-5" />
+                    <span>Overview</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
