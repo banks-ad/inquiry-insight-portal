@@ -40,5 +40,53 @@ export const CommissionsTableHeaders: React.FC<TableHeadersProps> = ({ type, isM
     );
   }
 
+  if (type === 'new-accounts') {
+    return (
+      <TableRow>
+        <TableHead>Cycle</TableHead>
+        <TableHead>Provider</TableHead>
+        <TableHead>Product</TableHead>
+        {!isMobile && <TableHead>Account Number</TableHead>}
+        <TableHead>Customer</TableHead>
+        {!isMobile && <TableHead className="text-right">Net Billed</TableHead>}
+        <TableHead className="text-right">Gross Commission</TableHead>
+        {!isMobile && <TableHead>Rate</TableHead>}
+        {!isMobile && <TableHead>Activation Date</TableHead>}
+      </TableRow>
+    );
+  }
+
+  if (type === 'lost-accounts') {
+    return (
+      <TableRow>
+        <TableHead>Cycle</TableHead>
+        <TableHead>Provider</TableHead>
+        <TableHead>Product</TableHead>
+        {!isMobile && <TableHead>Account Number</TableHead>}
+        <TableHead>Customer</TableHead>
+        {!isMobile && <TableHead className="text-right">Last Net Billed</TableHead>}
+        <TableHead className="text-right">Last Commission</TableHead>
+        {!isMobile && <TableHead>Last Active Date</TableHead>}
+      </TableRow>
+    );
+  }
+
+  if (type === 'account-variance') {
+    return (
+      <TableRow>
+        <TableHead>Cycle</TableHead>
+        <TableHead>Provider</TableHead>
+        {!isMobile && <TableHead>Product</TableHead>}
+        {!isMobile && <TableHead>Account Number</TableHead>}
+        <TableHead>Customer</TableHead>
+        <TableHead className="text-right">Net Billed</TableHead>
+        <TableHead className="text-right">Gross Commission</TableHead>
+        <TableHead className="text-right">vs Last Month</TableHead>
+        {!isMobile && <TableHead className="text-right">vs 2 Months</TableHead>}
+        {!isMobile && <TableHead className="text-right">vs 3 Months</TableHead>}
+      </TableRow>
+    );
+  }
+
   return null;
 };

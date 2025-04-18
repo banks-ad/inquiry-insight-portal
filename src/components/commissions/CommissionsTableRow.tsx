@@ -61,5 +61,63 @@ export const CommissionsTableRow: React.FC<TableRowProps> = ({ row, type, isMobi
     );
   }
 
+  if (type === 'new-accounts') {
+    return (
+      <TableRow key={row.id}>
+        <TableCell>{row.cycle}</TableCell>
+        <TableCell>{row.provider}</TableCell>
+        <TableCell>{row.product}</TableCell>
+        {!isMobile && <TableCell>{row.accountNumber}</TableCell>}
+        <TableCell>{row.customer}</TableCell>
+        {!isMobile && <TableCell className="text-right">${row.netBilled.toFixed(2)}</TableCell>}
+        <TableCell className="text-right">${row.amount.toFixed(2)}</TableCell>
+        {!isMobile && <TableCell>{row.rate}</TableCell>}
+        {!isMobile && <TableCell>{row.activatedDate}</TableCell>}
+      </TableRow>
+    );
+  }
+
+  if (type === 'lost-accounts') {
+    return (
+      <TableRow key={row.id}>
+        <TableCell>{row.cycle}</TableCell>
+        <TableCell>{row.provider}</TableCell>
+        <TableCell>{row.product}</TableCell>
+        {!isMobile && <TableCell>{row.accountNumber}</TableCell>}
+        <TableCell>{row.customer}</TableCell>
+        {!isMobile && <TableCell className="text-right">${row.netBilled.toFixed(2)}</TableCell>}
+        <TableCell className="text-right">${row.amount.toFixed(2)}</TableCell>
+        {!isMobile && <TableCell>{row.lastCommission}</TableCell>}
+      </TableRow>
+    );
+  }
+
+  if (type === 'account-variance') {
+    return (
+      <TableRow key={row.id}>
+        <TableCell>{row.cycle}</TableCell>
+        <TableCell>{row.provider}</TableCell>
+        {!isMobile && <TableCell>{row.product}</TableCell>}
+        {!isMobile && <TableCell>{row.accountNumber}</TableCell>}
+        <TableCell>{row.customer}</TableCell>
+        <TableCell className="text-right">${row.netBilled.toFixed(2)}</TableCell>
+        <TableCell className="text-right">${row.amount.toFixed(2)}</TableCell>
+        <TableCell className={`text-right ${row.varianceLastMonth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+          {row.varianceLastMonth >= 0 ? '+' : ''}{row.varianceLastMonth.toFixed(2)}%
+        </TableCell>
+        {!isMobile && (
+          <TableCell className={`text-right ${row.varianceTwoMonths >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            {row.varianceTwoMonths >= 0 ? '+' : ''}{row.varianceTwoMonths.toFixed(2)}%
+          </TableCell>
+        )}
+        {!isMobile && (
+          <TableCell className={`text-right ${row.varianceThreeMonths >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            {row.varianceThreeMonths >= 0 ? '+' : ''}{row.varianceThreeMonths.toFixed(2)}%
+          </TableCell>
+        )}
+      </TableRow>
+    );
+  }
+
   return null;
 };
