@@ -21,13 +21,11 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { cn } from '@/lib/utils';
+import { DateRange } from 'react-day-picker';
 
 const AccountHistory = () => {
   const [accountNumber, setAccountNumber] = useState('');
-  const [dateRange, setDateRange] = useState<{
-    from?: Date;
-    to?: Date;
-  }>({});
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [filteredData, setFilteredData] = useState(mockCommissionsData);
 
   const handleSearch = () => {
@@ -37,8 +35,8 @@ const AccountHistory = () => {
       
       const itemDate = item.cycle ? new Date(item.cycle + '-01') : null;
       const matchesDateRange = 
-        (!dateRange.from || (itemDate && itemDate >= dateRange.from)) &&
-        (!dateRange.to || (itemDate && itemDate <= dateRange.to));
+        (!dateRange?.from || (itemDate && itemDate >= dateRange.from)) &&
+        (!dateRange?.to || (itemDate && itemDate <= dateRange.to));
 
       return matchesAccount && matchesDateRange;
     });
@@ -75,11 +73,11 @@ const AccountHistory = () => {
                     variant="outline"
                     className={cn(
                       "justify-start text-left font-normal w-full",
-                      !dateRange.from && "text-muted-foreground"
+                      !dateRange?.from && "text-muted-foreground"
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {dateRange.from ? (
+                    {dateRange?.from ? (
                       dateRange.to ? (
                         <>
                           {format(dateRange.from, "LLL yyyy")} -{" "}
