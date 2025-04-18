@@ -155,14 +155,6 @@ const AppSidebar = () => {
                 <SidebarMenuButton asChild>
                   <Link to="/reports/history" className="flex items-center">
                     <Clock className="mr-2 h-5 w-5" />
-                    <span>Account History</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/reports/history" className="flex items-center">
-                    <Clock className="mr-2 h-5 w-5" />
                     <span>RPM Export</span>
                   </Link>
                 </SidebarMenuButton>
