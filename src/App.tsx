@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import Overview from "./pages/commissions/Overview";
 import Inquiries from "./pages/Inquiries";
 import Commissions from "./pages/Commissions";
 import CommissionForecast from "./pages/CommissionForecast";
@@ -26,8 +24,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/commissions">
-            <Route index element={<Overview />} />
-            <Route path="list" element={<Commissions />} />
+            <Route index element={<Commissions />} />
             <Route path="inquiries" element={<Inquiries />} />
             <Route path="forecast" element={<CommissionForecast />} />
             <Route path="provider-payment" element={<ProviderPayment />} />

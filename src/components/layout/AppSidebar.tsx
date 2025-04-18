@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   Sidebar, 
@@ -56,8 +55,8 @@ const AppSidebar = () => {
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link to="/commissions" className="flex items-center">
-                    <LayoutDashboard className="mr-2 h-5 w-5" />
-                    <span>Commission Overview</span>
+                    <DollarSign className="mr-2 h-5 w-5" />
+                    <span>Commissions</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
