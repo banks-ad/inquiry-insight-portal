@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { 
@@ -59,7 +60,7 @@ const CommissionsPage = () => {
         <Tabs defaultValue="commissions" onValueChange={setActiveTab} className="w-full">
           <TabsList className="mb-4">
             <TabsTrigger value="commissions">Commissions</TabsTrigger>
-            <TabsTrigger value="disputes">Disputes</TabsTrigger>
+            <TabsTrigger value="inquiries">Inquiries</TabsTrigger>
             <TabsTrigger value="pending">Pending</TabsTrigger>
             <TabsTrigger value="new-accounts">New Accounts</TabsTrigger>
             <TabsTrigger value="lost-accounts">Lost Accounts</TabsTrigger>
@@ -70,8 +71,8 @@ const CommissionsPage = () => {
             <CommissionsTable type="commissions" cycle={selectedCycle} />
           </TabsContent>
           
-          <TabsContent value="disputes">
-            <CommissionsTable type="disputes" cycle={selectedCycle} />
+          <TabsContent value="inquiries">
+            <CommissionsTable type="inquiries" cycle={selectedCycle} />
           </TabsContent>
           
           <TabsContent value="pending">
