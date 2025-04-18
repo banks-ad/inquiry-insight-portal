@@ -29,25 +29,21 @@ const TopNavigation = () => {
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <a 
-                href="https://catalog.appdirect.com/provider-sales/reports/my-order-aging"
+              <Link 
+                to="/provider-sales"
                 className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-                target="_self"
-                rel="noopener noreferrer"
               >
                 Provider Sales
-              </a>
+              </Link>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <a 
-                href="https://www.appdirect.com/partners/advisors/telco-rate-card"
+              <Link 
+                to="/appdirect-sales"
                 className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-                target="_blank"
-                rel="noopener noreferrer"
               >
                 AppDirect Sales
-              </a>
+              </Link>
             </NavigationMenuItem>
 
             <NavigationMenuItem>

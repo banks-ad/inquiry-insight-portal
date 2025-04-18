@@ -31,6 +31,8 @@ const App = () => (
           <Route path="/commissions/forecast" element={<CommissionForecast />} />
           <Route path="/commissions/provider-payment" element={<ProviderPayment />} />
           <Route path="/commissions/payments" element={<Payments />} />
+          <Route path="/provider-sales" element={<NotFound />} />
+          <Route path="/appdirect-sales" element={<NotFound />} />
           <Route path="/reports/statement" element={<NotFound />} />
           <Route path="/reports/provider" element={<ProviderSummary />} />
           <Route path="/reports/account-history" element={<AccountHistory />} />
