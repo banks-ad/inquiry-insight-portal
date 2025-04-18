@@ -77,4 +77,3 @@ export const generateStandardData = (filteredData: CommissionEntry[], type: stri
     return [];
   });
 };
-

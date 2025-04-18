@@ -28,4 +28,3 @@ export const filterCommissionsData = (
     return item.type === dataType && matchesCycle && matchesSearch && matchesProvider && matchesType;
   });
 };
-

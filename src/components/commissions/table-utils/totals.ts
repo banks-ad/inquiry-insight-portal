@@ -10,4 +10,3 @@ export const calculateTotals = (filteredData: CommissionEntry[]) => {
     totalGrossCommission
   };
 };
-
