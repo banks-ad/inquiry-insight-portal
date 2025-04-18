@@ -93,28 +93,19 @@ export const CommissionsTableRow: React.FC<TableRowProps> = ({ row, type, isMobi
   }
 
   if (type === 'account-variance') {
+    const variance = ((row.secondCycleAmount - row.firstCycleAmount) / row.firstCycleAmount) * 100;
+    
     return (
       <TableRow key={row.id}>
-        <TableCell>{row.cycle}</TableCell>
         <TableCell>{row.provider}</TableCell>
         {!isMobile && <TableCell>{row.product}</TableCell>}
         {!isMobile && <TableCell>{row.accountNumber}</TableCell>}
         <TableCell>{row.customer}</TableCell>
-        <TableCell className="text-right">${row.netBilled.toFixed(2)}</TableCell>
-        <TableCell className="text-right">${row.amount.toFixed(2)}</TableCell>
-        <TableCell className={`text-right ${row.varianceLastMonth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-          {row.varianceLastMonth >= 0 ? '+' : ''}{row.varianceLastMonth.toFixed(2)}%
+        <TableCell className="text-right">${row.firstCycleAmount.toFixed(2)}</TableCell>
+        <TableCell className="text-right">${row.secondCycleAmount.toFixed(2)}</TableCell>
+        <TableCell className={`text-right ${variance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+          {variance >= 0 ? '+' : ''}{variance.toFixed(2)}%
         </TableCell>
-        {!isMobile && (
-          <TableCell className={`text-right ${row.varianceTwoMonths >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-            {row.varianceTwoMonths >= 0 ? '+' : ''}{row.varianceTwoMonths.toFixed(2)}%
-          </TableCell>
-        )}
-        {!isMobile && (
-          <TableCell className={`text-right ${row.varianceThreeMonths >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-            {row.varianceThreeMonths >= 0 ? '+' : ''}{row.varianceThreeMonths.toFixed(2)}%
-          </TableCell>
-        )}
       </TableRow>
     );
   }

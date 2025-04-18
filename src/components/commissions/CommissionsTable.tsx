@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import {
   Table,
@@ -23,7 +22,7 @@ import { TablePagination } from './TablePagination';
 
 const ITEMS_PER_PAGE = 10;
 
-const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
+const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle, secondCycle, cyclePair }) => {
   const isMobile = useIsMobile();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
@@ -154,7 +153,7 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
       <div className="rounded-md border">
         <Table>
           <TableHeader>
-            <CommissionsTableHeaders type={type} isMobile={isMobile} />
+            <CommissionsTableHeaders type={type} isMobile={isMobile} cyclePair={cyclePair} />
           </TableHeader>
           <TableBody>
             {paginatedData.length > 0 ? (

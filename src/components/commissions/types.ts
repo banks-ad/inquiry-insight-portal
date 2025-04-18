@@ -1,4 +1,3 @@
-
 export interface CommissionsTableProps {
   type: 'commissions' | 'spiffs' | 'adjustments' | 'inquiries' | 'pending' | 'new-accounts' | 'lost-accounts' | 'account-variance';
   cycle: string;
@@ -10,9 +9,15 @@ export interface ProviderSummary {
   accountCount: number;
 }
 
+export interface CyclePair {
+  firstCycle: string;
+  secondCycle: string;
+}
+
 export interface TableHeadersProps {
   type: CommissionsTableProps['type'];
   isMobile: boolean;
+  cyclePair?: CyclePair;
 }
 
 export interface TableRowProps {

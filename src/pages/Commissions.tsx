@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { 
@@ -17,7 +16,6 @@ import {
 import CommissionsTable from '@/components/commissions/CommissionsTable';
 import { Calendar } from 'lucide-react';
 
-// Define commission cycle options
 const cycles = [
   { value: '2025-04', label: 'April 2025' },
   { value: '2025-03', label: 'March 2025' },
@@ -27,9 +25,10 @@ const cycles = [
   { value: '2024-11', label: 'November 2024' },
 ];
 
-const CommissionsPage = () => {
+const Commissions = () => {
   const [activeTab, setActiveTab] = useState<string>("commissions");
   const [selectedCycle, setSelectedCycle] = useState<string>(cycles[0].value);
+  const [secondCycle, setSecondCycle] = useState<string>(cycles[1].value);
 
   return (
     <DashboardLayout>
@@ -40,20 +39,51 @@ const CommissionsPage = () => {
             <p className="text-muted-foreground">View and manage your commission data</p>
           </div>
           
-          <div className="mt-4 sm:mt-0">
-            <Select value={selectedCycle} onValueChange={setSelectedCycle}>
-              <SelectTrigger className="w-[180px]">
-                <Calendar className="mr-2 h-4 w-4" />
-                <SelectValue placeholder="Select cycle" />
-              </SelectTrigger>
-              <SelectContent>
-                {cycles.map((cycle) => (
-                  <SelectItem key={cycle.value} value={cycle.value}>
-                    {cycle.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="mt-4 sm:mt-0 flex gap-2">
+            {activeTab === 'account-variance' ? (
+              <>
+                <Select value={selectedCycle} onValueChange={setSelectedCycle}>
+                  <SelectTrigger className="w-[180px]">
+                    <Calendar className="mr-2 h-4 w-4" />
+                    <SelectValue placeholder="First cycle" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {cycles.map((cycle) => (
+                      <SelectItem key={cycle.value} value={cycle.value}>
+                        {cycle.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={secondCycle} onValueChange={setSecondCycle}>
+                  <SelectTrigger className="w-[180px]">
+                    <Calendar className="mr-2 h-4 w-4" />
+                    <SelectValue placeholder="Second cycle" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {cycles.map((cycle) => (
+                      <SelectItem key={cycle.value} value={cycle.value}>
+                        {cycle.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </>
+            ) : (
+              <Select value={selectedCycle} onValueChange={setSelectedCycle}>
+                <SelectTrigger className="w-[180px]">
+                  <Calendar className="mr-2 h-4 w-4" />
+                  <SelectValue placeholder="Select cycle" />
+                </SelectTrigger>
+                <SelectContent>
+                  {cycles.map((cycle) => (
+                    <SelectItem key={cycle.value} value={cycle.value}>
+                      {cycle.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
           </div>
         </div>
 
@@ -88,7 +118,15 @@ const CommissionsPage = () => {
           </TabsContent>
 
           <TabsContent value="account-variance">
-            <CommissionsTable type="account-variance" cycle={selectedCycle} />
+            <CommissionsTable 
+              type="account-variance" 
+              cycle={selectedCycle} 
+              secondCycle={secondCycle}
+              cyclePair={{
+                firstCycle: cycles.find(c => c.value === selectedCycle)?.label || selectedCycle,
+                secondCycle: cycles.find(c => c.value === secondCycle)?.label || secondCycle
+              }}
+            />
           </TabsContent>
         </Tabs>
       </div>
@@ -96,4 +134,4 @@ const CommissionsPage = () => {
   );
 };
 
-export default CommissionsPage;
+export default Commissions;

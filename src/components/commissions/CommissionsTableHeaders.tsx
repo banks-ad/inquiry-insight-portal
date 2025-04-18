@@ -2,7 +2,7 @@ import React from 'react';
 import { TableHead, TableRow } from '@/components/ui/table';
 import { TableHeadersProps } from './types';
 
-export const CommissionsTableHeaders: React.FC<TableHeadersProps> = ({ type, isMobile }) => {
+export const CommissionsTableHeaders: React.FC<TableHeadersProps> = ({ type, isMobile, cyclePair }) => {
   if (type === 'commissions' || type === 'spiffs') {
     return (
       <TableRow>
@@ -74,16 +74,13 @@ export const CommissionsTableHeaders: React.FC<TableHeadersProps> = ({ type, isM
   if (type === 'account-variance') {
     return (
       <TableRow>
-        <TableHead>Cycle</TableHead>
         <TableHead>Provider</TableHead>
         {!isMobile && <TableHead>Product</TableHead>}
         {!isMobile && <TableHead>Account Number</TableHead>}
         <TableHead>Customer</TableHead>
-        <TableHead className="text-right">Net Billed</TableHead>
-        <TableHead className="text-right">Gross Commission</TableHead>
-        <TableHead className="text-right">vs Last Month</TableHead>
-        {!isMobile && <TableHead className="text-right">vs 2 Months</TableHead>}
-        {!isMobile && <TableHead className="text-right">vs 3 Months</TableHead>}
+        <TableHead className="text-right">{cyclePair?.firstCycle || 'First Cycle'}</TableHead>
+        <TableHead className="text-right">{cyclePair?.secondCycle || 'Second Cycle'}</TableHead>
+        <TableHead className="text-right">Variance %</TableHead>
       </TableRow>
     );
   }
