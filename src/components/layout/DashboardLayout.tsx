@@ -11,7 +11,7 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const location = useLocation();
-  const showSidebar = location.pathname.includes('/commissions');
+  const showSidebar = location.pathname.includes('/commissions') || location.pathname.includes('/reports');
 
   return (
     <SidebarProvider>
@@ -29,4 +29,3 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 };
 
 export default DashboardLayout;
-
