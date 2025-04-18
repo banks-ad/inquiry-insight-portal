@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import {
   Table,
@@ -6,7 +7,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { CommissionsTableProps } from './types';
@@ -19,6 +19,7 @@ import { mockCommissionsData, newAccountsData, lostAccountsData, accountVariance
 import { filterCommissionsData } from './table-utils/filtering';
 import { calculateTotals } from './table-utils/totals';
 import { generateSummaryData, generateExtendedData, generateRpmData, generateStandardData } from './table-utils/download-helpers';
+import { TablePagination } from './TablePagination';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -183,50 +184,11 @@ const CommissionsTable: React.FC<CommissionsTableProps> = ({ type, cycle }) => {
         </Table>
       </div>
       
-      {totalPages > 1 && (
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious 
-                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
-              />
-            </PaginationItem>
-            
-            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              let pageNumber: number;
-              
-              if (totalPages <= 5) {
-                pageNumber = i + 1;
-              } else if (currentPage <= 3) {
-                pageNumber = i + 1;
-              } else if (currentPage >= totalPages - 2) {
-                pageNumber = totalPages - 4 + i;
-              } else {
-                pageNumber = currentPage - 2 + i;
-              }
-              
-              return (
-                <PaginationItem key={pageNumber}>
-                  <PaginationLink
-                    isActive={pageNumber === currentPage}
-                    onClick={() => setCurrentPage(pageNumber)}
-                  >
-                    {pageNumber}
-                  </PaginationLink>
-                </PaginationItem>
-              );
-            })}
-            
-            <PaginationItem>
-              <PaginationNext 
-                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      )}
+      <TablePagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 };
