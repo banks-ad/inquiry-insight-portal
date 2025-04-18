@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { TableRowProps } from './types';
@@ -67,12 +68,12 @@ export const CommissionsTableRow: React.FC<TableRowProps> = ({ row, type, isMobi
         <TableCell>{row.cycle}</TableCell>
         <TableCell>{row.provider}</TableCell>
         <TableCell>{row.product}</TableCell>
-        {!isMobile && <TableCell>{row.accountNumber}</TableCell>}
+        {!isMobile && <TableCell>{row.accountNumber || 'N/A'}</TableCell>}
         <TableCell>{row.customer}</TableCell>
-        {!isMobile && <TableCell className="text-right">${row.netBilled.toFixed(2)}</TableCell>}
-        <TableCell className="text-right">${row.amount.toFixed(2)}</TableCell>
-        {!isMobile && <TableCell>{row.rate}</TableCell>}
-        {!isMobile && <TableCell>{row.activatedDate}</TableCell>}
+        {!isMobile && <TableCell className="text-right">${(row.netBilled || 0).toFixed(2)}</TableCell>}
+        <TableCell className="text-right">${(row.amount || 0).toFixed(2)}</TableCell>
+        {!isMobile && <TableCell>{row.rate || 'N/A'}</TableCell>}
+        {!isMobile && <TableCell>{row.activatedDate || 'N/A'}</TableCell>}
       </TableRow>
     );
   }
@@ -83,26 +84,33 @@ export const CommissionsTableRow: React.FC<TableRowProps> = ({ row, type, isMobi
         <TableCell>{row.cycle}</TableCell>
         <TableCell>{row.provider}</TableCell>
         <TableCell>{row.product}</TableCell>
-        {!isMobile && <TableCell>{row.accountNumber}</TableCell>}
+        {!isMobile && <TableCell>{row.accountNumber || 'N/A'}</TableCell>}
         <TableCell>{row.customer}</TableCell>
-        {!isMobile && <TableCell className="text-right">${row.netBilled.toFixed(2)}</TableCell>}
-        <TableCell className="text-right">${row.amount.toFixed(2)}</TableCell>
-        {!isMobile && <TableCell>{row.lastCommission}</TableCell>}
+        {!isMobile && <TableCell className="text-right">${(row.netBilled || 0).toFixed(2)}</TableCell>}
+        <TableCell className="text-right">${(row.amount || 0).toFixed(2)}</TableCell>
+        {!isMobile && <TableCell>{row.lastCommission || 'N/A'}</TableCell>}
       </TableRow>
     );
   }
 
   if (type === 'account-variance') {
-    const variance = ((row.secondCycleAmount - row.firstCycleAmount) / row.firstCycleAmount) * 100;
+    // Add null checks for firstCycleAmount and secondCycleAmount
+    const firstCycleAmount = row.firstCycleAmount || 0;
+    const secondCycleAmount = row.secondCycleAmount || 0;
+    
+    // Calculate variance with null check
+    const variance = firstCycleAmount === 0 
+      ? 0 
+      : ((secondCycleAmount - firstCycleAmount) / firstCycleAmount) * 100;
     
     return (
       <TableRow key={row.id}>
         <TableCell>{row.provider}</TableCell>
-        {!isMobile && <TableCell>{row.product}</TableCell>}
-        {!isMobile && <TableCell>{row.accountNumber}</TableCell>}
+        {!isMobile && <TableCell>{row.product || 'N/A'}</TableCell>}
+        {!isMobile && <TableCell>{row.accountNumber || 'N/A'}</TableCell>}
         <TableCell>{row.customer}</TableCell>
-        <TableCell className="text-right">${row.firstCycleAmount.toFixed(2)}</TableCell>
-        <TableCell className="text-right">${row.secondCycleAmount.toFixed(2)}</TableCell>
+        <TableCell className="text-right">${firstCycleAmount.toFixed(2)}</TableCell>
+        <TableCell className="text-right">${secondCycleAmount.toFixed(2)}</TableCell>
         <TableCell className={`text-right ${variance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
           {variance >= 0 ? '+' : ''}{variance.toFixed(2)}%
         </TableCell>
@@ -112,3 +120,4 @@ export const CommissionsTableRow: React.FC<TableRowProps> = ({ row, type, isMobi
 
   return null;
 };
+
