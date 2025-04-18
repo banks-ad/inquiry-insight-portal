@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { format } from "date-fns"
 import { Calendar as CalendarIcon, Search } from "lucide-react"
@@ -98,11 +97,21 @@ const AccountHistory = () => {
                     selected={dateRange}
                     onSelect={setDateRange}
                     numberOfMonths={2}
-                    ISOWeek
                     captionLayout="dropdown-buttons"
                     fromYear={2020}
                     toYear={2025}
+                    showOutsideDays={false}
+                    defaultMonth={new Date(2024, 0)}
+                    ISOWeek
+                    formatters={{
+                      formatCaption: (date, options) => {
+                        return format(date, "MMMM yyyy");
+                      }
+                    }}
                     className={cn("p-3 pointer-events-auto")}
+                    disabled={[
+                      (date) => date.getDate() !== 1
+                    ]}
                   />
                 </PopoverContent>
               </Popover>
@@ -157,4 +166,3 @@ const AccountHistory = () => {
 };
 
 export default AccountHistory;
-
