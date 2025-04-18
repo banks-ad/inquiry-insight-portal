@@ -123,29 +123,3 @@ export const SidebarContent = React.forwardRef<
   />
 ))
 SidebarContent.displayName = "SidebarContent"
-
-export const SidebarHeader = React.forwardRef<
-  HTMLDivElement,
-  React.ComponentProps<"div">
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    data-sidebar="header"
-    className={cn("flex flex-col gap-2 p-2", className)}
-    {...props}
-  />
-))
-SidebarHeader.displayName = "SidebarHeader"
-
-export const SidebarFooter = React.forwardRef<
-  HTMLDivElement,
-  React.ComponentProps<"div">
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    data-sidebar="footer"
-    className={cn("flex flex-col gap-2 p-2", className)}
-    {...props}
-  />
-))
-SidebarFooter.displayName = "SidebarFooter"
