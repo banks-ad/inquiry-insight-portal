@@ -1,10 +1,11 @@
-
 import React, { useState, useMemo } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { mockInquiries, closedInquiries } from '@/data/mockData';
 import InquiriesTable from '@/components/inquiries/InquiriesTable';
 import StatCard from '@/components/dashboard/StatCard';
-import { FileQuestion, CheckCircle, DollarSign, CalendarDays, TrendingUp } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { FilePlus, DollarSign, FileQuestion, CheckCircle } from 'lucide-react';
+import { toast } from 'sonner';
 import { 
   Select,
   SelectContent,
@@ -27,7 +28,6 @@ import {
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { mockTickets } from '@/data/mockTicketData';
 
-// Enhance inquiries data with recovered amounts
 const enhancedMockInquiries = mockInquiries.map(inquiry => ({
   ...inquiry,
   recoveredAmount: inquiry.status === "Closed" 
@@ -40,7 +40,6 @@ const enhancedClosedInquiries = closedInquiries.map(inquiry => ({
   recoveredAmount: Math.round(inquiry.expectedCommission * 0.9)
 }));
 
-// Enhance ticket data with recovered amounts
 const enhancedTickets = mockTickets.map(ticket => ({
   ...ticket,
   recoveredAmount: ['Resolved', 'Closed'].includes(ticket.status)
@@ -57,21 +56,17 @@ const filterPeriods = {
 };
 
 const InquiriesPage = () => {
-  // Combine both inquiry datasets
   const allInquiries = [...enhancedMockInquiries, ...enhancedClosedInquiries];
   const [statusFilter, setStatusFilter] = useState<"All" | "Open" | "Closed">("All");
   const [timeFilter, setTimeFilter] = useState('all');
   
-  // Filter inquiries based on status
   const filteredInquiries = statusFilter === "All" 
     ? allInquiries 
     : allInquiries.filter(inquiry => inquiry.status === statusFilter);
 
-  // Count of open and closed inquiries
   const openInquiriesCount = allInquiries.filter(inquiry => inquiry.status === "Open").length;
   const closedInquiriesCount = allInquiries.filter(inquiry => inquiry.status === "Closed").length;
 
-  // Calculate total recovered amount
   const totalRecoveredAmount = useMemo(() => {
     let closedInquiriesAmount = allInquiries
       .filter(inquiry => inquiry.status === "Closed")
@@ -84,9 +79,7 @@ const InquiriesPage = () => {
     return closedInquiriesAmount + resolvedTicketsAmount;
   }, [allInquiries, enhancedTickets]);
 
-  // Recovery data for chart
   const recoveryChartData = useMemo(() => {
-    // Group by month for demo
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const currentMonth = new Date().getMonth();
     
@@ -100,15 +93,24 @@ const InquiriesPage = () => {
     });
   }, []);
 
+  const handleCreateInquiry = () => {
+    toast.info("Create inquiry functionality coming soon");
+  };
+
   return (
     <DashboardLayout>
       <div className="p-6">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold">Inquiries</h1>
-          <p className="text-muted-foreground">Manage and review commission inquiries</p>
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h1 className="text-3xl font-bold">Inquiries</h1>
+            <p className="text-muted-foreground">Manage and review commission inquiries</p>
+          </div>
+          <Button onClick={handleCreateInquiry}>
+            <FilePlus className="mr-2 h-4 w-4" />
+            Create New Inquiry
+          </Button>
         </div>
 
-        {/* Recovery Dashboard */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-bold">Commission Recovery Dashboard</h2>
@@ -127,8 +129,7 @@ const InquiriesPage = () => {
             </Select>
           </div>
 
-          {/* Recovery Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-1 gap-6 mb-6">
             <StatCard 
               title="Total Recovered" 
               value={`$${totalRecoveredAmount.toLocaleString()}`} 
@@ -137,27 +138,8 @@ const InquiriesPage = () => {
               trend={8.3}
               colorClass="bg-green-50 text-commission-green"
             />
-            
-            <StatCard 
-              title="Recovery Rate" 
-              value="92%" 
-              description="Of expected commissions" 
-              icon={TrendingUp}
-              trend={3.5}
-              colorClass="bg-blue-50 text-commission-blue"
-            />
-
-            <StatCard 
-              title="Average Recovery Time" 
-              value="18 days" 
-              description="From inquiry to payment" 
-              icon={CalendarDays}
-              trend={-5.2}
-              colorClass="bg-purple-50 text-purple-700"
-            />
           </div>
 
-          {/* Recovery Chart */}
           <Card className="mb-8">
             <CardHeader>
               <CardTitle>Monthly Recovered Commissions</CardTitle>
@@ -196,7 +178,6 @@ const InquiriesPage = () => {
           </Card>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
           <StatCard 
             title="Open Inquiries" 

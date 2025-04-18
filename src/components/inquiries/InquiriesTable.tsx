@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import {
   Table,
@@ -16,7 +15,14 @@ import {
   CardTitle
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Search, DollarSign } from 'lucide-react';
+import { Search, DollarSign, Filter } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface Inquiry {
   id: string;
@@ -38,34 +44,61 @@ interface InquiriesTableProps {
 
 const InquiriesTable: React.FC<InquiriesTableProps> = ({ inquiries }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedProvider, setSelectedProvider] = useState('all');
+  const [selectedCustomer, setSelectedCustomer] = useState('all');
+
+  const uniqueProviders = Array.from(new Set(inquiries.map(i => i.provider))).sort();
+  const uniqueCustomers = Array.from(new Set(inquiries.map(i => i.customer))).sort();
 
   const filteredInquiries = inquiries.filter((inquiry) => {
-    const searchStr = searchQuery.toLowerCase();
-    return (
-      inquiry.requestor.toLowerCase().includes(searchStr) ||
-      inquiry.submitDate.toLowerCase().includes(searchStr) ||
-      inquiry.ticketNumber.toLowerCase().includes(searchStr) ||
-      inquiry.subject.toLowerCase().includes(searchStr) ||
-      inquiry.customer.toLowerCase().includes(searchStr) ||
-      inquiry.provider.toLowerCase().includes(searchStr) ||
-      inquiry.status.toLowerCase().includes(searchStr) ||
-      inquiry.priority.toLowerCase().includes(searchStr)
+    const matchesSearch = searchQuery === '' || Object.values(inquiry).some(
+      value => String(value).toLowerCase().includes(searchQuery.toLowerCase())
     );
+    const matchesProvider = selectedProvider === 'all' || inquiry.provider === selectedProvider;
+    const matchesCustomer = selectedCustomer === 'all' || inquiry.customer === selectedCustomer;
+    
+    return matchesSearch && matchesProvider && matchesCustomer;
   });
 
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <CardTitle>Commission Inquiries</CardTitle>
-          <div className="relative w-72">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search inquiries..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-8"
-            />
+          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+            <div className="relative w-full sm:w-72">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search inquiries..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-8"
+              />
+            </div>
+            <Select value={selectedProvider} onValueChange={setSelectedProvider}>
+              <SelectTrigger className="w-full sm:w-48">
+                <Filter className="mr-2 h-4 w-4" />
+                <SelectValue placeholder="Filter Provider" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Providers</SelectItem>
+                {uniqueProviders.map((provider) => (
+                  <SelectItem key={provider} value={provider}>{provider}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={selectedCustomer} onValueChange={setSelectedCustomer}>
+              <SelectTrigger className="w-full sm:w-48">
+                <Filter className="mr-2 h-4 w-4" />
+                <SelectValue placeholder="Filter Customer" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Customers</SelectItem>
+                {uniqueCustomers.map((customer) => (
+                  <SelectItem key={customer} value={customer}>{customer}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
       </CardHeader>
