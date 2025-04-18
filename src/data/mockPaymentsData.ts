@@ -8,9 +8,9 @@ export interface Payment {
   netReceivable: number;
 }
 
-export const mockPaymentsData: Payment[] = Array.from({ length: 20 }, () => ({
+export const mockPaymentsData: Payment[] = Array.from({ length: 15 }, () => ({
   id: faker.string.alphanumeric(8).toUpperCase(),
-  status: faker.helpers.arrayElement(['Complete', 'Pending', 'Failed']),
+  status: 'Complete',
   date: faker.date.recent({ days: 30 }).toLocaleDateString(),
   netReceivable: faker.number.int({ min: 1000, max: 50000 }),
 }));
