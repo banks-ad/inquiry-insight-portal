@@ -1,14 +1,6 @@
 
 import React from 'react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
+import { Table, Paper, Text, Group, Badge, Box, Anchor } from '@mantine/core';
 import { DollarSign } from 'lucide-react';
 
 export interface Inquiry {
@@ -28,60 +20,56 @@ interface InquiryTableProps {
 
 const InquiryTable: React.FC<InquiryTableProps> = ({ inquiries, title }) => {
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <h3 className="text-lg font-medium">{title}</h3>
-        <button className="text-sm text-blue-600 hover:underline">
-          View all
-        </button>
-      </div>
-      <div className="border rounded-md">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Client</TableHead>
-              <TableHead>Agent</TableHead>
-              <TableHead>Amount</TableHead>
-              <TableHead>Recovered</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Status</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
+    <Box mb="md">
+      <Group position="apart" mb="sm">
+        <Text size="lg" weight={500}>{title}</Text>
+        <Anchor size="sm" component="button">View all</Anchor>
+      </Group>
+      <Paper shadow="xs" radius="md">
+        <Table striped>
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>Agent</th>
+              <th>Amount</th>
+              <th>Recovered</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
             {inquiries.map((inquiry) => (
-              <TableRow key={inquiry.id}>
-                <TableCell className="font-medium">{inquiry.client}</TableCell>
-                <TableCell>{inquiry.agent}</TableCell>
-                <TableCell>${inquiry.amount.toLocaleString()}</TableCell>
-                <TableCell>
+              <tr key={inquiry.id}>
+                <td>
+                  <Text weight={500}>{inquiry.client}</Text>
+                </td>
+                <td>{inquiry.agent}</td>
+                <td>${inquiry.amount.toLocaleString()}</td>
+                <td>
                   {inquiry.status === 'closed' ? (
-                    <span className="flex items-center text-commission-green">
-                      <DollarSign className="h-4 w-4 mr-1" />
-                      {(inquiry.recoveredAmount || inquiry.amount).toLocaleString()}
-                    </span>
+                    <Group spacing={4}>
+                      <DollarSign size={16} color="#22c55e" />
+                      <Text color="green">{(inquiry.recoveredAmount || inquiry.amount).toLocaleString()}</Text>
+                    </Group>
                   ) : (
                     "—"
                   )}
-                </TableCell>
-                <TableCell>{inquiry.date}</TableCell>
-                <TableCell>
+                </td>
+                <td>{inquiry.date}</td>
+                <td>
                   <Badge 
-                    variant="outline" 
-                    className={`${
-                      inquiry.status === 'open' 
-                        ? 'bg-blue-50 text-commission-blue border-commission-blue' 
-                        : 'bg-green-50 text-commission-green border-commission-green'
-                    }`}
+                    color={inquiry.status === 'open' ? 'blue' : 'green'}
+                    variant="light"
                   >
                     {inquiry.status}
                   </Badge>
-                </TableCell>
-              </TableRow>
+                </td>
+              </tr>
             ))}
-          </TableBody>
+          </tbody>
         </Table>
-      </div>
-    </div>
+      </Paper>
+    </Box>
   );
 };
 

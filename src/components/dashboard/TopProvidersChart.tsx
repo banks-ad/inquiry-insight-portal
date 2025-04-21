@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Paper, Title, Box } from '@mantine/core';
 import { 
   BarChart, 
   Bar, 
@@ -37,12 +37,12 @@ const TopProvidersChart: React.FC<TopProvidersChartProps> = ({ data }) => {
   ];
   
   return (
-    <Card className="shadow-sm">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-lg font-medium">Top Providers</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="h-[350px]">
+    <Paper shadow="xs" radius="md">
+      <Box p="md" pb={8}>
+        <Title order={5}>Top Providers</Title>
+      </Box>
+      <Box p="md" pt={0}>
+        <div style={{ height: 350 }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={chartData}
@@ -77,8 +77,8 @@ const TopProvidersChart: React.FC<TopProvidersChartProps> = ({ data }) => {
             </BarChart>
           </ResponsiveContainer>
         </div>
-      </CardContent>
-    </Card>
+      </Box>
+    </Paper>
   );
 };
 

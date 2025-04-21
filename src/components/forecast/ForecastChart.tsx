@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Paper, Title, Box } from '@mantine/core';
 import {
   BarChart,
   Bar,
@@ -25,12 +25,12 @@ const ForecastChart: React.FC<ForecastChartProps> = ({ months, churnRate }) => {
   }));
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Commission Forecast Chart</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="h-[400px]">
+    <Paper shadow="xs" radius="md">
+      <Box p="md" pb={8}>
+        <Title order={5}>Commission Forecast Chart</Title>
+      </Box>
+      <Box p="md" pt={0}>
+        <div style={{ height: 400 }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -58,8 +58,8 @@ const ForecastChart: React.FC<ForecastChartProps> = ({ months, churnRate }) => {
             </BarChart>
           </ResponsiveContainer>
         </div>
-      </CardContent>
-    </Card>
+      </Box>
+    </Paper>
   );
 };
 

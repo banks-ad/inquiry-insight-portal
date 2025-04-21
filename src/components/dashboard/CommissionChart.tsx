@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Paper, Title, Box, Group, Menu, ActionIcon, Text } from '@mantine/core';
 import { 
   BarChart, 
   Bar, 
@@ -11,16 +11,7 @@ import {
   Legend, 
   ResponsiveContainer 
 } from 'recharts';
-import { Filter } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
+import { Filter, Check } from 'lucide-react';
 
 interface ChartData {
   name: string;
@@ -50,48 +41,52 @@ const CommissionChart: React.FC<CommissionChartProps> = ({ data }) => {
   };
 
   return (
-    <Card className="shadow-sm">
-      <CardHeader className="pb-2 flex flex-row items-center justify-between">
-        <CardTitle className="text-lg font-medium">Commission Trends</CardTitle>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="h-8 gap-1">
-              <Filter className="h-4 w-4" />
-              <span>Filter</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-[200px]">
-            <DropdownMenuLabel>Commission Types</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuCheckboxItem
-              checked={selectedTypes.recurring}
-              onCheckedChange={() => handleTypeToggle('recurring')}
-            >
-              Recurring
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={selectedTypes.spiff}
-              onCheckedChange={() => handleTypeToggle('spiff')}
-            >
-              SPIFF
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={selectedTypes.nonRecurring}
-              onCheckedChange={() => handleTypeToggle('nonRecurring')}
-            >
-              Non-Recurring
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={selectedTypes.adjustments}
-              onCheckedChange={() => handleTypeToggle('adjustments')}
-            >
-              Adjustments
-            </DropdownMenuCheckboxItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </CardHeader>
-      <CardContent>
-        <div className="h-[300px]">
+    <Paper shadow="xs" radius="md">
+      <Box p="md" pb={8}>
+        <Group position="apart" align="center">
+          <Title order={5}>Commission Trends</Title>
+          <Menu shadow="md" position="bottom-end">
+            <Menu.Target>
+              <ActionIcon variant="light" color="blue" size="sm">
+                <Group spacing={4}>
+                  <Filter size={14} />
+                  <Text size="xs">Filter</Text>
+                </Group>
+              </ActionIcon>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Label>Commission Types</Menu.Label>
+              <Menu.Divider />
+              <Menu.Item 
+                icon={selectedTypes.recurring ? <Check size={14} /> : <Box w={14} />}
+                onClick={() => handleTypeToggle('recurring')}
+              >
+                Recurring
+              </Menu.Item>
+              <Menu.Item 
+                icon={selectedTypes.spiff ? <Check size={14} /> : <Box w={14} />}
+                onClick={() => handleTypeToggle('spiff')}
+              >
+                SPIFF
+              </Menu.Item>
+              <Menu.Item 
+                icon={selectedTypes.nonRecurring ? <Check size={14} /> : <Box w={14} />}
+                onClick={() => handleTypeToggle('nonRecurring')}
+              >
+                Non-Recurring
+              </Menu.Item>
+              <Menu.Item 
+                icon={selectedTypes.adjustments ? <Check size={14} /> : <Box w={14} />}
+                onClick={() => handleTypeToggle('adjustments')}
+              >
+                Adjustments
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+        </Group>
+      </Box>
+      <Box p="md" pt={0}>
+        <div style={{ height: 300 }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={data}
@@ -150,8 +145,8 @@ const CommissionChart: React.FC<CommissionChartProps> = ({ data }) => {
             </BarChart>
           </ResponsiveContainer>
         </div>
-      </CardContent>
-    </Card>
+      </Box>
+    </Paper>
   );
 };
 

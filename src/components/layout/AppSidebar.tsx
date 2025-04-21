@@ -1,16 +1,14 @@
 
 import React from 'react';
 import { 
-  Sidebar, 
-  SidebarContent, 
-  SidebarGroup, 
-  SidebarGroupContent, 
-  SidebarGroupLabel, 
-  SidebarMenu, 
-  SidebarMenuItem, 
-  SidebarMenuButton, 
-  SidebarTrigger 
-} from '@/components/ui/sidebar';
+  Navbar, 
+  NavLink, 
+  Group, 
+  Text, 
+  Stack,
+  Box,
+  ScrollArea
+} from '@mantine/core';
 import { 
   FileText, 
   DollarSign,
@@ -31,138 +29,121 @@ interface AppSidebarProps {
 
 const AppSidebar: React.FC<AppSidebarProps> = ({ className }) => {
   return (
-    <Sidebar className={className}>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Main</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/commissions/overview" className="flex items-center">
-                    <Home className="mr-2 h-5 w-5" />
-                    <span>Overview</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/commissions" className="flex items-center">
-                    <DollarSign className="mr-2 h-5 w-5" />
-                    <span>Commissions</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/commissions/payments" className="flex items-center">
-                    <DollarSign className="mr-2 h-5 w-5" />
-                    <span>Payments</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/commissions/inquiries" className="flex items-center">
-                    <FileText className="mr-2 h-5 w-5" />
-                    <span>Inquiries</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/commissions/forecast" className="flex items-center">
-                    <TrendingUp className="mr-2 h-5 w-5" />
-                    <span>Commission Forecast</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <a 
-                    href="https://catalog.appdirect.com/provider-sales/reports/my-order-aging" 
-                    className="flex items-center"
-                    target="_self" 
-                    rel="noopener noreferrer"
-                  >
-                    <Clock className="mr-2 h-5 w-5" />
-                    <span>Open Orders Aging</span>
-                    <ExternalLink className="ml-1 h-3 w-3" />
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        
-        <SidebarGroup>
-          <SidebarGroupLabel>Resources</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <a 
-                    href="https://www.appdirect.com/partners/advisors/telco-rate-card" 
-                    className="flex items-center"
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                  >
-                    <FileText className="mr-2 h-5 w-5" />
-                    <span>Rates & SPIFFS</span>
-                    <ExternalLink className="ml-1 h-3 w-3" />
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/commissions/provider-payment" className="flex items-center">
-                    <FileQuestion className="mr-2 h-5 w-5" />
-                    <span>Provider Payment Info</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+    <Navbar 
+      p="md" 
+      className={className} 
+      width={{ base: 300 }}
+      height="100vh"
+    >
+      <Navbar.Section 
+        grow
+        component={ScrollArea}
+        mx="-xs"
+        px="xs"
+      >
+        <Box mb="lg">
+          <Text fz="sm" fw={500} c="dimmed" mb="xs">Main</Text>
+          <Stack spacing={0}>
+            <NavLink
+              component={Link}
+              to="/commissions/overview"
+              label="Overview"
+              icon={<Home size={20} />}
+            />
+            <NavLink
+              component={Link}
+              to="/commissions"
+              label="Commissions"
+              icon={<DollarSign size={20} />}
+            />
+            <NavLink
+              component={Link}
+              to="/commissions/payments"
+              label="Payments"
+              icon={<DollarSign size={20} />}
+            />
+            <NavLink
+              component={Link}
+              to="/commissions/inquiries"
+              label="Inquiries"
+              icon={<FileText size={20} />}
+            />
+            <NavLink
+              component={Link}
+              to="/commissions/forecast"
+              label="Commission Forecast"
+              icon={<TrendingUp size={20} />}
+            />
+            <NavLink
+              component="a"
+              href="https://catalog.appdirect.com/provider-sales/reports/my-order-aging"
+              target="_self"
+              rel="noopener noreferrer"
+              label={
+                <Group spacing={4}>
+                  <Text>Open Orders Aging</Text>
+                  <ExternalLink size={12} />
+                </Group>
+              }
+              icon={<Clock size={20} />}
+            />
+          </Stack>
+        </Box>
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Reports</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/reports/statement" className="flex items-center">
-                    <FileSpreadsheet className="mr-2 h-5 w-5" />
-                    <span>Statement</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/reports/provider" className="flex items-center">
-                    <CalendarRange className="mr-2 h-5 w-5" />
-                    <span>Summary by Provider</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/reports/account-history" className="flex items-center">
-                    <Clock className="mr-2 h-5 w-5" />
-                    <span>Account History</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-      <div className="absolute top-2 right-2 md:hidden">
-        <SidebarTrigger />
-      </div>
-    </Sidebar>
+        <Box mb="lg">
+          <Text fz="sm" fw={500} c="dimmed" mb="xs">Resources</Text>
+          <Stack spacing={0}>
+            <NavLink
+              component="a"
+              href="https://www.appdirect.com/partners/advisors/telco-rate-card"
+              target="_blank"
+              rel="noopener noreferrer"
+              label={
+                <Group spacing={4}>
+                  <Text>Rates & SPIFFS</Text>
+                  <ExternalLink size={12} />
+                </Group>
+              }
+              icon={<FileText size={20} />}
+            />
+            <NavLink
+              component={Link}
+              to="/commissions/provider-payment"
+              label="Provider Payment Info"
+              icon={<FileQuestion size={20} />}
+            />
+          </Stack>
+        </Box>
+
+        <Box>
+          <Text fz="sm" fw={500} c="dimmed" mb="xs">Reports</Text>
+          <Stack spacing={0}>
+            <NavLink
+              component={Link}
+              to="/reports/statement"
+              label="Statement"
+              icon={<FileSpreadsheet size={20} />}
+            />
+            <NavLink
+              component={Link}
+              to="/reports/provider"
+              label="Summary by Provider"
+              icon={<CalendarRange size={20} />}
+            />
+            <NavLink
+              component={Link}
+              to="/reports/account-history"
+              label="Account History"
+              icon={<Clock size={20} />}
+            />
+          </Stack>
+        </Box>
+      </Navbar.Section>
+      <Navbar.Section>
+        {/* Mobile menu trigger button (can be added later) */}
+      </Navbar.Section>
+    </Navbar>
   );
 };
 
 export default AppSidebar;
-

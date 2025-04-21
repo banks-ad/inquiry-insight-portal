@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Paper, Text, Group, ThemeIcon, Box } from '@mantine/core';
 import { LucideIcon } from 'lucide-react';
 
 interface StatCardProps {
@@ -20,29 +20,44 @@ const StatCard: React.FC<StatCardProps> = ({
   trend,
   colorClass = "bg-blue-50 text-commission-blue"
 }) => {
+  // Extract the color for Mantine from the colorClass
+  const getIconColor = () => {
+    if (colorClass.includes('blue')) return 'blue';
+    if (colorClass.includes('green')) return 'green';
+    if (colorClass.includes('red')) return 'red';
+    if (colorClass.includes('yellow')) return 'yellow';
+    if (colorClass.includes('purple')) return 'violet';
+    return 'blue';
+  };
+
   return (
-    <Card className="shadow-sm">
-      <CardContent className="p-6">
-        <div className="flex justify-between items-start">
-          <div>
-            <p className="text-sm font-medium text-muted-foreground">{title}</p>
-            <h3 className="text-2xl font-bold mt-1">{value}</h3>
-            {description && (
-              <p className="text-sm text-muted-foreground mt-1">{description}</p>
-            )}
-            {trend !== undefined && (
-              <div className={`flex items-center mt-2 text-sm ${trend >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                <span>{trend >= 0 ? '↑' : '↓'} {Math.abs(trend)}%</span>
-                <span className="ml-1">vs last month</span>
-              </div>
-            )}
-          </div>
-          <div className={`p-3 rounded-full ${colorClass}`}>
-            <Icon className="h-5 w-5" />
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+    <Paper shadow="xs" p="md" radius="md">
+      <Group position="apart" align="flex-start">
+        <Box>
+          <Text size="sm" color="dimmed">{title}</Text>
+          <Text size="xl" weight={700} mt={4}>{value}</Text>
+          {description && (
+            <Text size="sm" color="dimmed" mt={4}>{description}</Text>
+          )}
+          {trend !== undefined && (
+            <Group spacing={4} mt={8}>
+              <Text size="sm" color={trend >= 0 ? 'green' : 'red'}>
+                {trend >= 0 ? '↑' : '↓'} {Math.abs(trend)}%
+              </Text>
+              <Text size="sm" color="dimmed">vs last month</Text>
+            </Group>
+          )}
+        </Box>
+        <ThemeIcon 
+          size="lg" 
+          radius="md" 
+          color={getIconColor()} 
+          variant="light"
+        >
+          <Icon size={20} />
+        </ThemeIcon>
+      </Group>
+    </Paper>
   );
 };
 

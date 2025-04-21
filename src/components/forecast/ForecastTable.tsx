@@ -1,13 +1,6 @@
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import React from 'react';
+import { Paper, Title, Box, Table, Text } from '@mantine/core';
 import { mockForecastData } from "@/data/mockForecastData";
 
 interface ForecastTableProps {
@@ -30,44 +23,52 @@ const ForecastTable: React.FC<ForecastTableProps> = ({ months, churnRate }) => {
   });
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Commission Forecast Table</CardTitle>
-      </CardHeader>
-      <CardContent>
+    <Paper shadow="xs" radius="md">
+      <Box p="md" pb={8}>
+        <Title order={5}>Commission Forecast Table</Title>
+      </Box>
+      <Box p="md" pt={0}>
         <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Month</TableHead>
-              <TableHead className="text-right">Paid Commissions</TableHead>
-              <TableHead className="text-right">Pending Commissions</TableHead>
-              <TableHead className="text-right">Total</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th style={{ textAlign: 'right' }}>Paid Commissions</th>
+              <th style={{ textAlign: 'right' }}>Pending Commissions</th>
+              <th style={{ textAlign: 'right' }}>Total</th>
+            </tr>
+          </thead>
+          <tbody>
             {data.map((row) => {
               const total = row.paidCommissions + row.pendingCommissions;
               return (
-                <TableRow key={row.month}>
-                  <TableCell>{row.month}</TableCell>
-                  <TableCell className="text-right">${row.paidCommissions.toLocaleString()}</TableCell>
-                  <TableCell className="text-right">${row.pendingCommissions.toLocaleString()}</TableCell>
-                  <TableCell className="text-right font-medium">${total.toLocaleString()}</TableCell>
-                </TableRow>
+                <tr key={row.month}>
+                  <td>{row.month}</td>
+                  <td style={{ textAlign: 'right' }}>${row.paidCommissions.toLocaleString()}</td>
+                  <td style={{ textAlign: 'right' }}>${row.pendingCommissions.toLocaleString()}</td>
+                  <td style={{ textAlign: 'right' }}>
+                    <Text weight={500}>${total.toLocaleString()}</Text>
+                  </td>
+                </tr>
               );
             })}
-            <TableRow className="font-medium">
-              <TableCell>Total</TableCell>
-              <TableCell className="text-right">${totals.paidCommissions.toLocaleString()}</TableCell>
-              <TableCell className="text-right">${totals.pendingCommissions.toLocaleString()}</TableCell>
-              <TableCell className="text-right">
-                ${(totals.paidCommissions + totals.pendingCommissions).toLocaleString()}
-              </TableCell>
-            </TableRow>
-          </TableBody>
+            <tr>
+              <td>
+                <Text weight={500}>Total</Text>
+              </td>
+              <td style={{ textAlign: 'right' }}>
+                <Text weight={500}>${totals.paidCommissions.toLocaleString()}</Text>
+              </td>
+              <td style={{ textAlign: 'right' }}>
+                <Text weight={500}>${totals.pendingCommissions.toLocaleString()}</Text>
+              </td>
+              <td style={{ textAlign: 'right' }}>
+                <Text weight={500}>${(totals.paidCommissions + totals.pendingCommissions).toLocaleString()}</Text>
+              </td>
+            </tr>
+          </tbody>
         </Table>
-      </CardContent>
-    </Card>
+      </Box>
+    </Paper>
   );
 };
 
