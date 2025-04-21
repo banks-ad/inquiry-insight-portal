@@ -139,9 +139,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ className }) => {
           </Stack>
         </Box>
       </Navbar.Section>
-      <Navbar.Section>
-        {/* Mobile menu trigger button (can be added later) */}
-      </Navbar.Section>
+      {/* Removed the empty Navbar.Section that was causing the error */}
     </Navbar>
   );
 };
