@@ -18,7 +18,8 @@ import {
   FileSpreadsheet,
   ExternalLink,
   Home,
-  FileQuestion
+  FileQuestion,
+  Package
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -61,6 +62,12 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ className }) => {
               to="/commissions/payments"
               label="Payments"
               icon={<DollarSign size={20} />}
+            />
+            <NavLink
+              component={Link}
+              to="/commissions/pending-orders"
+              label="Pending Orders"
+              icon={<Package size={20} />}
             />
             <NavLink
               component={Link}

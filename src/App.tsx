@@ -13,6 +13,7 @@ import CommissionForecast from "./pages/CommissionForecast";
 import ProviderSummary from "./pages/reports/ProviderSummary";
 import ProviderPayment from "./pages/ProviderPayment";
 import Payments from "./pages/Payments";
+import PendingOrders from "./pages/PendingOrders";
 import AccountHistory from "./pages/reports/AccountHistory";
 
 const queryClient = new QueryClient();
