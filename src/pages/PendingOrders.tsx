@@ -24,8 +24,6 @@ const cycles = [
 const PendingOrders = () => {
   const [selectedCycle, setSelectedCycle] = useState<string>(cycles[0].value);
 
-  const isCurrentMonth = selectedCycle === cycles[0].value;
-
   return (
     <DashboardLayout>
       <div className="p-6">
@@ -51,15 +49,6 @@ const PendingOrders = () => {
             </Select>
           </div>
         </div>
-
-        {isCurrentMonth && (
-          <Alert className="mb-6">
-            <Info className="h-4 w-4" />
-            <AlertDescription>
-              You are viewing preview data for the current commission cycle. Numbers shown here may change until the cycle has closed.
-            </AlertDescription>
-          </Alert>
-        )}
 
         <Alert className="mb-6">
           <Info className="h-4 w-4" />
