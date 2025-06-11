@@ -146,7 +146,6 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ className }) => {
           </Stack>
         </Box>
       </Navbar.Section>
-      {/* Removed the empty Navbar.Section that was causing the error */}
     </Navbar>
   );
 };

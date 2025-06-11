@@ -32,6 +32,7 @@ const App = () => (
           <Route path="/commissions/forecast" element={<CommissionForecast />} />
           <Route path="/commissions/provider-payment" element={<ProviderPayment />} />
           <Route path="/commissions/payments" element={<Payments />} />
+          <Route path="/commissions/pending-orders" element={<PendingOrders />} />
           <Route path="/reports/statement" element={<NotFound />} />
           <Route path="/reports/provider" element={<ProviderSummary />} />
           <Route path="/reports/account-history" element={<AccountHistory />} />
@@ -49,4 +50,3 @@ const App = () => (
 );
 
 export default App;
-
