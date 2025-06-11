@@ -73,10 +73,10 @@ const Commissions = () => {
         <Tabs defaultValue="commissions" onValueChange={setActiveTab} className="w-full">
           <TabsList className="mb-4">
             <TabsTrigger value="commissions">Commissions</TabsTrigger>
-            <TabsTrigger value="inquiries">Inquiries</TabsTrigger>
             <TabsTrigger value="new-accounts">New Accounts</TabsTrigger>
             <TabsTrigger value="lost-accounts">Lost Accounts</TabsTrigger>
             <TabsTrigger value="account-variance">Account Variance</TabsTrigger>
+            <TabsTrigger value="inquiries">Inquiries</TabsTrigger>
           </TabsList>
           
           <TabsContent value="commissions">
