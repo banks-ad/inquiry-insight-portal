@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { 
@@ -14,7 +15,9 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Info, Calendar } from 'lucide-react';
+import { Info, Calendar, FileQuestion } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 import CommissionsTable from '@/components/commissions/CommissionsTable';
 
 const cycles = [
@@ -33,6 +36,10 @@ const Commissions = () => {
 
   const isCurrentMonth = selectedCycle === cycles[0].value;
 
+  const handleCommissionInquiry = () => {
+    toast.info("Commission inquiry functionality coming soon");
+  };
+
   return (
     <DashboardLayout>
       <div className="p-6">
@@ -42,10 +49,19 @@ const Commissions = () => {
             <p className="text-muted-foreground">View and manage your commission data</p>
           </div>
           
-          {activeTab !== 'account-variance' && (
-            <div className="mt-4 sm:mt-0">
+          <div className="flex flex-col sm:flex-row gap-2 mt-4 sm:mt-0">
+            <Button
+              variant="outline"
+              onClick={handleCommissionInquiry}
+              className="w-full sm:w-auto"
+            >
+              <FileQuestion className="mr-2 h-4 w-4" />
+              Commission Inquiry
+            </Button>
+            
+            {activeTab !== 'account-variance' && (
               <Select value={selectedCycle} onValueChange={setSelectedCycle}>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-full sm:w-[180px]">
                   <Calendar className="mr-2 h-4 w-4" />
                   <SelectValue placeholder="Select cycle" />
                 </SelectTrigger>
@@ -57,8 +73,8 @@ const Commissions = () => {
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         {isCurrentMonth && (
